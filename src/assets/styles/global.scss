@@ -1,0 +1,121 @@
+body {
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  padding: 0em;
+  margin: 0em;
+  background: #fffbfb;
+}
+
+a:visited {
+  color: #2c3e50;
+}
+$ruler: 16px;
+$color-red: #ff6531;
+$color-bg: #f9f9f9;
+$color-shadow: #e3e5e9;
+$color-white: #fff;
+
+body,
+p,
+input,
+select,
+textarea,
+button {
+  font-family: "Montserrat", sans-serif;
+  letter-spacing: -0.2px;
+  font-size: $ruler;
+}
+
+form {
+  width: $ruler * 20;
+}
+
+.segment {
+  padding: $ruler * 2 0;
+  text-align: center;
+}
+
+button,
+input,
+textarea {
+  border: 0;
+  outline: 0;
+  font-size: 14px;
+  border-radius: $ruler * 20;
+  padding: $ruler;
+  background-color: $color-bg;
+  text-shadow: 1px 1px 0 $color-white;
+}
+
+input,
+textarea {
+  margin-right: $ruler/2;
+  box-shadow: inset 2px 2px 5px $color-shadow, inset -5px -5px 10px $color-white;
+
+  box-sizing: border-box;
+  transition: all 0.2s ease-in-out;
+  appearance: none;
+  -webkit-appearance: none;
+
+  &:focus {
+    box-shadow: inset 1px 1px 2px $color-shadow,
+      inset -1px -1px 2px $color-white;
+  }
+}
+
+button {
+  color: #61677c;
+  font-weight: bold;
+  box-shadow: -2px -2px 5px $color-white, 2px 2px 5px $color-shadow;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+  font-weight: 600;
+
+  &:hover {
+    box-shadow: -2px -2px 8px $color-white, 2px 2px 8px $color-shadow;
+  }
+
+  &:active {
+    box-shadow: inset 1px 1px 2px $color-shadow,
+      inset -1px -1px 2px $color-white;
+  }
+
+  .icon {
+    margin-right: $ruler/2;
+  }
+
+  &.unit {
+    border-radius: $ruler/2;
+    line-height: 0;
+    width: $ruler * 3;
+    height: $ruler * 3;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 $ruler/2;
+    font-size: $ruler * 1.2;
+
+    .icon {
+      margin-right: 0;
+    }
+  }
+
+  &.red {
+    display: block;
+    color: $color-red;
+  }
+}
+
+.input-group {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+
+  label {
+    margin: 0;
+    flex: 1;
+  }
+}

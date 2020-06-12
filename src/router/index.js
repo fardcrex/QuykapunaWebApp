@@ -1,27 +1,69 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
+import Vue from "vue";
+import VueRouter from "vue-router";
+import Home from "../pages/Home.vue";
+import EventosPage from "../pages/EventosPage.vue";
+import ProductosPage from "../pages/ProductosPage.vue";
+import LoginUser from "../pages/LoginUser.vue";
+import EventPage from "../pages/EventPage.vue";
+import RegisterUser from "../pages/RegisterUser.vue";
+import AgregarProductosPage from "../pages/AgregarProductosPage.vue";
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
-  const routes = [
+const routes = [
   {
-    path: '/',
-    name: 'Home',
-    component: Home
+    path: "/",
+    name: "Home",
+    component: Home,
   },
   {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-  }
-]
+    path: "/eventos",
+    name: "EventPage",
+    component: EventosPage,
+    meta: { requiresAuth: true },
+  },
+  {
+    path: "/evento/:idEvent",
+    name: "EventOnePage",
+    component: EventPage,
+    meta: { requiresAuth: true },
+  },
+  {
+    path: "/AgregarProductosPage/:idEvent",
+    name: "AgregarProductosPage",
+    component: AgregarProductosPage,
+    meta: { requiresAuth: true },
+  },
+  {
+    path: "/productos",
+    name: "ProductPage",
+    component: ProductosPage,
+    meta: { requiresAuth: true },
+  },
+  {
+    path: "/entrar",
+    name: "LoginUser",
+    component: LoginUser,
+  },
+  {
+    path: "/registro",
+    name: "RegisterUser",
+    component: RegisterUser,
+  },
+];
 
 const router = new VueRouter({
-  routes
-})
+  /*   mode: "history",
+  base: process.env.BASE_URL, */
+  routes,
+});
 
-export default router
+export default router;
+router.beforeEach((to, from, next) => {
+  const loggedIn = localStorage.getItem("usuario");
+  if (to.matched.some((record) => record.meta.requiresAuth) && !loggedIn) {
+    next("/");
+    return;
+  }
+  next();
+});
