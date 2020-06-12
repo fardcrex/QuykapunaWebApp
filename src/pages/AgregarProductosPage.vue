@@ -1,14 +1,21 @@
 <template>
   <div class="container">
-
+    <button
+      class=" btn firstBotton"
+      type="submit"
+      name="button"
+      v-on:click="regregarEvento"
+    >Terminar</button>
     <h2 class="title2">Agrega los Productos</h2>
-    <div class="eventList">
+    <div class="productList">
 
       <div
+        class="producto_bottom"
         v-for="producto in productos"
         v-bind:key="producto.productoId"
       >
-        <BaseCardProduct :producto="producto"></BaseCardProduct><button
+        <BaseCardProduct :producto="producto"></BaseCardProduct>
+        <button
           class="red child btn"
           type="submit"
           name="button"
@@ -56,6 +63,9 @@ export default {
     }
   },
   methods: {
+    regregarEvento() {
+      this.$router.go(-1);
+    },
     async agregarProducto(product) {
       console.log(product);
       try {
@@ -97,25 +107,18 @@ $desk: 1300px;
   grid-template-rows: 10vh auto;
   @media screen and (min-width: $tablet) {
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: 10vh auto;
+    grid-template-rows: 10vh 15vh auto;
   }
 }
-
-.svg {
-  grid-row: 1;
-  margin: 5vh 1em 0 1em;
-  width: 80%;
-  @media screen and (min-width: $tablet) {
-    grid-column: 2;
-    margin: auto;
-    width: 90%;
-  }
-  @media screen and (min-width: $laptop) {
-    width: 100%;
-  }
-}
-
 .title2 {
+  align-self: center;
+  grid-column: 1/2;
+  @media screen and (min-width: $tablet) {
+    grid-column: 1/3;
+  }
+}
+.firstBotton {
+  align-self: center;
   grid-row: 1/2;
   grid-column: 1/2;
   @media screen and (min-width: $tablet) {
@@ -127,23 +130,27 @@ $desk: 1300px;
   }
 }
 
-.eventList {
+.productList {
   grid-column: 1/2;
   display: grid;
   padding: 1rem;
   row-gap: 3.5rem;
   column-gap: 1.5rem;
-  width: 90%;
-  grid-template-columns: repeat(1, minmax(300px, 1fr));
+  width: 85%;
+  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+  @media screen and (min-width: $cel) {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    width: 85%;
+  }
 
   @media screen and (min-width: $tablet) {
     grid-column: 1/3;
     width: 95%;
-    grid-template-columns: repeat(2, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   }
   @media screen and (min-width: $laptop) {
     width: 100%;
-    grid-template-columns: repeat(3, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   }
 }
 .input {
@@ -167,6 +174,11 @@ $desk: 1300px;
 .input-costo {
   width: 60%;
   margin: 0%;
+}
+.producto_bottom {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 .preloader {
   margin: auto;

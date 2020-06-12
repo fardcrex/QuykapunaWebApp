@@ -20,8 +20,8 @@
     <h2 class="title2">Lista de Productos del Evento</h2>
     <div class="eventList">
       <BaseCardProduct
-        v-for="producto in productos"
-        v-bind:key="producto.productoId"
+        v-for="(producto,index) in productos"
+        v-bind:key="index"
         :producto="producto"
       ></BaseCardProduct>
     </div>
