@@ -9,7 +9,7 @@
       <div class="parrafo">
         <p>
           La plataforma para la
-          entrega de productos y creación
+          entrega de productos como la creación
           de eventos de delivery.
         </p>
       </div>
