@@ -50,10 +50,14 @@ export default {
   },
   computed: {
     fechaLocal() {
-      let date = new Date(this.event.eventoFecha);
-      console.log(date);
+      if (this.event.eventoFecha) {
+        let date = new Date(this.event.eventoFecha);
+        console.log(date);
 
-      return date.toLocaleString();
+        return date.toLocaleString();
+      } else {
+        return "0/0/0 00:00";
+      }
     }
   },
   methods: {

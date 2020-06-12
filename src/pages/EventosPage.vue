@@ -18,7 +18,7 @@
       />
       <!-- <input type="date" name="fecha" v-model="fecha"> -->
       <button
-          v-if="!loading"
+          v-if="!isLoadingRequest"
         class="red child btn"
         type="submit"
         name="button"
@@ -26,16 +26,20 @@
       >Crear Evento</button>
       <div
         v-else
-        class="preloader"
+        class="preloader_min"
       ></div>
     </div>
     <Personaje class="svg"></Personaje>
     <h2 class="title2">Lista de Eventos</h2>
-    <div class="eventList">
+    <div class="eventList" v-if="!isLoadingList">
       <BaseCardEvent  v-for="event in eventos"  v-bind:key="event.eventoId"
       :event="event"
       ></BaseCardEvent>   
     </div> 
+     <div
+        v-else
+        class="preloader"
+      ></div>
     <!--  <template v-if="!isLoading">
       <EventCard
         v-for="event in events"
@@ -57,11 +61,11 @@ export default {
   components: { Personaje },
   data() {
     return {
-      isLoading: true,
+      isLoadingRequest: false,
+      isLoadingList: true,
       events: [],
       name: "",
       descripcion: "",
-      loading: false,
       fecha: ""
     };
   },
@@ -82,19 +86,17 @@ export default {
     ...mapMutations(["getEventosAction"]),
     async getEvents() {
       try {
-        if (this.isEventosPageLoaded) {
-          return;
-        } else {
-          this.$store.dispatch("getEventosAction");
+        if (!this.isEventosPageLoaded) {
+          await this.$store.dispatch("getEventosAction");
         }
-
-        // For now, logs out the response
       } catch (error) {
         console.log("There was an error:", error.response); // Logs out the error
+      } finally {
+        this.isLoadingList = false;
       }
     },
     async createEvent() {
-      this.loading = true;
+      this.isLoadingRequest = true;
       if (!this.empresaId) {
         return;
       }
@@ -115,10 +117,10 @@ export default {
         console.log(responEvent);
 
         if (responEvent.status == 201) {
-          this.getEvents();
+          this.$store.dispatch("getEventosAction");
         }
       } finally {
-        this.loading = false;
+        this.isLoadingRequest = false;
       }
     }
   }
@@ -133,7 +135,7 @@ $desk: 1300px;
 .title {
   margin-top: 5vh;
   @media screen and (min-width: $tablet) {
-    margin-top: 15vh;
+    margin-top: 12vh;
   }
 }
 .container {
@@ -147,7 +149,7 @@ $desk: 1300px;
   grid-template-rows: auto auto;
   @media screen and (min-width: $tablet) {
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: 75vh 10vh auto;
+    grid-template-rows: 70vh 10vh auto;
   }
 }
 
@@ -167,7 +169,7 @@ $desk: 1300px;
   width: 80%;
   grid-row: 2/3;
   @media screen and (min-width: $tablet) {
-    grid-row: 1/3;
+    grid-row: 1/2;
     grid-column: 1/2;
     width: 90%;
   }
@@ -184,6 +186,25 @@ $desk: 1300px;
     width: 90%;
   }
   @media screen and (min-width: $laptop) {
+  }
+}
+.eventList {
+  grid-column: 1/2;
+  display: grid;
+  padding: 1rem;
+  row-gap: 2rem;
+  column-gap: 1.5rem;
+  width: 90%;
+  grid-template-columns: repeat(1, minmax(300px, 1fr));
+
+  @media screen and (min-width: $tablet) {
+    grid-column: 1/3;
+    width: 95%;
+    grid-template-columns: repeat(2, minmax(300px, 1fr));
+  }
+  @media screen and (min-width: $laptop) {
+    width: 100%;
+    grid-template-columns: repeat(3, minmax(300px, 1fr));
   }
 }
 .input {
@@ -205,10 +226,36 @@ $desk: 1300px;
 }
 .preloader {
   margin: auto;
+  margin-bottom: 2em;
   width: 70px;
   height: 70px;
   border: 10px solid #eee;
   border-top: 10px solid #ff6531;
+  border-radius: 50%;
+  animation-name: girar;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+  grid-column: 1/2;
+  @media screen and (min-width: $tablet) {
+    grid-column: 1/3;
+  }
+}
+@keyframes girar {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+.preloader_min {
+  margin: auto;
+  margin-top: 1em;
+  width: 40px;
+  height: 40px;
+  border: 10px solid #eee;
+  border-top: 8px solid #ff6531;
   border-radius: 50%;
   animation-name: girar;
   animation-duration: 2s;
@@ -221,25 +268,6 @@ $desk: 1300px;
   }
   to {
     transform: rotate(360deg);
-  }
-}
-.eventList {
-  grid-column: 1/2;
-  display: grid;
-  padding: 1rem;
-  row-gap: 2rem;
-  column-gap: 1.5rem;
-  width: 90%;
-  grid-template-columns: repeat(1, minmax(300px, 1fr));
-
-  @media screen and (min-width: $tablet) {
-    grid-column: 1/3;
-    width: 95%;
-    grid-template-columns: repeat(2, minmax(300px, 1fr));
-  }
-  @media screen and (min-width: $laptop) {
-    width: 100%;
-    grid-template-columns: repeat(3, minmax(300px, 1fr));
   }
 }
 </style>

@@ -32,7 +32,7 @@
       />
       <!-- <input type="date" name="fecha" v-model="fecha"> -->
       <button
-          v-if="!isLoading"
+          v-if="!isLoadingRequest"
         class="red child btn"
         type="submit"
         name="button"
@@ -40,17 +40,21 @@
       >Crear Producto</button>
       <div
         v-else
-        class="preloader"
+        class="preloader_min"
       ></div>
     </div>
 
     <ShoppingCar class="svg"></ShoppingCar>
     <h2 class="title2">Lista de Productos</h2>
-    <div class="eventList">
+    <div class="eventList"  v-if="!isLoadingList">
       <BaseCardProduct  v-for="producto in productos"  v-bind:key="producto.productoId"
       :producto="producto"
       ></BaseCardProduct>   
-    </div> 
+    </div>
+    <div
+        v-else
+        class="preloader"
+      ></div>
     <!--  <template v-if="!isLoading">
       <EventCard
         v-for="event in events"
@@ -72,7 +76,8 @@ export default {
   components: { ShoppingCar },
   data() {
     return {
-      isLoading: false,
+      isLoadingRequest: false,
+      isLoadingList: true,
       name: "",
       descripcion: "",
       costo: null,
@@ -84,20 +89,23 @@ export default {
   async created() {
     try {
       await this.getEmpresaId();
-      var response = await ProductService.getEvents(this.empresaId);
+      console.log("response", this.empresaId);
+      var response = await ProductService.getProductos(this.empresaId);
 
-      console.log(response);
+      console.log("response", response);
 
       this.productos = response.data.reverse();
-      this.isLoading = false;
+
       // For now, logs out the response
     } catch (error) {
       console.log("There was an error:", error.response); // Logs out the error
+    } finally {
+      this.isLoadingList = false;
     }
   },
   methods: {
     async createEvent() {
-      this.isLoading = true;
+      this.isLoadingRequest = true;
       if (!this.empresaId) {
         await this.getEmpresaId();
       }
@@ -118,7 +126,7 @@ export default {
           this.getEvents();
         }
       } finally {
-        this.isLoading = false;
+        this.isLoadingRequest = false;
       }
     },
     async getEmpresaId() {
@@ -157,7 +165,7 @@ $desk: 1300px;
 .title {
   margin-top: 5vh;
   @media screen and (min-width: $tablet) {
-    margin-top: 15vh;
+    margin-top: 10vh;
   }
 }
 .svg {
@@ -177,7 +185,7 @@ $desk: 1300px;
   width: 80%;
   grid-row: 2/3;
   @media screen and (min-width: $tablet) {
-    grid-row: 1/3;
+    grid-row: 1/2;
     grid-column: 1/2;
     width: 75%;
   }
@@ -187,6 +195,7 @@ $desk: 1300px;
   }
 }
 .title2 {
+  align-self: center;
   grid-row: 3/4;
   grid-column: 1/2;
   @media screen and (min-width: $tablet) {
@@ -241,10 +250,36 @@ $desk: 1300px;
 }
 .preloader {
   margin: auto;
+  margin-bottom: 2em;
   width: 70px;
   height: 70px;
   border: 10px solid #eee;
   border-top: 10px solid #ff6531;
+  border-radius: 50%;
+  animation-name: girar;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+  grid-column: 1/2;
+  @media screen and (min-width: $tablet) {
+    grid-column: 1/3;
+  }
+}
+@keyframes girar {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+.preloader_min {
+  margin: auto;
+  margin-top: 1em;
+  width: 40px;
+  height: 40px;
+  border: 10px solid #eee;
+  border-top: 8px solid #ff6531;
   border-radius: 50%;
   animation-name: girar;
   animation-duration: 2s;

@@ -1,5 +1,12 @@
 <template>
-  <div class="container">
+  <div
+    v-if="loading"
+    class="preloader"
+  ></div>
+  <div
+    v-else-if="!notFound"
+    class="container"
+  >
     <BaseCardEvent
       :event="evento"
       class="eventoStyle"
@@ -19,33 +26,64 @@
       ></BaseCardProduct>
     </div>
   </div>
+  <div
+    v-else
+    class="container__not_found"
+  >
+    <h2>Producto no encontrado</h2>
+    <NotFoundSvg class="svg"></NotFoundSvg>
+  </div>
 </template>
 
 <script>
 import ProductService from "@/services/ProductService.js";
+import EventService from "@/services/EventService.js";
+import NotFoundSvg from "@/components-svg/NotFoundSvg.vue";
 import { mapState } from "vuex";
 export default {
+  components: { NotFoundSvg },
   computed: {
     //  ...mapState(["user"])
     ...mapState(["eventos"])
   },
   data() {
     return {
-      evento: null,
-      productos: []
+      evento: {
+        eventoNombre: "cargando",
+        eventoDescripcion: "cargando",
+        estadoEventoId: "cargando"
+      },
+      loading: true,
+      productos: [],
+      notFound: false
     };
   },
   async created() {
-    let eventoFind;
-    console.log(this.$route.params.idEvent);
+    if (this.eventos[0]) {
+      let eventoFind;
+      console.log(this.$route.params.idEvent);
+      console.log(this.eventos[0]);
 
-    for (const event of this.eventos) {
-      if (event.eventoId === this.$route.params.idEvent) {
-        eventoFind = event;
-        break;
+      for (const event of this.eventos) {
+        if (event.eventoId === this.$route.params.idEvent) {
+          eventoFind = event;
+          break;
+        }
+      }
+      this.evento = eventoFind;
+    } else {
+      const respuesta = await EventService.getEventsById(
+        this.$route.params.idEvent
+      );
+      if (respuesta.data[0]) {
+        this.evento = respuesta.data[0];
+      } else {
+        this.notFound = true;
+
+        return;
       }
     }
-    this.evento = eventoFind;
+    this.loading = false;
     await this.getProductos();
   },
   methods: {
@@ -79,6 +117,27 @@ $cel: 540px;
 $tablet: 814px;
 $laptop: 1025px;
 $desk: 1300px;
+.container__not_found {
+  display: grid;
+  width: 100%;
+  max-width: 1024px;
+  margin: 3em auto;
+  justify-items: center;
+  align-items: center;
+  grid-template-rows: 20vh auto;
+}
+.svg {
+  width: 80%;
+  @media screen and (min-width: $cel) {
+    width: 70%;
+  }
+  @media screen and (min-width: $tablet) {
+    width: 65%;
+  }
+  @media screen and (min-width: $laptop) {
+    width: 60%;
+  }
+}
 
 .container {
   justify-items: center;
@@ -123,6 +182,26 @@ $desk: 1300px;
   @media screen and (min-width: $laptop) {
     width: 100%;
     grid-template-columns: repeat(3, minmax(300px, 1fr));
+  }
+}
+.preloader {
+  margin: 10em auto;
+  width: 70px;
+  height: 70px;
+  border: 10px solid #eee;
+  border-top: 10px solid #ff6531;
+  border-radius: 50%;
+  animation-name: girar;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+@keyframes girar {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
   }
 }
 </style>
