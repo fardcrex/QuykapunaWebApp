@@ -1,5 +1,8 @@
 <template>
-  <div id="nav">
+  <div
+    id="nav"
+    :class="{shadow:loggedIn}"
+  >
 
     <router-link to="/">Inicio</router-link>
     <router-link
@@ -54,10 +57,7 @@ $desk: 1300px;
   max-width: 100%;
   margin: auto;
   padding: 0.2em 0.6em;
-  background: #f9f9f9;
-  box-shadow: 4px 4px 5px rgba(55, 84, 170, 0.15),
-    -5px -4px 10px rgba(255, 255, 255, 0.98),
-    0px 0px 4px rgba(255, 255, 255, 0.2) !important;
+
   @media screen and (min-width: $cel) {
   }
 
@@ -68,7 +68,12 @@ $desk: 1300px;
     padding: 0.2em 15%;
   }
 }
-
+.shadow {
+  background: #f9f9f9;
+  box-shadow: 4px 4px 5px rgba(55, 84, 170, 0.15),
+    -5px -4px 10px rgba(255, 255, 255, 0.98),
+    0px 0px 4px rgba(255, 255, 255, 0.2) !important;
+}
 .nav-welcome {
   margin-left: auto;
   margin-right: 1rem;

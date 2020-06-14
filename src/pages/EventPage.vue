@@ -70,14 +70,17 @@ export default {
   },
   async created() {
     if (this.eventos[0]) {
+      console.log("response 1s");
       let eventoFind;
-      for (const event of this.eventos) {
-        if (event.eventoId === this.$route.params.idEvent) {
+      for (let event of this.eventos) {
+        if (event.eventoId == this.$route.params.idEvent) {
+          console.log("response 2s");
           eventoFind = event;
           break;
         }
       }
       if (!eventoFind) {
+        console.log("response 3s", eventoFind);
         this.notFound = true;
       }
       this.evento = eventoFind;
@@ -86,6 +89,7 @@ export default {
         this.$route.params.idEvent
       );
       if (respuesta.data[0]) {
+        console.log(respuesta.data[0]);
         this.evento = respuesta.data[0];
         this.ADD_TO_EVENTS_DATA(this.evento);
       } else {
@@ -103,14 +107,17 @@ export default {
     ...mapMutations(["ADD_TO_EVENTS_DATA"]),
     async getProductos() {
       try {
+        console.log("response");
         var response = await ProductService.getProductosForEvent(
-          this.evento.eventoId
+          this.$route.params.idEvent
         );
+        console.log(response);
+
         this.productos = response.data.reverse();
         this.isLoading = false;
         // For now, logs out the response
       } catch (error) {
-        console.log("There was an error:", error.response); // Logs out the error
+        console.log("There was an error:", error); // Logs out the error
       }
     },
     agregarProducto() {

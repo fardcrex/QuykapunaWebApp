@@ -8,8 +8,7 @@
           class="neumorphic-image"
           :src="imgProducto"
           loading="lazy"
-          sizes="(min-width: 36em) 33.3vw, 100vw"
-        /><!-- Photo by @alfonstaekema https://unsplash.com/photos/lvXeO04CxwQ -->
+        />
       </div>
       <div class="neumorphic-card__text">{{producto.productoDescripcion}}</div>
     </div>
@@ -28,7 +27,10 @@ export default {
   },
   computed: {
     imgProducto() {
-      if (this.producto.productoImagen === "dasdasdas") {
+      if (
+        this.producto.productoImagen === "dasdasdas" ||
+        this.producto.productoImagen === ""
+      ) {
         return "./producto-default.png";
       }
       return this.producto.productoImagen;
