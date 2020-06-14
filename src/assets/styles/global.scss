@@ -6,7 +6,7 @@ body {
   color: #2c3e50;
   padding: 0em;
   margin: 0em;
-  background: #fffbfb;
+  background: #f9f8f8;
 }
 
 a:visited {
@@ -117,5 +117,22 @@ button {
   label {
     margin: 0;
     flex: 1;
+  }
+}
+.preloader {
+  border: 10px solid #fdebd7;
+  border-top: 10px solid #ff865e;
+  border-radius: 50%;
+  animation-name: girar;
+  animation-duration: 1.8s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+@keyframes girar {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
   }
 }

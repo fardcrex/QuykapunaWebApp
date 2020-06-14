@@ -11,26 +11,36 @@
       :event="evento"
       class="eventoStyle"
     ></BaseCardEvent>
-    <button
-      class="red btn"
-      type="submit"
-      name="button"
-      v-on:click="agregarProducto"
-    >Agregar Producto</button>
+    <div class="btn_svg">
+      <NotFoundSvg class="svg1"></NotFoundSvg>
+      <button
+        class="red btn"
+        type="submit"
+        name="button"
+        v-on:click="agregarProducto"
+      >Agregar Producto</button>
+    </div>
     <h2 class="title2">Lista de Productos del Evento</h2>
-    <div class="eventList">
+    <div
+      class="eventList"
+      v-if="!isLoadingList"
+    >
       <BaseCardProduct
         v-for="(producto,index) in productos"
         v-bind:key="index"
         :producto="producto"
       ></BaseCardProduct>
     </div>
+    <div
+      v-else
+      class="preloader preloader__list"
+    ></div>
   </div>
   <div
     v-else
     class="container__not_found"
   >
-    <h2>Producto no encontrado</h2>
+    <h2>Evento no encontrado</h2>
     <NotFoundSvg class="svg"></NotFoundSvg>
   </div>
 </template>
@@ -39,11 +49,10 @@
 import ProductService from "@/services/ProductService.js";
 import EventService from "@/services/EventService.js";
 import NotFoundSvg from "@/components-svg/NotFoundSvg.vue";
-import { mapState } from "vuex";
+import { mapState, mapMutations } from "vuex";
 export default {
   components: { NotFoundSvg },
   computed: {
-    //  ...mapState(["user"])
     ...mapState(["eventos"])
   },
   data() {
@@ -55,20 +64,21 @@ export default {
       },
       loading: true,
       productos: [],
+      isLoadingList: true,
       notFound: false
     };
   },
   async created() {
     if (this.eventos[0]) {
       let eventoFind;
-      console.log(this.$route.params.idEvent);
-      console.log(this.eventos[0]);
-
       for (const event of this.eventos) {
         if (event.eventoId === this.$route.params.idEvent) {
           eventoFind = event;
           break;
         }
+      }
+      if (!eventoFind) {
+        this.notFound = true;
       }
       this.evento = eventoFind;
     } else {
@@ -77,24 +87,25 @@ export default {
       );
       if (respuesta.data[0]) {
         this.evento = respuesta.data[0];
+        this.ADD_TO_EVENTS_DATA(this.evento);
       } else {
         this.notFound = true;
-
+        this.loading = false;
         return;
       }
     }
+
     this.loading = false;
     await this.getProductos();
+    this.isLoadingList = false;
   },
   methods: {
+    ...mapMutations(["ADD_TO_EVENTS_DATA"]),
     async getProductos() {
       try {
         var response = await ProductService.getProductosForEvent(
           this.evento.eventoId
         );
-
-        console.log(response);
-
         this.productos = response.data.reverse();
         this.isLoading = false;
         // For now, logs out the response
@@ -147,23 +158,55 @@ $desk: 1300px;
   max-width: 1024px;
   margin: auto;
   grid-template-columns: 100%;
-  grid-template-rows: 35vh 15vh auto;
+  grid-template-rows: auto auto auto auto 10vh;
+  @media screen and (min-width: $tablet) {
+    grid-template-rows: minmax(350px, auto) 10vh auto auto 10vh;
+  }
   @media screen and (min-width: $tablet) {
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: 40vh 10vh auto;
+    grid-template-rows: minmax(350px, auto) 10vh auto auto 10vh;
+  }
+}
+.title2 {
+  margin-top: 3vh;
+  align-self: center;
+  grid-row: 3/4;
+  grid-column: 1/2;
+  @media screen and (min-width: $tablet) {
+    grid-row: 2/3;
+    grid-column: 1/3;
+    width: 90%;
+  }
+  @media screen and (min-width: $laptop) {
   }
 }
 .eventoStyle {
-  margin: auto;
+  margin: 2em 2em 0;
+
   width: 80%;
-}
-.btn {
-  height: 7vh;
-  margin: auto;
+  @media screen and (min-width: $cel) {
+    margin: 2em 5em 0;
+    width: 65%;
+  }
   @media screen and (min-width: $tablet) {
-    height: 8vh;
+    margin: 2em 3em;
+    width: 65%;
+  }
+  @media screen and (min-width: $laptop) {
+    margin: 3em auto 2em;
+    width: 80%;
+  }
+}
+
+.btn_svg {
+  width: 70%;
+  margin: 1em auto;
+  @media screen and (min-width: $tablet) {
     margin: auto;
   }
+}
+.btn {
+  margin: 1em auto 0;
 }
 .eventList {
   grid-column: 1/2;
@@ -174,10 +217,13 @@ $desk: 1300px;
   width: 90%;
   grid-template-columns: repeat(1, minmax(300px, 1fr));
 
+  @media screen and (min-width: $cel) {
+    grid-template-columns: repeat(2, minmax(200px, 1fr));
+  }
   @media screen and (min-width: $tablet) {
     grid-column: 1/3;
     width: 95%;
-    grid-template-columns: repeat(2, minmax(300px, 1fr));
+    grid-template-columns: repeat(3, minmax(300px, 1fr));
   }
   @media screen and (min-width: $laptop) {
     width: 100%;
@@ -188,20 +234,15 @@ $desk: 1300px;
   margin: 10em auto;
   width: 70px;
   height: 70px;
-  border: 10px solid #eee;
-  border-top: 10px solid #ff6531;
-  border-radius: 50%;
-  animation-name: girar;
-  animation-duration: 2s;
-  animation-iteration-count: infinite;
-  animation-timing-function: linear;
 }
-@keyframes girar {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
+.preloader__list {
+  margin: 1.5em auto 0;
+  width: 70px;
+  height: 70px;
+  grid-column: 1/2;
+  @media screen and (min-width: $tablet) {
+    margin: 4em auto 4em;
+    grid-column: 1/3;
   }
 }
 </style>

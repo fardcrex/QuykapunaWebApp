@@ -2,6 +2,7 @@ import Vue from "vue";
 import Vuex from "vuex";
 import axios from "axios";
 import EventService from "@/services/EventService.js";
+import ProductService from "@/services/ProductService.js";
 /* eslint-disable */
 Vue.use(Vuex);
 
@@ -14,32 +15,42 @@ export default function getStore(authService) {
     },
     state: {
       user: null,
+      empresa: null,
       eventos: [],
       productos: [],
       isEventosPageLoaded: false,
       isProductosPageLoaded: false,
-      empresa: null,
+      timeToken: new Date("2000-01-01T00:00:00.0000"),
     },
     mutations: {
       SET_USER_DATA(state, userData) {
         state.user = userData.datos;
-        localStorage.setItem("usuario", JSON.stringify(userData));
-        console.log(userData);
-
         axios.defaults.headers.common["Authorization"] = `${userData.token}`;
       },
       SET_EMPRESA_DATA(state, empresaData) {
-        localStorage.setItem("empresa", JSON.stringify(empresaData));
-        console.log(empresaData);
         state.empresa = empresaData;
+      },
+      SET_TIME_TOKEN_DATA(state, timeToken) {
+        if (!timeToken) {
+          timeToken = new Date();
+          localStorage.setItem("timeToken", timeToken.toJSON());
+        }
+        state.timeToken = timeToken;
       },
       LOAD_EVENTS_DATA(state, eventsData) {
         state.isEventosPageLoaded = true;
         state.eventos = eventsData;
       },
+      ADD_TO_EVENTS_DATA(state, event) {
+        state.eventos = [event, ...state.eventos];
+      },
+      LOAD_PRODUCTS_DATA(state, productosData) {
+        state.isProductosPageLoaded = true;
+        state.productos = productosData;
+      },
       LOGOUT(state) {
         // state.user = null
-        localStorage.removeItem("usuario");
+        localStorage.clear();
         // axios.defaults.headers.common['Authorization'] = null
         location.reload();
       },
@@ -49,40 +60,50 @@ export default function getStore(authService) {
         commit("LOGOUT");
       },
       async register({ commit }, credentials) {
-        const { data } = await authService.postRegister(credentials);
+        await authService.postRegister(credentials);
       },
-      async login({ commit }, credentials) {
-        return authService
-          .postLogin(credentials)
-          .then(({ data }) => {
-            console.log(data);
-            if (data.datos) {
-              commit("SET_USER_DATA", data);
-              console.log("data.datos.usuarioId", data.datos.usuarioId);
-              return axios.get(
-                `https://api-pollo.herokuapp.com/empresa/mostrarEmpresa/${data.datos.usuarioId}`
-              );
-            } else {
-              throw "datos inválidos";
-            }
-          })
-          .then((response) => {
-            console.log(response);
 
-            commit("SET_EMPRESA_DATA", response.data[0]);
-          });
+      async login({ commit }, credentials) {
+        const resUser = await authService.postLogin(credentials);
+        if (resUser.data.datos) {
+          commit("SET_USER_DATA", resUser.data);
+          localStorage.setItem("usuario", JSON.stringify(resUser.data));
+          commit("SET_TIME_TOKEN_DATA");
+        } else {
+          throw resUser.data.Status;
+        }
+        const userId = resUser.data.datos.usuarioId;
+
+        await authService.postRegistrarToken(resUser.data.token, userId);
+        const resEmpresa = await EventService.getEmpresaData(userId);
+        if (resEmpresa.data) {
+          const data = resEmpresa.data[0];
+          localStorage.setItem("empresa", JSON.stringify(data));
+          commit("SET_EMPRESA_DATA", data);
+        }
       },
+
       async getEventosAction({ commit }) {
         try {
           var response = await EventService.getEvents();
-
-          console.log(response);
-
           const events = response.data.reverse();
           commit("LOAD_EVENTS_DATA", events);
-          // For now, logs out the response
         } catch (error) {
-          throw "error"; // Logs out the error
+          console.log(error); // Logs out the error
+          throw "error";
+        }
+      },
+      async getProductosAction({ commit, state }, data) {
+        try {
+          if (state.isProductosPageLoaded && !data.reload) {
+            return;
+          }
+          var response = await ProductService.getProductos(data.empresaId);
+          const productos = response.data.reverse();
+          commit("LOAD_PRODUCTS_DATA", productos);
+        } catch (error) {
+          console.log(error); // Logs out the error
+          throw "error";
         }
       },
     },

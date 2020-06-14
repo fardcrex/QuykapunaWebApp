@@ -1,6 +1,7 @@
 <template>
 
   <div
+    :class="{pointer :isPointer}"
     class="neumorphic-card"
     v-on:click="goTheEvent"
   >
@@ -46,14 +47,13 @@ export default {
   props: {
     event: {
       type: Object
-    }
+    },
+    isPointer: Boolean
   },
   computed: {
     fechaLocal() {
       if (this.event.eventoFecha) {
         let date = new Date(this.event.eventoFecha);
-        console.log(date);
-
         return date.toLocaleString();
       } else {
         return "0/0/0 00:00";
@@ -77,22 +77,25 @@ export default {
   --value: 40%;
   --back-color: #dd2222;
 }
-
+.pointer {
+  cursor: pointer;
+}
 .neumorphic-card {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   background-color: #f9f9f9;
   padding: 35px 40px 20px 40px;
-  box-shadow: 7px 7px 15px rgba(55, 84, 170, 0.15),
-    -7px -7px 20px rgba(255, 255, 255, 1), 0px 0px 4px rgba(255, 255, 255, 0.2) !important;
+  box-shadow: 4px 4px 5px rgba(55, 84, 170, 0.15),
+    -5px -4px 10px rgba(255, 255, 255, 0.98),
+    0px 0px 4px rgba(255, 255, 255, 0.2) !important;
   border-radius: 20px;
   width: auto;
 }
 
 .neumorphic-card__title {
   display: block;
-  color: #555f76;
+  color: #ff6531;
   font-size: 22px;
   padding: 0 0 10px;
   text-align: start;

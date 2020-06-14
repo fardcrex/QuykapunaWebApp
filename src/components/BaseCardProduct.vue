@@ -7,6 +7,8 @@
         <img
           class="neumorphic-image"
           :src="imgProducto"
+          loading="lazy"
+          sizes="(min-width: 36em) 33.3vw, 100vw"
         /><!-- Photo by @alfonstaekema https://unsplash.com/photos/lvXeO04CxwQ -->
       </div>
       <div class="neumorphic-card__text">{{producto.productoDescripcion}}</div>
@@ -44,6 +46,9 @@ export default {
 }
 .neumorphic-image {
   border-radius: 10px;
+  min-height: 180px;
+  height: auto;
+  max-height: 35vh;
   display: block;
   width: 100%;
 }
@@ -52,10 +57,12 @@ export default {
   flex-direction: column;
   justify-content: space-between;
   background-color: #f9f9f9;
-  padding: 25px 40px 25px 40px;
-  box-shadow: 7px 7px 15px rgba(55, 84, 170, 0.15),
-    -7px -7px 20px rgba(255, 255, 255, 1), 0px 0px 4px rgba(255, 255, 255, 0.2) !important;
+  padding: 20px 30px 20px 30px;
+  box-shadow: 4px 4px 5px rgba(55, 84, 170, 0.15),
+    -5px -4px 10px rgba(255, 255, 255, 0.98),
+    0px 0px 4px rgba(255, 255, 255, 0.2) !important;
   border-radius: 20px;
+  height: minmax(300px, auto);
   width: auto;
 }
 
@@ -63,24 +70,25 @@ export default {
   display: block;
   color: #555f76;
   font-size: 22px;
-  padding: 10px 0 1em;
+  padding: 0.2em 0 1em;
   text-align: start;
 }
 
 .neumorphic-card__text {
   display: block;
-  padding: 2em 0 10px;
+  padding: 1.5em 0 10px;
   text-align: start;
   color: #8d96a8;
-  min-height: 6vh;
+  min-height: 4vh;
 }
 .neumorphic-card__outer {
-  background-color: #f3f4f7;
+  background-color: #f9f8f8;
   border-radius: 10px;
   border: 1px solid #f3f4f7;
-  box-shadow: 7px 7px 15px rgba(55, 84, 170, 0.15),
-    -7px -7px 20px rgba(255, 255, 255, 1), 0px 0px 4px rgba(255, 255, 255, 0.2) !important;
+  box-shadow: inset 4px 4px 6px #e3e5e9, inset -6px -6px 10px rgb(255, 255, 255),
+    0px 0px 4px rgba(255, 255, 255, 0.2) !important;
   margin: -5px;
+  padding: 12px;
 }
 .neumorphic-card__precio {
   display: block;

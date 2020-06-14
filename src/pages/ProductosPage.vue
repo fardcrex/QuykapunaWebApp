@@ -36,11 +36,11 @@
         class="red child btn"
         type="submit"
         name="button"
-        v-on:click="createEvent"
+        v-on:click="createProducto"
       >Crear Producto</button>
       <div
         v-else
-        class="preloader_min"
+        class="preloader__min preloader"
       ></div>
     </div>
 
@@ -70,8 +70,7 @@
 import ProductService from "@/services/ProductService.js";
 //import EventCard from "../components/EventCard";
 import ShoppingCar from "@/components-svg/ShoppingCar.vue";
-import axios from "axios";
-
+import { mapState, mapMutations } from "vuex";
 export default {
   components: { ShoppingCar },
   data() {
@@ -81,63 +80,62 @@ export default {
       name: "",
       descripcion: "",
       costo: null,
-      empresaId: null,
-      imagen: null,
-      productos: []
+      imagen: null
     };
   },
   async created() {
-    try {
-      await this.getEmpresaId();
-      console.log("response", this.empresaId);
-      var response = await ProductService.getProductos(this.empresaId);
-
-      console.log("response", response);
-
-      this.productos = response.data.reverse();
-
-      // For now, logs out the response
-    } catch (error) {
-      console.log("There was an error:", error.response); // Logs out the error
-    } finally {
-      this.isLoadingList = false;
-    }
+    await this.getProducto(false);
+  },
+  computed: {
+    //  ...mapState(["user"])
+    ...mapState({
+      usuarioId: state => state.user.usuarioId,
+      administradorId: state => state.empresa.administradorId,
+      empresaId: state => state.empresa.empresaId,
+      productos: state => state.productos,
+      isProductosPageLoaded: state => state.isProductosPageLoaded
+    })
   },
   methods: {
-    async createEvent() {
+    ...mapMutations(["getEventosAction"]),
+    async getProducto(reload) {
+      try {
+        await this.$store.dispatch("getProductosAction", {
+          empresaId: this.empresaId,
+          reload
+        });
+      } catch (error) {
+        console.log("There was an error:", error.response); // Logs out the error
+      } finally {
+        this.isLoadingList = false;
+      }
+    },
+    async createProducto() {
       this.isLoadingRequest = true;
       if (!this.empresaId) {
-        await this.getEmpresaId();
+        return;
       }
       try {
-        let responEvent = await axios.post(
-          `https://api-pollo.herokuapp.com/empresa/agregarProducto`,
-          {
-            idEmpresa: this.empresaId,
-            costoP: this.costo,
-            imagenP: this.imagen,
-            nombreP: this.name,
-            descripcionP: this.descripcion
-          }
+        let responEvent = await ProductService.postCrearProducto(
+          this.empresaId,
+          this.costo,
+          this.imagen,
+          this.name,
+          this.descripcion
         );
-        console.log(responEvent);
-
         if (responEvent.status == 201) {
-          this.getEvents();
+          await this.getProducto(true);
         }
       } finally {
         this.isLoadingRequest = false;
+        this.clearForm();
       }
     },
-    async getEmpresaId() {
-      const userString = localStorage.getItem("usuario");
-      const userData = JSON.parse(userString);
-      const usuarioId = userData.datos.usuarioId;
-      const response = await axios.get(
-        `https://api-pollo.herokuapp.com/empresa/mostrarEmpresa/${usuarioId}`
-      );
-      this.empresaId = response.data[0].empresaId;
-      this.administradorId = response.data[0].administradorId;
+    clearForm() {
+      (this.name = ""),
+        (this.descripcion = ""),
+        (this.costo = null),
+        (this.imagen = null);
     }
   }
 };
@@ -153,24 +151,24 @@ $desk: 1300px;
 
   display: grid;
   width: 100%;
-  max-width: 1024px;
+  max-width: 1100px;
   margin: auto;
   grid-template-columns: 100%;
-  grid-template-rows: auto auto;
+  grid-template-rows: auto auto auto;
   @media screen and (min-width: $tablet) {
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: 75vh 10vh auto;
+    grid-template-rows: minmax(550px, auto) 10vh auto 10vh;
   }
 }
 .title {
   margin-top: 5vh;
   @media screen and (min-width: $tablet) {
-    margin-top: 10vh;
+    margin-top: 9vh;
   }
 }
 .svg {
   grid-row: 1;
-  margin: 5vh 1em 0 1em;
+  margin: 3vh 1em 0 1em;
   width: 80%;
   @media screen and (min-width: $tablet) {
     grid-column: 2;
@@ -195,6 +193,7 @@ $desk: 1300px;
   }
 }
 .title2 {
+  margin-top: 3vh;
   align-self: center;
   grid-row: 3/4;
   grid-column: 1/2;
@@ -211,19 +210,25 @@ $desk: 1300px;
   grid-column: 1/2;
   display: grid;
   padding: 1rem;
-  row-gap: 2rem;
+  row-gap: 1.5rem;
   column-gap: 1.5rem;
-  width: 90%;
-  grid-template-columns: repeat(1, minmax(300px, 1fr));
+  width: 85%;
+  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+  @media screen and (min-width: $cel) {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    width: 85%;
+  }
 
   @media screen and (min-width: $tablet) {
+    row-gap: 2.5rem;
     grid-column: 1/3;
     width: 95%;
-    grid-template-columns: repeat(2, minmax(300px, 1fr));
+    grid-template-columns: repeat(3t, minmax(200px, 1fr));
   }
   @media screen and (min-width: $laptop) {
+    row-gap: 3rem;
     width: 100%;
-    grid-template-columns: repeat(3, minmax(300px, 1fr));
+    grid-template-columns: repeat(4, minmax(200px, 1fr));
   }
 }
 .input {
@@ -236,9 +241,12 @@ $desk: 1300px;
   width: 100%;
 }
 .btn {
-  margin: 0 auto 0 auto;
+  margin: 0 auto 1em auto;
   margin-top: 1.5em;
   width: 10em;
+  @media screen and (min-width: $tablet) {
+    margin: 2em auto 1em auto;
+  }
 }
 .textarea {
   height: 7em;
@@ -253,45 +261,16 @@ $desk: 1300px;
   margin-bottom: 2em;
   width: 70px;
   height: 70px;
-  border: 10px solid #eee;
-  border-top: 10px solid #ff6531;
-  border-radius: 50%;
-  animation-name: girar;
-  animation-duration: 2s;
-  animation-iteration-count: infinite;
-  animation-timing-function: linear;
   grid-column: 1/2;
   @media screen and (min-width: $tablet) {
     grid-column: 1/3;
   }
 }
-@keyframes girar {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-.preloader_min {
+
+.preloader__min {
   margin: auto;
   margin-top: 1em;
   width: 40px;
   height: 40px;
-  border: 10px solid #eee;
-  border-top: 8px solid #ff6531;
-  border-radius: 50%;
-  animation-name: girar;
-  animation-duration: 2s;
-  animation-iteration-count: infinite;
-  animation-timing-function: linear;
-}
-@keyframes girar {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
 }
 </style>

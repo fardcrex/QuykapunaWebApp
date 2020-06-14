@@ -7,22 +7,32 @@
       v-on:click="regregarEvento"
     >Terminar</button>
     <h2 class="title2">Agrega los Productos</h2>
-    <div class="productList">
+    <div
+      class="productList"
+      v-if="!isLoadingList"
+    >
 
       <div
         class="producto_bottom"
         v-for="producto in productos"
         v-bind:key="producto.productoId"
       >
-        <BaseCardProduct :producto="producto"></BaseCardProduct>
+        <BaseCardProduct
+          :producto="producto"
+          class="cardproduct"
+        ></BaseCardProduct>
         <button
-          class="red child btn"
+          class="red child btn btn__add"
           type="submit"
           name="button"
           v-on:click="agregarProducto(producto)"
-        >Agregar Producto</button>
+        >Agregar</button>
       </div>
     </div>
+    <div
+      v-else
+      class="preloader"
+    ></div>
     <!--  <template v-if="!isLoading">
       <EventCard
         v-for="event in events"
@@ -35,7 +45,7 @@
 </template>
 
 <script>
-import ProductService from "@/services/ProductService.js";
+import { mapState } from "vuex";
 //import EventCard from "../components/EventCard";
 
 import axios from "axios";
@@ -44,32 +54,43 @@ export default {
   components: {},
   data() {
     return {
-      isLoading: false,
+      isLoadingList: true,
       productos: []
     };
   },
+  computed: {
+    //  ...mapState(["user"])
+    ...mapState({
+      administradorId: state => state.empresa.administradorId,
+      empresaId: state => state.empresa.empresaId,
+      productosState: state => state.productos,
+      isProductosPageLoaded: state => state.isProductosPageLoaded
+    })
+  },
   async created() {
+    this.productos = this.productosState;
     try {
-      const empresaId = this.$store.state.empresa.empresaId;
-      var response = await ProductService.getProductos(empresaId);
-
-      console.log(response);
-
-      this.productos = response.data.reverse();
-      this.isLoading = false;
-      // For now, logs out the response
+      await this.$store.dispatch("getProductosAction", {
+        empresaId: this.empresaId,
+        reload: false
+      });
     } catch (error) {
       console.log("There was an error:", error.response); // Logs out the error
+    } finally {
+      this.isLoadingList = false;
+      this.productos = this.productosState;
     }
   },
   methods: {
     regregarEvento() {
-      this.$router.go(-1);
+      this.$router.push({
+        name: "EventOnePage",
+        params: { idEvent: this.$route.params.idEvent }
+      });
     },
     async agregarProducto(product) {
-      console.log(product);
       try {
-        let responEvent = await axios.post(
+        axios.post(
           `https://api-pollo.herokuapp.com/empresa/Evento/agregarProducto`,
           {
             eventoId: this.$route.params.idEvent,
@@ -78,11 +99,9 @@ export default {
         );
 
         let dataArray = this.productos.filter(producto => {
-          console.log(producto);
           return producto !== product;
         });
         this.productos = dataArray;
-        console.log(responEvent);
       } finally {
         this.isLoading = false;
       }
@@ -101,28 +120,32 @@ $desk: 1300px;
 
   display: grid;
   width: 100%;
-  max-width: 1024px;
+  max-width: 1100px;
   margin: auto;
   grid-template-columns: 100%;
-  grid-template-rows: 10vh auto;
+  grid-template-rows: 2vh 10vh auto 10vh;
   @media screen and (min-width: $tablet) {
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: 10vh 15vh auto;
+    grid-template-rows: 3vh 8vh 8vh auto 10vh;
+  }
+  @media screen and (min-width: $laptop) {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 5vh 10vh 15vh auto 10vh;
   }
 }
 .title2 {
   align-self: center;
   grid-column: 1/2;
+  grid-row: 3;
   @media screen and (min-width: $tablet) {
     grid-column: 1/3;
   }
 }
 .firstBotton {
   align-self: center;
-  grid-row: 1/2;
+  grid-row: 2;
   grid-column: 1/2;
   @media screen and (min-width: $tablet) {
-    grid-row: 1/2;
     grid-column: 1/3;
     width: 90%;
   }
@@ -131,10 +154,11 @@ $desk: 1300px;
 }
 
 .productList {
+  grid-row: 4;
   grid-column: 1/2;
   display: grid;
   padding: 1rem;
-  row-gap: 3.5rem;
+  row-gap: 3rem;
   column-gap: 1.5rem;
   width: 85%;
   grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
@@ -144,28 +168,24 @@ $desk: 1300px;
   }
 
   @media screen and (min-width: $tablet) {
+    row-gap: 3.5rem;
     grid-column: 1/3;
     width: 95%;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: repeat(3, minmax(200px, 1fr));
   }
   @media screen and (min-width: $laptop) {
     width: 100%;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: repeat(4, minmax(200px, 1fr));
   }
 }
-.input {
-  padding: 1.6em 2em;
-}
-.child {
-  display: block;
-  margin: 1.5em 0 1.5em 0;
-  height: 3em;
-  width: 100%;
-}
+
 .btn {
   margin: 0 auto 0 auto;
-  margin-top: 1.5em;
+
   width: 14em;
+}
+.btn__add {
+  margin-top: 1.5em;
 }
 .textarea {
   height: 7em;
@@ -175,29 +195,24 @@ $desk: 1300px;
   width: 60%;
   margin: 0%;
 }
+
 .producto_bottom {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-around;
+}
+.cardproduct {
+  height: 95%;
 }
 .preloader {
   margin: auto;
-  width: 70px;
-  height: 70px;
-  border: 10px solid #eee;
-  border-top: 10px solid #ff6531;
-  border-radius: 50%;
-  animation-name: girar;
-  animation-duration: 2s;
-  animation-iteration-count: infinite;
-  animation-timing-function: linear;
-}
-@keyframes girar {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
+  margin-top: 4em;
+  width: 80px;
+  height: 80px;
+  grid-column: 1/2;
+  grid-row: 4;
+  @media screen and (min-width: $tablet) {
+    grid-column: 1/3;
   }
 }
 </style>

@@ -26,14 +26,14 @@
       >Crear Evento</button>
       <div
         v-else
-        class="preloader_min"
+        class="preloader__min preloader"
       ></div>
     </div>
     <Personaje class="svg"></Personaje>
     <h2 class="title2">Lista de Eventos</h2>
     <div class="eventList" v-if="!isLoadingList">
       <BaseCardEvent  v-for="event in eventos"  v-bind:key="event.eventoId"
-      :event="event"
+      :event="event" :isPointer="true"
       ></BaseCardEvent>   
     </div> 
      <div
@@ -55,7 +55,7 @@
 //import EventCard from "../components/EventCard";
 import Personaje from "@/components-svg/Personaje.vue";
 import axios from "axios";
-import { mapState, mapMutations } from "vuex";
+import { mapState, mapActions } from "vuex";
 
 export default {
   components: { Personaje },
@@ -83,11 +83,11 @@ export default {
     })
   },
   methods: {
-    ...mapMutations(["getEventosAction"]),
+    ...mapActions(["getEventosAction"]),
     async getEvents() {
       try {
         if (!this.isEventosPageLoaded) {
-          await this.$store.dispatch("getEventosAction");
+          await this.getEventosAction();
         }
       } catch (error) {
         console.log("There was an error:", error.response); // Logs out the error
@@ -97,7 +97,8 @@ export default {
     },
     async createEvent() {
       this.isLoadingRequest = true;
-      if (!this.empresaId) {
+      if (!this.empresaId || !this.name || this.name.length < 5) {
+        this.isLoadingRequest = false;
         return;
       }
 
@@ -120,8 +121,13 @@ export default {
           this.$store.dispatch("getEventosAction");
         }
       } finally {
+        this.clearForm();
         this.isLoadingRequest = false;
       }
+    },
+    clearForm() {
+      this.name = "";
+      this.descripcion = "";
     }
   }
 };
@@ -135,6 +141,9 @@ $desk: 1300px;
 .title {
   margin-top: 5vh;
   @media screen and (min-width: $tablet) {
+    margin-top: 7vh;
+  }
+  @media screen and (min-width: $laptop) {
     margin-top: 12vh;
   }
 }
@@ -149,7 +158,10 @@ $desk: 1300px;
   grid-template-rows: auto auto;
   @media screen and (min-width: $tablet) {
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: 70vh 10vh auto;
+    grid-template-rows: minmax(500px, auto) 8vh auto 10vh;
+  }
+  @media screen and (min-width: $laptop) {
+    grid-template-rows: minmax(550px, auto) 10vh auto 10vh;
   }
 }
 
@@ -229,45 +241,17 @@ $desk: 1300px;
   margin-bottom: 2em;
   width: 70px;
   height: 70px;
-  border: 10px solid #eee;
-  border-top: 10px solid #ff6531;
-  border-radius: 50%;
-  animation-name: girar;
-  animation-duration: 2s;
-  animation-iteration-count: infinite;
-  animation-timing-function: linear;
+
   grid-column: 1/2;
   @media screen and (min-width: $tablet) {
     grid-column: 1/3;
   }
 }
-@keyframes girar {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-.preloader_min {
+
+.preloader__min {
   margin: auto;
   margin-top: 1em;
   width: 40px;
   height: 40px;
-  border: 10px solid #eee;
-  border-top: 8px solid #ff6531;
-  border-radius: 50%;
-  animation-name: girar;
-  animation-duration: 2s;
-  animation-iteration-count: infinite;
-  animation-timing-function: linear;
-}
-@keyframes girar {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
 }
 </style>

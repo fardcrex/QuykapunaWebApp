@@ -43,7 +43,8 @@ new Vue({
   store: getStore(AuthService),
   created() {
     const userString = localStorage.getItem("usuario"); // grab user data from local storage
-    const empresaString = localStorage.getItem("empresa"); // grab user data from local storage
+    const empresaString = localStorage.getItem("empresa");
+    const timeTokenString = localStorage.getItem("timeToken");
     if (userString) {
       // check to see if there is indeed a user
       const userData = JSON.parse(userString); // parse user data into JSON
@@ -51,11 +52,48 @@ new Vue({
       this.$store.commit("SET_USER_DATA", userData);
       this.$store.commit("SET_EMPRESA_DATA", empresaData); // restore user data with Vuex
     }
-    axios.interceptors.response.use(
-      (response) => response, // simply return the response
-      (error) => {
-        console.log("hubo un error =================");
+    if (timeTokenString) {
+      const timeToken = new Date(timeTokenString);
+      this.$store.commit("SET_TIME_TOKEN_DATA", timeToken);
+    }
+    axios.interceptors.request.use(async (request) => {
+      const timeToken = this.$store.state.timeToken;
+      const now = new Date();
+      if (
+        now - timeToken >= 60 * 59 * 1000 &&
+        axios.defaults.headers.common["Authorization"]
+      ) {
+        const token = axios.defaults.headers.common["Authorization"];
+        const res = await AuthService.postRefrescarToken({ token });
+        const data = res.data;
+        if (data.newtoken) {
+          this.$store.commit("SET_TIME_TOKEN_DATA");
+          axios.defaults.headers.common["Authorization"] = `${data.newtoken}`;
+          const userData = JSON.parse(userString);
+          userData.token = data.newtoken;
+          localStorage.setItem("usuario", JSON.stringify(userData));
+          AuthService.postRegistrarToken(data.newtoken, data.id);
+        } else {
+          this.$store.dispatch("logout");
+          return Promise.reject("bad token");
+        }
+      }
 
+      return request;
+    });
+    axios.interceptors.response.use(
+      (response) => {
+        if (
+          response.data.message === "Autenticación fallida!" &&
+          response.data.success === false
+        ) {
+          this.$store.dispatch("logout");
+          return Promise.reject(response.data.message);
+        }
+
+        return response;
+      }, // simply return the response
+      (error) => {
         if (error.response.status === 401 || error.response.status === 403) {
           // if we catch a 401 error
           this.$store.dispatch("logout"); // force a log out

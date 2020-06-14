@@ -92,12 +92,12 @@ form {
 }
 .container__body {
   justify-items: center;
-  height: 80vh;
+  height: 75vh;
   display: grid;
   width: 60%;
   max-width: 1000px;
   margin: auto;
-  grid-template-rows: auto 1fr 2fr 2fr 2fr 1fr 5fr;
+  grid-template-rows: auto 3vh auto auto 2fr 1fr 3fr;
 }
 .input {
   padding: 1.6em 2em;
@@ -113,34 +113,20 @@ form {
 }
 .logo {
   margin: 0 auto;
-  width: 80%;
+  width: 75%;
   @media screen and (min-width: $tablet) {
-    width: 60%;
+    width: 45%;
   }
   @media screen and (min-width: $laptop) {
-    width: 40%;
+    width: 35%;
   }
 }
 p {
   color: red;
 }
 .preloader {
-  width: 70px;
-  height: 70px;
-  border: 10px solid #eee;
-  border-top: 10px solid #ff6531;
-  border-radius: 50%;
-  animation-name: girar;
-  animation-duration: 2s;
-  animation-iteration-count: infinite;
-  animation-timing-function: linear;
-}
-@keyframes girar {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+  margin-top: 1.6em;
+  width: 60px;
+  height: 60px;
 }
 </style>
