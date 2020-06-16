@@ -26,7 +26,7 @@
       <input
         placeholder="Costo"
         class="child input input-costo"
-        v-model="costo"
+        v-model.number="costo"
         type="number"
         value
       />

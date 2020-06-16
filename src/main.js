@@ -83,6 +83,7 @@ new Vue({
     });
     axios.interceptors.response.use(
       (response) => {
+        //  console.log(response);
         if (
           response.data.message === "Autenticación fallida!" &&
           response.data.success === false

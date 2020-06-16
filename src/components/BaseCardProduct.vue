@@ -8,6 +8,7 @@
           class="neumorphic-image"
           :src="imgProducto"
           loading="lazy"
+          :alt="producto.productoNombre"
         />
       </div>
       <div class="neumorphic-card__text">{{producto.productoDescripcion}}</div>
@@ -28,7 +29,7 @@ export default {
   computed: {
     imgProducto() {
       if (
-        this.producto.productoImagen === "dasdasdas" ||
+        this.producto.productoImagen == "dasdasdas" ||
         this.producto.productoImagen === ""
       ) {
         return "./producto-default.png";

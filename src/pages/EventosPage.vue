@@ -5,10 +5,47 @@
       <input
         placeholder="Nombre"
         class="child input"
-        v-model="name"
+        v-model.trim="name"
         type="text"
         value
       />
+      <div class="fecha_style">
+        <input
+          placeholder=""
+          class="child input fecha"
+          v-model="fecha"
+          type="date"
+          name="fecha"
+          value
+        /> <input
+          placeholder="00:00"
+          class="child input time"
+          v-model="time"
+          type="time"
+          name="fecha"
+          value
+        />
+      </div>
+
+      <select
+        class="child condominio_style"
+        name="cars"
+        id="cars"
+        placeholder="sd"
+        v-model="adminIdCondominio"
+      >
+        <optgroup label="Condominios">
+
+          <option
+            v-for="value in condominios"
+            v-bind:key="value.condominioId"
+            :value="value.administradorId"
+          >{{value.condominioNombre}}</option>
+
+        </optgroup>
+
+      </select>
+
       <textarea
         rows="6"
         placeholder="Descripción"
@@ -54,6 +91,7 @@
 <script>
 //import EventCard from "../components/EventCard";
 import Personaje from "@/components-svg/Personaje.vue";
+import CondominioService from "@/services/CondominioService.js";
 import axios from "axios";
 import { mapState, mapActions } from "vuex";
 
@@ -64,12 +102,22 @@ export default {
       isLoadingRequest: false,
       isLoadingList: true,
       events: [],
+      condominios: [
+        {
+          condominioId: "-1",
+          administradorId: "-1",
+          condominioNombre: "Condominios"
+        }
+      ],
       name: "",
       descripcion: "",
-      fecha: ""
+      fecha: "",
+      adminIdCondominio: -1,
+      time: ""
     };
   },
   async created() {
+    this.getCondominios();
     this.getEvents();
   },
   computed: {
@@ -97,12 +145,19 @@ export default {
     },
     async createEvent() {
       this.isLoadingRequest = true;
-      if (!this.empresaId || !this.name || this.name.length < 5) {
+      if (
+        !this.empresaId ||
+        !this.name ||
+        this.name.length < 5 ||
+        this.adminIdCondominio === -1
+      ) {
         this.isLoadingRequest = false;
         return;
       }
+      //const dateJson = `${this.fecha}T${this.time}`;
+      const dateLocal = new Date(`${this.fecha}T${this.time}`).toUTCString();
+      const dateUtc = new Date(dateLocal).toJSON();
 
-      const dateJson = new Date().toJSON();
       try {
         let responEvent = await axios.post(
           `https://api-pollo.herokuapp.com/empresa/evento/agregarEvento`,
@@ -112,7 +167,7 @@ export default {
             estadoEven: 1,
             nombre: this.name,
             descripcion: this.descripcion,
-            fecha: dateJson
+            fecha: dateUtc
           }
         );
         console.log(responEvent);
@@ -123,6 +178,14 @@ export default {
       } finally {
         this.clearForm();
         this.isLoadingRequest = false;
+      }
+    },
+    async getCondominios() {
+      try {
+        const response = await CondominioService.showAdminCondominios();
+        this.condominios = response.data;
+      } catch (error) {
+        console.log(error);
       }
     },
     clearForm() {
@@ -144,7 +207,8 @@ $desk: 1300px;
     margin-top: 7vh;
   }
   @media screen and (min-width: $laptop) {
-    margin-top: 12vh;
+    margin-top: 9vh;
+    margin-bottom: 0;
   }
 }
 .container {
@@ -178,6 +242,8 @@ $desk: 1300px;
   }
 }
 .child-1 {
+  display: flex;
+  flex-direction: column;
   width: 80%;
   grid-row: 2/3;
   @media screen and (min-width: $tablet) {
@@ -233,9 +299,33 @@ $desk: 1300px;
   width: 10em;
 }
 .textarea {
-  height: 10em;
+  height: 8em;
   border-radius: 20px;
+  margin: 0 auto;
 }
+.fecha_style {
+  margin: 0;
+  margin: auto;
+  width: 80%;
+  display: flex;
+  justify-content: space-between;
+}
+input,
+.fecha {
+  margin: 0;
+  width: 60%;
+}
+input,
+.time {
+  margin: 0;
+  width: 35%;
+}
+.condominio_style {
+  padding: -1em 0;
+  height: 3.5em;
+  color: rgba(85, 85, 85, 0.863);
+}
+
 .preloader {
   margin: auto;
   margin-bottom: 2em;
