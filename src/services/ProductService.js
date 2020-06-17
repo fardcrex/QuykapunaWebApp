@@ -21,4 +21,10 @@ export default {
       descripcionP: descripcion,
     });
   },
+  agregarProductoEmpresa(eventoId, productoId) {
+    return axios.post(`${servers.produccion}/empresa/Evento/agregarProducto`, {
+      eventoId,
+      productoId,
+    });
+  },
 };

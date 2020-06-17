@@ -10,11 +10,11 @@ export default function getStore(authService) {
   return new Vuex.Store({
     getters: {
       loggedIn(state) {
-        return !!state.user;
+        return state.user.tipoUsuarioId !== -1;
       },
     },
     state: {
-      user: null,
+      user: { tipoUsuarioId: -1 },
       empresa: null,
       eventos: [],
       productos: [],
@@ -72,14 +72,16 @@ export default function getStore(authService) {
         } else {
           throw resUser.data.Status;
         }
-        const userId = resUser.data.datos.usuarioId;
+        const user = resUser.data.datos;
 
-        await authService.postRegistrarToken(resUser.data.token, userId);
-        const resEmpresa = await EventService.getEmpresaData(userId);
-        if (resEmpresa.data) {
-          const data = resEmpresa.data[0];
-          localStorage.setItem("empresa", JSON.stringify(data));
-          commit("SET_EMPRESA_DATA", data);
+        authService.postRegistrarToken(resUser.data.token, user.usuarioId);
+        if (user.tipoUsuarioId === 2) {
+          const resEmpresa = await EventService.getEmpresaData(user.usuarioId);
+          if (resEmpresa.data) {
+            const data = resEmpresa.data[0];
+            localStorage.setItem("empresa", JSON.stringify(data));
+            commit("SET_EMPRESA_DATA", data);
+          }
         }
       },
 

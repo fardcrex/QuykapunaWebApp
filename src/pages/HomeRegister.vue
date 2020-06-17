@@ -8,27 +8,24 @@
       <h1 class="child">Bienvenidos a Quykapuna!</h1>
       <div class="parrafo">
         <p>
-          La plataforma para la
-          entrega de productos como la creación
-          de eventos de delivery.
+          Registrarse como ...
         </p>
       </div>
       <template
         v-if="!loggedIn"
         class="child"
       >
-
         <div class="botones">
           <button
             class="red btn"
             type="button"
             v-on:click="goToPageLogin"
-          >Entrar</button>
+          >Cliente</button>
           <button
             class="red btn btn__2"
             type="button"
             v-on:click="goToPageRegiste"
-          >Registrarse</button>
+          >Proveedor</button>
         </div>
       </template>
     </div>
@@ -42,16 +39,17 @@ import Circle1 from "@/components-svg/Circle1.vue";
 import Circle2 from "@/components-svg/Circle2.vue";
 
 export default {
+  name: "RegisterOption",
   components: { DeliverySvg, Circle1, Circle2 },
   computed: {
     ...authComputed
   },
   methods: {
     goToPageLogin: function() {
-      this.$router.push({ name: "LoginUser" });
+      this.$router.push({ name: "RegisterUser" });
     },
     goToPageRegiste: function() {
-      this.$router.push({ name: "RegisterOption" });
+      // this.$router.push({ name: "RegisterProveedor" });
     }
   }
 };

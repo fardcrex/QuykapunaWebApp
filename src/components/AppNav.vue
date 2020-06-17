@@ -6,13 +6,17 @@
 
     <router-link to="/">Inicio</router-link>
     <router-link
-      v-if="loggedIn"
+      v-if="isProveedor"
       to="/eventos"
     >Eventos</router-link>
     <router-link
-      v-if="loggedIn"
+      v-if="isProveedor"
       to="/productos"
     >Productos</router-link>
+    <router-link
+      v-if="isCliente"
+      to="/pedidos"
+    >Pedidos</router-link>
     <!--  <router-link
       v-if="!loggedIn"
       to="/entrar"
@@ -32,9 +36,14 @@
 <script>
 /* eslint-disable */
 import { authComputed } from "../store/helpers.js";
+import { mapState } from "vuex";
 export default {
   computed: {
-    ...authComputed
+    ...authComputed,
+    ...mapState({
+      isProveedor: state => state.user.tipoUsuarioId == 2,
+      isCliente: state => state.user.tipoUsuarioId == 1
+    })
   },
   methods: {
     logout() {

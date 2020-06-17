@@ -92,7 +92,7 @@
 //import EventCard from "../components/EventCard";
 import Personaje from "@/components-svg/Personaje.vue";
 import CondominioService from "@/services/CondominioService.js";
-import axios from "axios";
+import EventService from "@/services/EventService.js";
 import { mapState, mapActions } from "vuex";
 
 export default {
@@ -159,16 +159,13 @@ export default {
       const dateUtc = new Date(dateLocal).toJSON();
 
       try {
-        let responEvent = await axios.post(
-          `https://api-pollo.herokuapp.com/empresa/evento/agregarEvento`,
-          {
-            empresaId: this.empresaId,
-            administradorId: this.administradorId,
-            estadoEven: 1,
-            nombre: this.name,
-            descripcion: this.descripcion,
-            fecha: dateUtc
-          }
+        let responEvent = await EventService.agregarEvento(
+          this.empresaId,
+          this.administradorId,
+          1,
+          this.name,
+          this.descripcion,
+          dateUtc
         );
         console.log(responEvent);
 
@@ -195,6 +192,7 @@ export default {
   }
 };
 </script>
+
 <style lang="scss" scoped>
 $cel: 540px;
 $tablet: 814px;

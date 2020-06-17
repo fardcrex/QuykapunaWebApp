@@ -6,7 +6,9 @@ import ProductosPage from "../pages/ProductosPage.vue";
 import LoginUser from "../pages/LoginUser.vue";
 import EventPage from "../pages/EventPage.vue";
 import RegisterUser from "../pages/RegisterUser.vue";
+import RegisterOption from "../pages/HomeRegister.vue";
 import AgregarProductosPage from "../pages/AgregarProductosPage.vue";
+import PedidosPage from "../pages/PedidosPage.vue";
 
 Vue.use(VueRouter);
 
@@ -20,25 +22,31 @@ const routes = [
     path: "/eventos",
     name: "EventPage",
     component: EventosPage,
-    meta: { requiresAuth: true },
+    meta: { requiresAuth: true, isProveedor: true },
   },
   {
     path: "/evento/:idEvent",
     name: "EventOnePage",
     component: EventPage,
-    meta: { requiresAuth: true },
+    meta: { requiresAuth: true, isProveedor: true },
   },
   {
     path: "/AgregarProductosPage/:idEvent",
     name: "AgregarProductosPage",
     component: AgregarProductosPage,
-    meta: { requiresAuth: true },
+    meta: { requiresAuth: true, isProveedor: true },
   },
   {
     path: "/productos",
     name: "ProductPage",
     component: ProductosPage,
-    meta: { requiresAuth: true },
+    meta: { requiresAuth: true, isProveedor: true },
+  },
+  {
+    path: "/pedidos",
+    name: "PedidosPage",
+    component: PedidosPage,
+    meta: { requiresAuth: true, isCliente: true },
   },
   {
     path: "/entrar",
@@ -46,8 +54,18 @@ const routes = [
     component: LoginUser,
   },
   {
-    path: "/registro",
+    path: "/registro-cliente",
     name: "RegisterUser",
+    component: RegisterUser,
+  },
+  {
+    path: "/registro",
+    name: "RegisterOption",
+    component: RegisterOption,
+  },
+  {
+    path: "/registro-proveedor",
+    name: "RegisterProveedor",
     component: RegisterUser,
   },
   { path: "*", component: Home },
@@ -69,7 +87,32 @@ const router = new VueRouter({
 export default router;
 router.beforeEach((to, from, next) => {
   const loggedIn = localStorage.getItem("usuario");
+
   if (to.matched.some((record) => record.meta.requiresAuth) && !loggedIn) {
+    next("/");
+    return;
+  }
+
+  if (to.matched.some((record) => record.meta.requiresAuth)) {
+    try {
+      const userData = JSON.parse(loggedIn).datos;
+      if (!userData) {
+        next("/");
+        return;
+      }
+      const isProveedor = userData.tipoUsuarioId === 2;
+      if (to.matched.some((record) => record.meta.isProveedor) && isProveedor) {
+        next();
+        return;
+      }
+      const isCliente = userData.tipoUsuarioId === 1;
+      if (to.matched.some((record) => record.meta.isCliente) && isCliente) {
+        next();
+        return;
+      }
+    } catch (e) {
+      next("/");
+    }
     next("/");
     return;
   }

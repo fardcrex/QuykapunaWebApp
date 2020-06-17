@@ -47,8 +47,7 @@
 <script>
 import { mapState } from "vuex";
 //import EventCard from "../components/EventCard";
-
-import axios from "axios";
+import ProductService from "@/services/ProductService.js";
 
 export default {
   components: {},
@@ -90,14 +89,10 @@ export default {
     },
     async agregarProducto(product) {
       try {
-        axios.post(
-          `https://api-pollo.herokuapp.com/empresa/Evento/agregarProducto`,
-          {
-            eventoId: this.$route.params.idEvent,
-            productoId: product.productoId
-          }
+        ProductService.agregarProductoEmpresa(
+          this.$route.params.idEvent,
+          product.productoId
         );
-
         let dataArray = this.productos.filter(producto => {
           return producto !== product;
         });
