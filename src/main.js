@@ -42,15 +42,16 @@ new Vue({
   router,
   store: getStore(AuthService),
   created() {
-    const userString = localStorage.getItem("usuario"); // grab user data from local storage
+    const userString = localStorage.getItem("usuario");
     const empresaString = localStorage.getItem("empresa");
     const timeTokenString = localStorage.getItem("timeToken");
     if (userString) {
-      // check to see if there is indeed a user
-      const userData = JSON.parse(userString); // parse user data into JSON
-      const empresaData = JSON.parse(empresaString); // parse user data into JSON
+      const userData = JSON.parse(userString);
       this.$store.commit("SET_USER_DATA", userData);
-      this.$store.commit("SET_EMPRESA_DATA", empresaData); // restore user data with Vuex
+    }
+    if (empresaString) {
+      const empresaData = JSON.parse(empresaString);
+      this.$store.commit("SET_EMPRESA_DATA", empresaData);
     }
     if (timeTokenString) {
       const timeToken = new Date(timeTokenString);
@@ -83,7 +84,7 @@ new Vue({
     });
     axios.interceptors.response.use(
       (response) => {
-        //  console.log(response);
+        console.log(response);
         if (
           response.data.message === "Autenticación fallida!" &&
           response.data.success === false

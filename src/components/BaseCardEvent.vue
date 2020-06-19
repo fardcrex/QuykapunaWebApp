@@ -11,7 +11,7 @@
       <div class="neumorphic-card__text">{{event.eventoDescripcion}}</div>
     </div>
     <div class="neumorphic-card__estado">
-      <p>Estado: {{event.estadoEventoId}}</p>
+      <p>Estado: {{estados[event.estadoEventoId - 1].estadoEventoNombre}}</p>
     </div>
     <div class="neumorphic-card__fecha">{{fechaLocal}}</div>
   </div>
@@ -48,7 +48,46 @@ export default {
     event: {
       type: Object
     },
+    route: String,
     isPointer: Boolean
+  },
+  data() {
+    return {
+      estados: [
+        {
+          estadoEventoId: 1,
+          estadoEventoNombre: "propuesto"
+        },
+        {
+          estadoEventoId: 2,
+          estadoEventoNombre: "aceptado"
+        },
+        {
+          estadoEventoId: 3,
+          estadoEventoNombre: "publicado"
+        },
+        {
+          estadoEventoId: 4,
+          estadoEventoNombre: "definitivo"
+        },
+        {
+          estadoEventoId: 5,
+          estadoEventoNombre: "en salida"
+        },
+        {
+          estadoEventoId: 6,
+          estadoEventoNombre: "iniciado"
+        },
+        {
+          estadoEventoId: 7,
+          estadoEventoNombre: "terminado"
+        },
+        {
+          estadoEventoId: 8,
+          estadoEventoNombre: "cancelado"
+        }
+      ]
+    };
   },
   computed: {
     fechaLocal() {
@@ -63,7 +102,7 @@ export default {
   methods: {
     goTheEvent() {
       this.$router.push({
-        name: "EventOnePage",
+        name: this.route,
         params: { idEvent: this.event.eventoId }
       });
     }

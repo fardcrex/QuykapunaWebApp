@@ -7,4 +7,7 @@ export default {
       `${servers.produccion}/Condominio/mostrarAdminCondominios`
     );
   },
+  showCondominios() {
+    return axios.get(`${servers.produccion}/Condominio/mostrarCondominios`);
+  },
 };

@@ -31,7 +31,7 @@
         class="child condominio_style"
         name="cars"
         id="cars"
-        placeholder="sd"
+        placeholder=""
         v-model="adminIdCondominio"
       >
         <optgroup label="Condominios">

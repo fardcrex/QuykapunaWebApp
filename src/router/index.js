@@ -9,6 +9,8 @@ import RegisterUser from "../pages/RegisterUser.vue";
 import RegisterOption from "../pages/HomeRegister.vue";
 import AgregarProductosPage from "../pages/AgregarProductosPage.vue";
 import PedidosPage from "../pages/PedidosPage.vue";
+import EventClientPage from "../pages/EventClientPage.vue";
+import RealizarPedidoPage from "../pages/cliente-pages/RealizarPedidoPage.vue";
 
 Vue.use(VueRouter);
 
@@ -25,7 +27,7 @@ const routes = [
     meta: { requiresAuth: true, isProveedor: true },
   },
   {
-    path: "/evento/:idEvent",
+    path: "/eventoEmpresa/:idEvent",
     name: "EventOnePage",
     component: EventPage,
     meta: { requiresAuth: true, isProveedor: true },
@@ -46,6 +48,18 @@ const routes = [
     path: "/pedidos",
     name: "PedidosPage",
     component: PedidosPage,
+    meta: { requiresAuth: true, isCliente: true },
+  },
+  {
+    path: "/evento/:idEvent",
+    name: "EventoClientePage",
+    component: EventClientPage,
+    meta: { requiresAuth: true, isCliente: true },
+  },
+  {
+    path: "/pedido/:idEvent",
+    name: "RealizarPedidoPage",
+    component: RealizarPedidoPage,
     meta: { requiresAuth: true, isCliente: true },
   },
   {

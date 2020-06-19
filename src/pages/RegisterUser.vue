@@ -9,12 +9,12 @@
     >
       <TittleLogo class="logo"></TittleLogo>
       <div></div>
-      <template v-if="!isNext">
+      <template v-if="estadoForm===1">
         <input
           placeholder="Dni"
           class="child input"
           v-model="dni"
-          type="number"
+          type="text"
           name="Dni"
           value
         />
@@ -35,12 +35,12 @@
           value
         />
       </template>
-      <template v-if="isNext">
+      <template v-if="estadoForm===2">
         <input
           placeholder="Telefono"
           class="child input"
           v-model="phone"
-          type="number"
+          type="text"
           name="phone"
           value
         />
@@ -62,20 +62,55 @@
           value
         />
       </template>
+      <template v-if="estadoForm===3">
+        <select
+          class="child condominio_style"
+          v-model="edificio"
+        >
+          <optgroup label="Condominios">
 
-      <button
-        v-if="!isNext"
-        class="red child btn"
+            <option
+              v-for="edificio in edificios"
+              v-bind:key="edificio.condominioId"
+              :value="edificio.condominioId"
+            >{{edificio.condominioNombre}}</option>
+
+          </optgroup>
+
+        </select>
+        <input
+          placeholder="Departamento"
+          class="child input"
+          v-model="departamento"
+          type="text"
+          name="departamento"
+          value
+        />
+      </template>
+      <div
+        v-if="estadoForm===1"
+        class="red child btn btn_next"
         name="button"
-        v-on:click="nextForm"
-      >Siguiente</button>
-      <button
-        v-if="isNext"
-        class="red child btn"
-        type="submit"
+        v-on:click="nextForm2"
+      >Siguiente</div>
+      <div
+        v-if="estadoForm===2"
+        class="red child btn btn_next"
         name="button"
-        v-on:click="changeIsRegister"
-      >Registrarse</button>
+        v-on:click="nextForm3"
+      >Siguiente</div>
+      <div v-if="estadoForm===3">
+        <button
+          v-if="!loading"
+          class="red child btn"
+          type="submit"
+          name="button"
+        >Registrarse</button>
+        <div
+          v-else
+          class="preloader"
+        ></div>
+      </div>
       <p class="error">{{errors}}</p>
       <p class="mensaje">{{mensaje}}</p>
     </form>
@@ -87,6 +122,7 @@
 import Circle1 from "@/components-svg/Circle1.vue";
 import Circle2 from "@/components-svg/Circle2.vue";
 import TittleLogo from "@/components-svg/TittleLogo.vue";
+import CondominioService from "@/services/CondominioService.js";
 export default {
   components: { Circle1, Circle2, TittleLogo },
   data() {
@@ -96,33 +132,42 @@ export default {
       lastname: "",
       phone: "",
       email: "",
+      departamento: "",
+      edificio: -1,
       password: "",
       errors: null,
       mensaje: "",
-      isNext: false,
-      isRegister: false
+      loading: false,
+      edificios: [],
+      estadoForm: 1
     };
   },
+  async created() {
+    this.getCondominios();
+  },
   methods: {
-    nextForm() {
+    nextForm2() {
       if (this.dni === "" || this.name === "" || this.lastname === "") {
         this.errors = "Falta completar datos";
         return;
       }
       this.errors = "";
-      this.isNext = true;
+      this.estadoForm = this.estadoForm + 1;
     },
-    changeIsRegister() {
-      this.isRegister = true;
-    },
-    register() {
-      if (!this.isNext || !this.isRegister) {
-        return;
-      }
+    nextForm3() {
       if (this.phone === "" || this.email === "" || this.password === "") {
         this.errors = "Falta completar datos";
         return;
       }
+      this.errors = "";
+      this.estadoForm = this.estadoForm + 1;
+    },
+    register() {
+      if (this.phone === "" || this.email === "" || this.password === "") {
+        this.errors = "Falta completar datos";
+        return;
+      }
+      this.loading = true;
       this.$store
         .dispatch("register", {
           nombre: this.name,
@@ -130,9 +175,14 @@ export default {
           apellido: this.lastname,
           telefono: this.phone,
           correo: this.email,
+          departamento: this.departamento,
+          edificio: this.edificio,
           contraseña: this.password
         })
-        .then(() => {
+        .then(res => {
+          console.log(res);
+          this.loading = false;
+          this.$router.push({ name: "LoginUser" });
           this.mensaje =
             "Hemos recibido sus datos, le avisaremos cuando habilitemos su cuenta";
         })
@@ -140,6 +190,14 @@ export default {
           console.log("user data is", err);
           this.error = err.response.data.error;
         });
+    },
+    async getCondominios() {
+      try {
+        const response = await CondominioService.showCondominios();
+        this.edificios = response.data;
+      } catch (error) {
+        console.log(error);
+      }
     }
   }
 };
@@ -169,6 +227,7 @@ form {
   display: block;
   margin: 0.6em 0;
   height: 3em;
+  width: 250px;
 }
 .btn {
   margin-top: 1.5em;
@@ -190,5 +249,86 @@ form {
 .mensaje {
   color: green;
   width: 80%;
+}
+$ruler: 16px;
+$color-red: #ff6531;
+$color-bg: #f9f9f9;
+$color-shadow: #e3e5e9;
+$color-white: #fff;
+
+.btn_next {
+  border: 0;
+  outline: 0;
+  font-size: 14px;
+  border-radius: $ruler * 20;
+  padding: $ruler;
+  background-color: $color-bg;
+  text-shadow: 1px 1px 0 $color-white;
+}
+.btn_next {
+  margin-right: $ruler/2;
+  box-shadow: inset 2px 2px 5px $color-shadow, inset -5px -5px 10px $color-white;
+
+  box-sizing: border-box;
+  transition: all 0.2s ease-in-out;
+  /*  appearance: none;
+  -webkit-appearance: none; */
+
+  &:focus {
+    box-shadow: inset 1px 1px 2px $color-shadow,
+      inset -1px -1px 2px $color-white;
+  }
+}
+.btn_next {
+  color: #61677c;
+  font-weight: bold;
+  box-shadow: -2px -2px 5px $color-white, 2px 2px 5px $color-shadow;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+  font-weight: 600;
+
+  &:hover {
+    box-shadow: -2px -2px 8px $color-white, 2px 2px 8px $color-shadow;
+  }
+
+  &:active {
+    box-shadow: inset 1px 1px 2px $color-shadow,
+      inset -1px -1px 2px $color-white;
+  }
+
+  .icon {
+    margin-right: $ruler/2;
+  }
+
+  &.unit {
+    border-radius: $ruler/2;
+    line-height: 0;
+    width: $ruler * 3;
+    height: $ruler * 3;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 $ruler/2;
+    font-size: $ruler * 1.2;
+
+    .icon {
+      margin-right: 0;
+    }
+  }
+
+  &.red {
+    display: block;
+    color: $color-red;
+  }
+}
+.condominio_style {
+  height: 50px;
+  width: 250px;
+  color: rgba(85, 85, 85, 0.863);
+}
+.preloader {
+  margin-top: 1.6em;
+  width: 60px;
+  height: 60px;
 }
 </style>
