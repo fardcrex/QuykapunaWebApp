@@ -13,6 +13,11 @@ export default {
   getEmpresaData(idUser) {
     return axios.get(`${servers.produccion}/empresa/mostrarEmpresa/${idUser}`);
   },
+  getEventosByUserId(idUser) {
+    return axios.get(
+      `${servers.produccion}/Eventos/mostrarEventosPorUsuario/${idUser}`
+    );
+  },
   agregarEvento(
     empresaId,
     administradorId,

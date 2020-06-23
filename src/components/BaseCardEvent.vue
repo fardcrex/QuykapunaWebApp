@@ -11,7 +11,7 @@
       <div class="neumorphic-card__text">{{event.eventoDescripcion}}</div>
     </div>
     <div class="neumorphic-card__estado">
-      <p>Estado: {{estados[event.estadoEventoId - 1].estadoEventoNombre}}</p>
+      <p>Estado: {{stateEventName}}</p>
     </div>
     <div class="neumorphic-card__fecha">{{fechaLocal}}</div>
   </div>
@@ -97,6 +97,14 @@ export default {
       } else {
         return "0/0/0 00:00";
       }
+    },
+    stateEventName() {
+      const estadoEvento = this.estados[this.event.estadoEventoId - 1];
+      if (estadoEvento) {
+        return estadoEvento.estadoEventoNombre;
+      }
+      // return "";
+      return "Sin definir";
     }
   },
   methods: {

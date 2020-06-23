@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapActions } from "vuex";
 export default {
   data() {
     return {
@@ -33,6 +33,12 @@ export default {
       eventos: state => state.eventos,
       isEventosPageLoaded: state => state.isEventosPageLoaded
     })
+  },
+  created() {
+    this.getEventosByIdUserAction();
+  },
+  methods: {
+    ...mapActions(["getEventosByIdUserAction"])
   }
 };
 </script>

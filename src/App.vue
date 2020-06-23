@@ -12,6 +12,7 @@ export default {
 };
 </script>
 <style lang="scss">
+@import "./assets/styles/normalize.css";
 @import "./assets/styles/global.scss";
 
 $cel: 540px;

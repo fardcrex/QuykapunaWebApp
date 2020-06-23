@@ -8,7 +8,7 @@ import EventPage from "../pages/EventPage.vue";
 import RegisterUser from "../pages/RegisterUser.vue";
 import RegisterOption from "../pages/HomeRegister.vue";
 import AgregarProductosPage from "../pages/AgregarProductosPage.vue";
-import PedidosPage from "../pages/PedidosPage.vue";
+import AllEventosClientPage from "../pages/AllEventosClientPage.vue";
 import EventClientPage from "../pages/EventClientPage.vue";
 import RealizarPedidoPage from "../pages/cliente-pages/RealizarPedidoPage.vue";
 
@@ -47,7 +47,7 @@ const routes = [
   {
     path: "/pedidos",
     name: "PedidosPage",
-    component: PedidosPage,
+    component: AllEventosClientPage,
     meta: { requiresAuth: true, isCliente: true },
   },
   {

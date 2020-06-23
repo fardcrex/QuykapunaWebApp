@@ -116,7 +116,7 @@ export default {
       time: ""
     };
   },
-  async created() {
+  created() {
     this.getCondominios();
     this.getEvents();
   },

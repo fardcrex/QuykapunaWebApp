@@ -16,179 +16,7 @@ export default function getStore(authService) {
     state: {
       user: { tipoUsuarioId: -1 },
       empresa: null,
-      eventos: [
-        {
-          eventoId: 1,
-          eventoNombre: "Venta productos",
-          eventoDescripcion: "se venden productos de san fernando",
-          eventoFecha: "2020-04-29T14:00:00.000Z",
-          administradorId: 1,
-          estadoEventoId: 4,
-          empresaId: 1,
-          residenteId: 2,
-        },
-        {
-          eventoId: 1,
-          eventoNombre: "Venta productos",
-          eventoDescripcion: "se venden productos de san fernando",
-          eventoFecha: "2020-04-29T14:00:00.000Z",
-          administradorId: 1,
-          estadoEventoId: 4,
-          empresaId: 1,
-          residenteId: 2,
-        },
-        {
-          eventoId: 1,
-          eventoNombre: "Venta productos",
-          eventoDescripcion: "se venden productos de san fernando",
-          eventoFecha: "2020-04-29T14:00:00.000Z",
-          administradorId: 1,
-          estadoEventoId: 4,
-          empresaId: 1,
-          residenteId: 2,
-        },
-        {
-          eventoId: 1,
-          eventoNombre: "Venta productos",
-          eventoDescripcion: "se venden productos de san fernando",
-          eventoFecha: "2020-04-29T14:00:00.000Z",
-          administradorId: 1,
-          estadoEventoId: 4,
-          empresaId: 1,
-          residenteId: 2,
-        },
-        {
-          eventoId: 1,
-          eventoNombre: "Venta productos",
-          eventoDescripcion: "se venden productos de san fernando",
-          eventoFecha: "2020-04-29T14:00:00.000Z",
-          administradorId: 1,
-          estadoEventoId: 4,
-          empresaId: 1,
-          residenteId: 2,
-        },
-        {
-          eventoId: 45,
-          eventoNombre: "Papitas",
-          eventoDescripcion: "Venta de papitas pringles",
-          eventoFecha: "2020-06-10T16:18:23.000Z",
-          administradorId: 1,
-          estadoEventoId: 1,
-          empresaId: 1,
-          residenteId: 2,
-        },
-        {
-          eventoId: 50,
-          eventoNombre: "caramelos",
-          eventoDescripcion: "dulces para los mas chicos",
-          eventoFecha: "2020-06-11T22:05:06.000Z",
-          administradorId: 1,
-          estadoEventoId: 1,
-          empresaId: 1,
-          residenteId: 2,
-        },
-        {
-          eventoId: 50,
-          eventoNombre: "caramelos",
-          eventoDescripcion: "dulces para los mas chicos",
-          eventoFecha: "2020-06-11T22:05:06.000Z",
-          administradorId: 1,
-          estadoEventoId: 1,
-          empresaId: 1,
-          residenteId: 2,
-        },
-        {
-          eventoId: 52,
-          eventoNombre: "Limonada",
-          eventoDescripcion: "Venta de agua, azúcar y limón",
-          eventoFecha: "2020-06-12T19:35:44.000Z",
-          administradorId: 1,
-          estadoEventoId: 1,
-          empresaId: 1,
-          residenteId: 51,
-        },
-        {
-          eventoId: 52,
-          eventoNombre: "Limonada",
-          eventoDescripcion: "Venta de agua, azúcar y limón",
-          eventoFecha: "2020-06-12T19:35:44.000Z",
-          administradorId: 1,
-          estadoEventoId: 1,
-          empresaId: 1,
-          residenteId: 51,
-        },
-        {
-          eventoId: 52,
-          eventoNombre: "Limonada",
-          eventoDescripcion: "Venta de agua, azúcar y limón",
-          eventoFecha: "2020-06-12T19:35:44.000Z",
-          administradorId: 1,
-          estadoEventoId: 1,
-          empresaId: 1,
-          residenteId: 51,
-        },
-        {
-          eventoId: 52,
-          eventoNombre: "Limonada",
-          eventoDescripcion: "Venta de agua, azúcar y limón",
-          eventoFecha: "2020-06-12T19:35:44.000Z",
-          administradorId: 1,
-          estadoEventoId: 1,
-          empresaId: 1,
-          residenteId: 51,
-        },
-        {
-          eventoId: 52,
-          eventoNombre: "Limonada",
-          eventoDescripcion: "Venta de agua, azúcar y limón",
-          eventoFecha: "2020-06-12T19:35:44.000Z",
-          administradorId: 1,
-          estadoEventoId: 1,
-          empresaId: 1,
-          residenteId: 51,
-        },
-        {
-          eventoId: 58,
-          eventoNombre: "Venta de Cereales",
-          eventoDescripcion:
-            "Los cereales son plantas de la familia de las poáceas cultivadas por su grano. Incluyen cereales mayores como el trigo, el arroz, el maíz, la cebada, la avena y el centeno, y cereales menores como el sorgo, el mijo, el teff, el triticale, el alp",
-          eventoFecha: "2020-06-14T03:18:32.000Z",
-          administradorId: 1,
-          estadoEventoId: 1,
-          empresaId: 1,
-          residenteId: 51,
-        },
-        {
-          eventoId: 60,
-          eventoNombre: "Manzanas",
-          eventoDescripcion: "manzanas ofertas",
-          eventoFecha: "2020-06-15T16:48:05.000Z",
-          administradorId: 1,
-          estadoEventoId: 1,
-          empresaId: 1,
-          residenteId: 51,
-        },
-        {
-          eventoId: 60,
-          eventoNombre: "Manzanas",
-          eventoDescripcion: "manzanas ofertas",
-          eventoFecha: "2020-06-15T16:48:05.000Z",
-          administradorId: 1,
-          estadoEventoId: 1,
-          empresaId: 1,
-          residenteId: 51,
-        },
-        {
-          eventoId: 60,
-          eventoNombre: "Manzanas",
-          eventoDescripcion: "manzanas ofertas",
-          eventoFecha: "2020-06-15T16:48:05.000Z",
-          administradorId: 1,
-          estadoEventoId: 1,
-          empresaId: 1,
-          residenteId: 51,
-        },
-      ],
+      eventos: [],
       productos: [],
       isEventosPageLoaded: false,
       isProductosPageLoaded: false,
@@ -267,8 +95,21 @@ export default function getStore(authService) {
           throw "error";
         }
       },
+      async getEventosByIdUserAction({ commit, state }) {
+        try {
+          var response = await EventService.getEventosByUserId(
+            state.user.usuarioId
+          );
+          const events = response.data.reverse();
+          commit("LOAD_EVENTS_DATA", events);
+        } catch (error) {
+          console.log(error); // Logs out the error
+          throw "error";
+        }
+      },
       async getProductosAction({ commit, state }, data) {
         try {
+          //
           if (state.isProductosPageLoaded && !data.reload) {
             return;
           }
