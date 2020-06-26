@@ -70,7 +70,7 @@
     <h2 class="title2">Lista de Eventos</h2>
     <div class="eventList" v-if="!isLoadingList">
       <BaseCardEvent  v-for="event in eventos"  v-bind:key="event.eventoId"
-      :event="event" :isPointer="true"
+      :event="event" :isPointer="true"  route="EventOnePage"
       ></BaseCardEvent>   
     </div> 
      <div

@@ -7,10 +7,13 @@
     v-else-if="!notFound"
     class="container"
   >
-    <router-link :to="'/evento/'+$route.params.idEvent">
+    <router-link
+      :to="'/evento/'+$route.params.idEvent"
+      class="title"
+    >
       <h1>{{evento.eventoNombre}}</h1>
     </router-link>
-    <div v-if="!isLoadingList">
+    <template v-if="!isLoadingList">
 
       <div class="eventList">
         <div
@@ -34,7 +37,7 @@
             >
               <div>+</div>
             </div>
-
+            <span class="tolalPrecioProducto">S/ {{producto.cantidad*producto.productoCosto}}</span>
           </div>
         </div>
       </div>
@@ -47,7 +50,7 @@
           value
         />
         <div>
-      <p>Precio Total: S./<span> {{precioTotal}}</span></p>
+      <div>Precio Total: <div class="tolalPrecioProducto">S/<span class="display_none">_</span>{{precioTotal}}</div></div>
 
        <button :class="{btn__isEmpthy:isEmpthy}"   v-if="!isLoadingRequest"
         class="red btn"
@@ -60,7 +63,7 @@
       ></div>
       </div>
       </div>
-    </div>
+    </template>
     <div
       v-else
       class="preloader preloader__list"
@@ -78,7 +81,7 @@
         type="submit"
         name="button"
         v-on:click="reiniciar"
-      >Realizar otra más</button>
+      >Ver Pedido</button>
     </div>
     <h2 v-else>Evento no encontrado</h2>
     <NotFoundSvg class="svg"></NotFoundSvg>
@@ -128,7 +131,8 @@ export default {
       notFound: false,
       isLoadingRequest: false,
       descripcion: "",
-      requestCompleted: false
+      requestCompleted: false,
+      idPedido: 0
     };
   },
 
@@ -170,7 +174,10 @@ export default {
   methods: {
     ...mapMutations(["ADD_TO_EVENTS_DATA"]),
     reiniciar() {
-      location.reload();
+      this.$router.push({
+        name: "PedidosPage",
+        params: { idPedido: this.idPedido, idEstado: 1 }
+      });
     },
     async getProductos() {
       try {
@@ -204,12 +211,13 @@ export default {
         });
         console.log(res);
         if (res.data[0].idPedido) {
+          this.idPedido = res.data[0].idPedido;
           this.productos.forEach(async producto => {
             if (producto.cantidad > 0) {
               await PedidoService.insertarItem({
                 idProducto: producto.productoId,
                 cantidad: producto.cantidad,
-                idpedido: res.data[0].idPedido
+                idpedido: this.idPedido
               });
             }
           });
@@ -264,20 +272,12 @@ $desk: 1300px;
   max-width: 1024px;
   margin: auto;
   grid-template-columns: 100%;
-  grid-template-rows: 10vh auto;
+  grid-template-rows: minmax(6rem, 10vh) auto;
 }
-.title2 {
-  margin-top: 3vh;
-  align-self: center;
-  grid-row: 3/4;
-  grid-column: 1/2;
-  @media screen and (min-width: $tablet) {
-    grid-row: 2/3;
-    grid-column: 1/3;
-    width: 90%;
-  }
-  @media screen and (min-width: $laptop) {
-  }
+.title {
+  margin: auto;
+  color: $color-primary;
+  text-decoration: none;
 }
 .eventoStyle {
   margin: 2em 2em 0;
@@ -313,17 +313,17 @@ $desk: 1300px;
 .eventList {
   grid-column: 1/2;
   display: grid;
-  padding: 1rem;
-  row-gap: 15px;
-  width: 90%;
 
-  grid-template-columns: 1fr;
-  /*  @media screen and (min-width: $cel) {
-  }
+  row-gap: 15px;
+  // width: max-content;
+  justify-content: center;
+  grid-template-columns: 95%;
   @media screen and (min-width: $tablet) {
-    grid-column: 1/3;
-    width: 95%;
-    grid-template-columns: repeat(3, minmax(300px, 1fr));
+    padding: 0 1rem;
+    justify-items: stretch;
+    width: 100%;
+  }
+  /*  @media screen and (min-width: $cel) {
   }
   @media screen and (min-width: $laptop) {
     width: 100%;
@@ -356,21 +356,27 @@ $desk: 1300px;
     grid-column: 1/3;
   }
 }
-.svg1 {
-  width: 80%;
+.svg {
+  width: 60%;
   margin: 2.5em 2.5em 1em 2.5em;
 }
 
 .icon {
   padding: 10px;
   display: flex;
+  width: max-content;
+
   align-items: center;
   justify-content: flex-end;
+  @media screen and (min-width: $tablet) {
+    margin-left: 1rem;
+  }
   &__plus,
   &__minus {
-    width: 2.5rem;
+    width: 2rem;
+    height: 2rem;
     background-color: $color-bg;
-    height: 2.5rem;
+
     border-radius: 50%;
     box-shadow: $shadow;
     display: flex;
@@ -380,7 +386,10 @@ $desk: 1300px;
     cursor: pointer;
     color: $color-primary;
     transition: all 0.5s ease;
-
+    @media screen and (min-width: $tablet) {
+      width: 2.5rem;
+      height: 2.5rem;
+    }
     &:active {
       box-shadow: $inner-shadow;
       color: $color-primary;
@@ -391,30 +400,51 @@ $desk: 1300px;
   }
 }
 .cantidad__text {
-  padding: 0 1rem;
+  padding: 0 0.5rem;
   @media screen and (min-width: $tablet) {
     display: none;
   }
 }
+.display_none {
+  color: $color-bg;
+}
 .cantidad__value {
   min-width: 20px;
-  padding: 0 1rem;
+  padding: 0 0.5rem;
+  @media screen and (min-width: $tablet) {
+    padding: 0 1rem;
+  }
 }
 .textarea {
-  margin: 0 3rem;
+  margin: 0 1rem;
   height: 7em;
   border-radius: 20px;
+  @media screen and (min-width: $tablet) {
+    margin: 0 3rem;
+  }
 }
 .table__pie {
-  margin: 1rem 5rem 3rem auto;
+  margin: 2rem 1rem;
   display: flex;
   align-items: center;
   justify-content: flex-end;
+  @media screen and (min-width: $tablet) {
+    margin: 1rem 5rem 3rem auto;
+  }
 }
 .preloader__min {
   margin: auto;
   margin-top: 1em;
   width: 40px;
   height: 40px;
+}
+.tolalPrecioProducto {
+  color: $color-primary;
+  display: inline;
+  font-weight: 500;
+  min-width: 5rem;
+  @media screen and (min-width: $tablet) {
+    margin-left: 1rem;
+  }
 }
 </style>

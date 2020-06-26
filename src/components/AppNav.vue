@@ -7,12 +7,16 @@
     <router-link to="/">Inicio</router-link>
     <router-link
       v-if="isProveedor"
-      to="/eventos"
+      to="/crear-eventos"
     >Eventos</router-link>
     <router-link
       v-if="isProveedor"
       to="/productos"
     >Productos</router-link>
+    <router-link
+      v-if="isCliente"
+      to="/Eventos"
+    >Eventos</router-link>
     <router-link
       v-if="isCliente"
       to="/pedidos"
@@ -106,8 +110,8 @@ a {
 button,
 .button {
   margin-left: auto;
-  background: linear-gradient(145deg, #e0e0de, #ffffff);
-  box-shadow: 4px 4px 8px #d6d6d4, -4px -4px 8px #ffffff;
+  background: #f9f8f8;
+  box-shadow: 2px 2px 4px #d6d6d4, -4px -4px 8px #ffffff;
   text-decoration: none;
   color: #2c3e50;
   padding: 0.8em 1.5em;

@@ -10,7 +10,9 @@
         :alt="producto.productoNombre"
       />
     </div>
-    <div class="neumorphic-card__title">{{producto.productoNombre}}</div>
+    <div class="neumorphic-card__title">
+      <p>{{producto.productoNombre}}</p>
+    </div>
     <div class="neumorphic-card__text">{{producto.productoDescripcion}}</div>
 
     <div class="neumorphic-card__precio">S./ {{producto.productoCosto}}</div>
@@ -47,6 +49,7 @@ export default {
   --value: 40%;
   --back-color: #dd2222;
 }
+$cel: 540px;
 .neumorphic-image {
   border-radius: 10px;
 
@@ -66,21 +69,24 @@ export default {
     -5px -4px 10px rgba(255, 255, 255, 0.98),
     0px 0px 4px rgba(255, 255, 255, 0.2) !important;
   border-radius: 20px;
-  grid-template-columns: auto auto 1fr auto;
-  width: 100%;
+  grid-template-columns: auto minmax(auto, 150px) auto;
+  @media screen and (min-width: $cel) {
+    grid-template-columns: auto minmax(auto, 180px) minmax(auto, 1fr) auto;
+  }
+  width: max-content;
 }
 
 .neumorphic-card__title {
   display: block;
   color: #555f76;
   font-size: 22px;
-  padding: 0 1rem 0 1em;
+  padding: 0 0 0 1rem;
   text-align: start;
 }
-$cel: 540px;
 .neumorphic-card__text {
   display: none;
   padding: 0 1em;
+  font-size: 15px;
   text-align: start;
   color: #8d96a8;
   @media screen and (min-width: $cel) {
@@ -97,7 +103,7 @@ $cel: 540px;
   padding: 6px;
 }
 .neumorphic-card__precio {
-  padding: 0 1em;
+  padding: 0 0.5em;
   display: block;
   min-width: 50px;
   text-align: end;

@@ -93,7 +93,8 @@ export default {
     fechaLocal() {
       if (this.event.eventoFecha) {
         let date = new Date(this.event.eventoFecha);
-        return date.toLocaleString();
+        return `${date.getDate()}/${date.getMonth() +
+          1}/${date.getFullYear()}, ${date.getHours()}:${date.getMinutes()}`;
       } else {
         return "0/0/0 00:00";
       }

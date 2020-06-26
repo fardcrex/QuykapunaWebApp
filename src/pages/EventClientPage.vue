@@ -221,7 +221,7 @@ $desk: 1300px;
   grid-column: 1/2;
   display: grid;
   padding: 1rem;
-  row-gap: 2rem;
+  row-gap: 1.2rem;
   column-gap: 1.5rem;
   width: 90%;
   grid-template-columns: repeat(1, minmax(300px, 1fr));
@@ -232,11 +232,12 @@ $desk: 1300px;
   @media screen and (min-width: $tablet) {
     grid-column: 1/3;
     width: 95%;
-    grid-template-columns: repeat(3, minmax(300px, 1fr));
+    grid-template-columns: repeat(3, minmax(200px, 1fr));
   }
   @media screen and (min-width: $laptop) {
+    row-gap: 1.5rem;
     width: 100%;
-    grid-template-columns: repeat(3, minmax(300px, 1fr));
+    grid-template-columns: repeat(4, minmax(200px, 1fr));
   }
 }
 .preloader {

@@ -39,7 +39,13 @@ export default function getStore(authService) {
       },
       LOAD_EVENTS_DATA(state, eventsData) {
         state.isEventosPageLoaded = true;
-        state.eventos = eventsData;
+        const dateNow = new Date();
+        let eventFilter = eventsData.filter((event) => {
+          const dateEvent = new Date(event.eventoFecha);
+          return dateEvent > dateNow;
+        });
+
+        state.eventos = eventFilter;
       },
       ADD_TO_EVENTS_DATA(state, event) {
         state.eventos = [event, ...state.eventos];

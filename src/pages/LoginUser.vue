@@ -71,7 +71,7 @@ export default {
         })
         .then(() => {
           this.loading = false;
-          this.$router.push({ name: "EventPage" });
+          this.$router.push({ name: "Home" });
         })
         .catch(err => {
           this.loading = false;
