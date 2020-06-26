@@ -11,7 +11,7 @@
       <div class="neumorphic-card__text">{{event.eventoDescripcion}}</div>
     </div>
     <div class="neumorphic-card__estado">
-      <p>Estado: {{stateEventName}}</p>
+      <p>Estado: <span v-bind:style="getColorStyle">{{stateEventName}}</span></p>
     </div>
     <div class="neumorphic-card__fecha">{{fechaLocal}}</div>
   </div>
@@ -56,45 +56,58 @@ export default {
       estados: [
         {
           estadoEventoId: 1,
-          estadoEventoNombre: "propuesto"
+          estadoEventoNombre: "Propuesto"
         },
         {
           estadoEventoId: 2,
-          estadoEventoNombre: "aceptado"
+          estadoEventoNombre: "Aceptado"
         },
         {
           estadoEventoId: 3,
-          estadoEventoNombre: "publicado"
+          estadoEventoNombre: "Publicado"
         },
         {
           estadoEventoId: 4,
-          estadoEventoNombre: "definitivo"
+          estadoEventoNombre: "Definitivo"
         },
         {
           estadoEventoId: 5,
-          estadoEventoNombre: "en salida"
+          estadoEventoNombre: "En salida"
         },
         {
           estadoEventoId: 6,
-          estadoEventoNombre: "iniciado"
+          estadoEventoNombre: "Iniciado"
         },
         {
           estadoEventoId: 7,
-          estadoEventoNombre: "terminado"
+          estadoEventoNombre: "Terminado"
         },
         {
           estadoEventoId: 8,
-          estadoEventoNombre: "cancelado"
+          estadoEventoNombre: "Cancelado"
         }
       ]
     };
   },
   computed: {
+    getColorStyle() {
+      let colores = {
+        Propuesto: "#4BA2F2",
+        Aceptado: "#FFA134",
+        Publicado: "#6C4BF2",
+        Definitivo: "#D146D3",
+        "En salida": "#27DA0A",
+        Iniciado: "#1FD4A9",
+        Terminado: "#AA4619",
+        Cancelado: "#F24B4B"
+      };
+      return { color: colores[this.stateEventName] };
+    },
     fechaLocal() {
       if (this.event.eventoFecha) {
         let date = new Date(this.event.eventoFecha);
         return `${date.getDate()}/${date.getMonth() +
-          1}/${date.getFullYear()}, ${date.getHours()}:${date.getMinutes()}`;
+          1}/${date.getFullYear()}, ${date.toLocaleTimeString()}`;
       } else {
         return "0/0/0 00:00";
       }
@@ -158,14 +171,17 @@ export default {
 }
 
 p {
-  font-size: 0.8em;
+  font-size: 1em;
   text-align: end;
   margin: 0;
+
+  color: #8d96a8;
 }
 .neumorphic-card__fecha {
   display: block;
   padding: 0.5em 0 0 0;
   text-align: end;
-  font-size: 0.85em;
+  font-size: 1em;
+  color: #8d96a8;
 }
 </style>

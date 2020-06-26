@@ -15,7 +15,7 @@
     </div>
     <div class="neumorphic-card__text">{{producto.productoDescripcion}}</div>
 
-    <div class="neumorphic-card__precio">S./ {{producto.productoCosto}}</div>
+    <div class="neumorphic-card__precio">S/. {{producto.productoCosto}}</div>
 
   </div>
 
@@ -50,9 +50,11 @@ export default {
   --back-color: #dd2222;
 }
 $cel: 540px;
+$tablet: 814px;
+$laptop: 1025px;
 .neumorphic-image {
   border-radius: 10px;
-
+  margin: auto;
   height: auto;
   max-height: 40px;
   display: block;
@@ -70,10 +72,17 @@ $cel: 540px;
     0px 0px 4px rgba(255, 255, 255, 0.2) !important;
   border-radius: 20px;
   grid-template-columns: auto minmax(auto, 150px) auto;
+  justify-content: space-between;
+  width: 90%;
   @media screen and (min-width: $cel) {
-    grid-template-columns: auto minmax(auto, 180px) minmax(auto, 1fr) auto;
+    grid-template-columns:
+      minmax(auto, 75px) minmax(auto, 150px) minmax(180px, 1fr)
+      auto;
+    width: 100%;
   }
-  width: max-content;
+  @media screen and (min-width: $tablet) {
+    width: 100%;
+  }
 }
 
 .neumorphic-card__title {

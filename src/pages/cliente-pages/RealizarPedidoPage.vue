@@ -49,19 +49,17 @@
           v-model="descripcion"
           value
         />
-        <div>
-      <div>Precio Total: <div class="tolalPrecioProducto">S/<span class="display_none">_</span>{{precioTotal}}</div></div>
-
-       <button :class="{btn__isEmpthy:isEmpthy}"   v-if="!isLoadingRequest"
-        class="red btn"
-        type="submit"
-        name="button"
-        v-on:click="hacerPedido"
-      >Mandar Pedido</button>  <div
-        v-else
-        class="preloader__min preloader"
-      ></div>
-      </div>
+        <div class="precio_and_bottom_container">
+          <div>Precio Total: <span class="tolalPrecioFinal"> S/<span class="display_none">_</span>{{precioTotal}}</span></div>
+          <button :class="{btn__isBlocked:isBlocked}"   v-if="!isLoadingRequest"
+            class="red btn"
+            type="submit"
+            name="button"
+            v-on:click="hacerPedido"
+          >Mandar Pedido</button>
+          <div v-else class="preloader__min preloader">          
+          </div>
+        </div>
       </div>
     </template>
     <div
@@ -109,7 +107,7 @@ export default {
       });
       return Math.round(precioSum * 100) / 100;
     },
-    isEmpthy() {
+    isBlocked() {
       for (const producto of this.productos) {
         if (producto.cantidad > 0) {
           return false;
@@ -138,17 +136,14 @@ export default {
 
   async created() {
     if (this.eventos[0]) {
-      console.log("response 1s");
       let eventoFind;
       for (let event of this.eventos) {
         if (event.eventoId == this.$route.params.idEvent) {
-          console.log("response 2s");
           eventoFind = event;
           break;
         }
       }
       if (!eventoFind) {
-        console.log("response 3s", eventoFind);
         this.notFound = true;
       }
       this.evento = eventoFind;
@@ -166,7 +161,6 @@ export default {
         return;
       }
     }
-
     this.loading = false;
     await this.getProductos();
     this.isLoadingList = false;
@@ -175,13 +169,13 @@ export default {
     ...mapMutations(["ADD_TO_EVENTS_DATA"]),
     reiniciar() {
       this.$router.push({
-        name: "PedidosPage",
+        name: "PedidosPageFound",
         params: { idPedido: this.idPedido, idEstado: 1 }
       });
     },
+
     async getProductos() {
       try {
-        console.log("response");
         var response = await ProductService.getProductosForEvent(
           this.$route.params.idEvent
         );
@@ -197,7 +191,7 @@ export default {
       }
     },
     async hacerPedido() {
-      if (this.isEmpthy) {
+      if (this.isBlocked) {
         return;
       }
       try {
@@ -307,7 +301,7 @@ $desk: 1300px;
 .btn {
   margin: 1em auto 0;
 }
-.btn__isEmpthy {
+.btn__isBlocked {
   color: $greyLight-2;
 }
 .eventList {
@@ -429,7 +423,7 @@ $desk: 1300px;
   align-items: center;
   justify-content: flex-end;
   @media screen and (min-width: $tablet) {
-    margin: 1rem 5rem 3rem auto;
+    margin: 1rem 4.5rem 3rem auto;
   }
 }
 .preloader__min {
@@ -446,5 +440,13 @@ $desk: 1300px;
   @media screen and (min-width: $tablet) {
     margin-left: 1rem;
   }
+}
+.tolalPrecioFinal {
+  font-weight: 500;
+  color: $color-primary;
+  display: inline;
+}
+.precio_and_bottom_container {
+  min-width: 180px;
 }
 </style>

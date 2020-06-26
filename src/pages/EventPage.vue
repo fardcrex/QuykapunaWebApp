@@ -13,12 +13,22 @@
     ></BaseCardEvent>
     <div class="btn_svg">
       <NotFoundSvg class="svg1"></NotFoundSvg>
-      <button
-        class="red btn"
-        type="submit"
-        name="button"
-        v-on:click="agregarProducto"
-      >Agregar Producto</button>
+      <div class="button_container">
+        <button
+          :class="{btn__isBlocked:isBlocked}"
+          class="red btn"
+          type="submit"
+          name="button"
+          v-on:click="agregarProducto"
+        >Agregar Producto</button>
+        <button
+          :class="{btn__isBlocked:isBlocked}"
+          class="red btn"
+          type="submit"
+          name="button"
+          v-on:click="watchState"
+        >Ver Estado</button>
+      </div>
     </div>
     <h2 class="title2">Lista de Productos del Evento</h2>
     <div
@@ -53,7 +63,11 @@ import { mapState, mapMutations } from "vuex";
 export default {
   components: { NotFoundSvg },
   computed: {
-    ...mapState(["eventos"])
+    ...mapState(["eventos"]),
+    isBlocked() {
+      if (this.evento.estadoEventoId > 3) return true;
+      return false;
+    }
   },
   data() {
     return {
@@ -121,8 +135,17 @@ export default {
       }
     },
     agregarProducto() {
+      if (this.isBlocked) {
+        return;
+      }
       this.$router.push({
         name: "AgregarProductosPage",
+        params: { idEvent: this.evento.eventoId }
+      });
+    },
+    watchState() {
+      this.$router.push({
+        name: "EventStatePage",
         params: { idEvent: this.evento.eventoId }
       });
     }
@@ -131,6 +154,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+$greyLight-2: #c8d0e7;
 $cel: 540px;
 $tablet: 814px;
 $laptop: 1025px;
@@ -213,7 +237,10 @@ $desk: 1300px;
   }
 }
 .btn {
-  margin: 1em auto 0;
+  margin: 1em 1em 0;
+}
+.btn__isBlocked {
+  color: $greyLight-2;
 }
 .eventList {
   grid-column: 1/2;
@@ -251,5 +278,9 @@ $desk: 1300px;
     margin: 4em auto 4em;
     grid-column: 1/3;
   }
+}
+.button_container {
+  display: flex;
+  justify-content: center;
 }
 </style>

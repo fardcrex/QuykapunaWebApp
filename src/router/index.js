@@ -5,11 +5,12 @@ import EventosPage from "../pages/EventosPage.vue";
 import ProductosPage from "../pages/ProductosPage.vue";
 import LoginUser from "../pages/LoginUser.vue";
 import EventPage from "../pages/EventPage.vue";
+import EventStatePage from "../pages/EventStatePage.vue";
 import RegisterUser from "../pages/RegisterUser.vue";
 import RegisterOption from "../pages/HomeRegister.vue";
 import AgregarProductosPage from "../pages/AgregarProductosPage.vue";
-import AllEventosClientPage from "../pages/AllEventosClientPage.vue";
-import EventClientPage from "../pages/EventClientPage.vue";
+import AllEventosClientPage from "../pages/cliente-pages/AllEventosClientPage.vue";
+import EventClientPage from "../pages/cliente-pages/EventClientPage.vue";
 import RealizarPedidoPage from "../pages/cliente-pages/RealizarPedidoPage.vue";
 import PedidosPage from "../pages/cliente-pages/PedidosPage.vue";
 
@@ -28,13 +29,19 @@ const routes = [
     meta: { requiresAuth: true, isProveedor: true },
   },
   {
-    path: "/eventoEmpresa/:idEvent",
+    path: "/evento-empresa/:idEvent",
     name: "EventOnePage",
     component: EventPage,
     meta: { requiresAuth: true, isProveedor: true },
   },
   {
-    path: "/AgregarProductosPage/:idEvent",
+    path: "/evento-estado/:idEvent",
+    name: "EventStatePage",
+    component: EventStatePage,
+    meta: { requiresAuth: true, isProveedor: true },
+  },
+  {
+    path: "/agregar-productos/:idEvent",
     name: "AgregarProductosPage",
     component: AgregarProductosPage,
     meta: { requiresAuth: true, isProveedor: true },
@@ -59,7 +66,7 @@ const routes = [
   },
   {
     path: "/pedidos/:idPedido/:idEstado",
-    name: "PedidosPage",
+    name: "PedidosPageFound",
     component: PedidosPage,
     meta: { requiresAuth: true, isCliente: true },
   },

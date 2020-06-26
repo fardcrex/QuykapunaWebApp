@@ -3,7 +3,7 @@
     <div class="child-1">
       <h2 class="title">Crear Evento</h2>
       <input
-        placeholder="Nombre"
+        placeholder="Nombre del evento"
         class="child input"
         v-model.trim="name"
         type="text"
@@ -311,12 +311,12 @@ $desk: 1300px;
 input,
 .fecha {
   margin: 0;
-  width: 60%;
+  width: 55%;
 }
 input,
 .time {
   margin: 0;
-  width: 35%;
+  width: 40%;
 }
 .condominio_style {
   padding: -1em 0;

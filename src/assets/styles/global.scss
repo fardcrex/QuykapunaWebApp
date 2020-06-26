@@ -23,7 +23,6 @@ p,
 input,
 textarea,
 button {
-  font-family: "Montserrat", sans-serif;
   letter-spacing: -0.2px;
   font-size: $ruler;
 }
@@ -69,6 +68,7 @@ textarea {
 }
 
 button {
+  font-family: "Montserrat", sans-serif;
   color: #61677c;
   font-weight: bold;
   box-shadow: -2px -2px 5px $color-white, 2px 2px 5px $color-shadow;
