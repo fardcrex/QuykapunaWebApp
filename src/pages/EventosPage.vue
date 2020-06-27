@@ -145,28 +145,28 @@ export default {
     },
     async createEvent() {
       this.isLoadingRequest = true;
-      if (
-        !this.empresaId ||
-        !this.name ||
-        this.name.length < 5 ||
-        this.adminIdCondominio === -1
-      ) {
-        this.isLoadingRequest = false;
-        return;
-      }
-      //const dateJson = `${this.fecha}T${this.time}`;
-      const dateLocal = new Date(`${this.fecha}T${this.time}`).toUTCString();
-      const dateUtc = new Date(dateLocal).toJSON();
-
       try {
-        let responEvent = await EventService.agregarEvento(
-          this.empresaId,
-          this.administradorId,
-          1,
-          this.name,
-          this.descripcion,
-          dateUtc
-        );
+        if (
+          !this.empresaId ||
+          !this.name ||
+          this.name.length < 5 ||
+          this.adminIdCondominio === -1
+        ) {
+          this.isLoadingRequest = false;
+          return;
+        }
+        //const dateJson = `${this.fecha}T${this.time}`;
+        const dateLocal = new Date(`${this.fecha}T${this.time}`).toUTCString();
+        const dateUtc = new Date(dateLocal).toJSON();
+
+        let responEvent = await EventService.agregarEvento({
+          empresaId: this.empresaId,
+          administradorId: this.administradorId,
+          estadoEven: 1,
+          nombre: this.name,
+          descripcion: this.descripcion,
+          fecha: dateUtc
+        });
         console.log(responEvent);
 
         if (responEvent.status == 201) {
@@ -271,12 +271,16 @@ $desk: 1300px;
   row-gap: 2rem;
   column-gap: 1.5rem;
   width: 90%;
-  grid-template-columns: repeat(1, minmax(300px, 1fr));
-
+  grid-template-columns: repeat(1, minmax(auto, 1fr));
+  @media screen and (min-width: $cel) {
+    grid-column: 1/3;
+    width: 95%;
+    grid-template-columns: repeat(2, minmax(240px, 1fr));
+  }
   @media screen and (min-width: $tablet) {
     grid-column: 1/3;
     width: 95%;
-    grid-template-columns: repeat(2, minmax(300px, 1fr));
+    grid-template-columns: repeat(2, minmax(270px, 1fr));
   }
   @media screen and (min-width: $laptop) {
     width: 100%;
@@ -306,17 +310,32 @@ $desk: 1300px;
   margin: auto;
   width: 80%;
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
+  align-items: center;
+  @media screen and (min-width: $cel) {
+    flex-direction: row;
+  }
 }
 input,
 .fecha {
-  margin: 0;
-  width: 55%;
+  margin-top: 0;
+  width: 100%;
+  margin-bottom: 0;
+  @media screen and (min-width: $cel) {
+    width: 55%;
+    margin-top: 0rem;
+  }
 }
 input,
 .time {
-  margin: 0;
-  width: 40%;
+  margin-top: 2rem;
+  width: 80%;
+  margin-bottom: 0;
+  @media screen and (min-width: $cel) {
+    width: 40%;
+    margin-top: 0rem;
+  }
 }
 .condominio_style {
   padding: -1em 0;

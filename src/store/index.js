@@ -83,6 +83,8 @@ export default function getStore(authService) {
         authService.postRegistrarToken(resUser.data.token, user.usuarioId);
         if (user.tipoUsuarioId === 2) {
           const resEmpresa = await EventService.getEmpresaData(user.usuarioId);
+          console.log(resEmpresa);
+
           if (resEmpresa.data) {
             const data = resEmpresa.data[0];
             localStorage.setItem("empresa", JSON.stringify(data));

@@ -18,21 +18,20 @@ export default {
       `${servers.produccion}/Eventos/mostrarEventosPorUsuario/${idUser}`
     );
   },
-  agregarEvento(
-    empresaId,
-    administradorId,
-    estadoEven,
-    nombre,
-    descripcion,
-    fecha
-  ) {
+  agregarEvento(body) {
     return axios.post(`${servers.produccion}/empresa/evento/agregarEvento`, {
-      empresaId,
-      administradorId,
-      estadoEven,
-      nombre,
-      descripcion,
-      fecha,
+      body,
     });
+  },
+  showCantidadProductos(data) {
+    return axios.get(
+      `${servers.produccion}/Evento/mostrarCantidadProductos/${data.eventoId}/${data.productoId}`
+    );
+  },
+  updateStateEvent(data) {
+    return axios.put(
+      `${servers.produccion}/Eventos/actualizarEstadoEvento`,
+      data
+    );
   },
 };

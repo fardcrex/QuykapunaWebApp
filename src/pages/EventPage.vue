@@ -22,7 +22,6 @@
           v-on:click="agregarProducto"
         >Agregar Producto</button>
         <button
-          :class="{btn__isBlocked:isBlocked}"
           class="red btn"
           type="submit"
           name="button"
@@ -249,7 +248,7 @@ $desk: 1300px;
   row-gap: 2rem;
   column-gap: 1.5rem;
   width: 90%;
-  grid-template-columns: repeat(1, minmax(300px, 1fr));
+  grid-template-columns: repeat(1, minmax(auto, 1fr));
 
   @media screen and (min-width: $cel) {
     grid-template-columns: repeat(2, minmax(200px, 1fr));

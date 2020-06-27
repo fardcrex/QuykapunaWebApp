@@ -213,7 +213,7 @@ $desk: 1300px;
   row-gap: 1.5rem;
   column-gap: 1.5rem;
   width: 85%;
-  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(auto, 1fr));
   @media screen and (min-width: $cel) {
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     width: 85%;
