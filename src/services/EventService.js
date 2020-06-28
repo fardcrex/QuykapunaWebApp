@@ -19,9 +19,12 @@ export default {
     );
   },
   agregarEvento(body) {
-    return axios.post(`${servers.produccion}/empresa/evento/agregarEvento`, {
-      body,
-    });
+    console.log(body);
+
+    return axios.post(
+      `${servers.produccion}/empresa/evento/agregarEvento`,
+      body
+    );
   },
   showCantidadProductos(data) {
     return axios.get(

@@ -41,7 +41,7 @@
       >Cambiar estado</button>
 
     </div>
-    <h2 class="title2">Cantidad de Pedidos por Productos</h2>
+    <h2 class="title2">Cantidad de Productos</h2>
     <div
       class="eventList"
       v-if="!isLoadingList"

@@ -15,7 +15,7 @@
     </div>
     <div class="neumorphic-card__text">{{producto.productoDescripcion}}</div>
 
-    <div class="neumorphic-card__precio">{{cantidad}} pedidos</div>
+    <div class="neumorphic-card__precio">{{cantidad}} unidades</div>
 
   </div>
 
