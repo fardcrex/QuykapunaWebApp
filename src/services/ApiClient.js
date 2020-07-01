@@ -1,8 +1,6 @@
 import axios from "axios";
 
 const servers = {
-  janina: `http://192.168.0.28:3000`,
-  local: `http://localhost:3000`,
   produccion: `https://api-pollo.herokuapp.com`,
 };
 

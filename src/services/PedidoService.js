@@ -12,12 +12,23 @@ export default {
     });
   },
   insertarItem(body) {
-    console.log(body);
-
     return axios.post(`${servers.produccion}/Pedido/InsertarItem`, {
       idProducto: body.idProducto,
       cantidad: body.cantidad,
       idpedido: body.idpedido,
     });
+  },
+  mostrartPedido(data) {
+    return axios.get(
+      `${servers.produccion}/Pedido/mostrarPedido/${data.usuarioId}/${data.idEstado}`
+    );
+  },
+  getEmpresaByEventoId(eventoId) {
+    return axios.get(
+      `${servers.produccion}/Pedido/obtenerEmpresaPorEvento/${eventoId}`
+    );
+  },
+  getItemsByPedidoId(pedidoId) {
+    return axios.get(`${servers.produccion}/Pedido/obtenerItems/${pedidoId}`);
   },
 };

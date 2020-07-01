@@ -19,30 +19,6 @@
 </template>
 
 <script>
-/* class EventModel {
-  constructor(
-    eventoId,
-    eventoNombre,
-    eventoDescripcion,
-    eventoFecha,
-    administradorId,
-    estadoEventoId,
-    empresaId,
-    usuarioId,
-    condominioId
-  ) {
-    this.eventoId = eventoId;
-    this.eventoNombre = eventoNombre;
-    this.eventoDescripcion = eventoDescripcion;
-    this.eventoFecha = eventoFecha;
-    this.administradorId = administradorId;
-    this.estadoEventoId = estadoEventoId;
-    this.empresaId = empresaId;
-    this.usuarioId = usuarioId;
-    this.condominioId = condominioId;
-  }
-} */
-
 export default {
   props: {
     event: {
@@ -53,6 +29,18 @@ export default {
   },
   data() {
     return {
+      asd: {
+        idPedido: 33,
+        productos: [
+          {
+            productoNombre: "panettone ",
+
+            productoCosto: 40,
+
+            cantidad: 1
+          }
+        ]
+      },
       estados: [
         {
           estadoEventoId: 1,

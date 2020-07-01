@@ -78,7 +78,7 @@
         class="red btn"
         type="submit"
         name="button"
-        v-on:click="reiniciar"
+        v-on:click="goToTheDetallesPedidos"
       >Ver Pedido</button>
     </div>
     <h2 v-else>Evento no encontrado</h2>
@@ -167,10 +167,10 @@ export default {
   },
   methods: {
     ...mapMutations(["ADD_TO_EVENTS_DATA"]),
-    reiniciar() {
+    goToTheDetallesPedidos() {
       this.$router.push({
-        name: "PedidosPageFound",
-        params: { idPedido: this.idPedido, idEstado: 1 }
+        name: "DetallePedidoPage",
+        params: { idPedido: this.idPedido, idEvent: this.evento.eventoId }
       });
     },
 
@@ -410,7 +410,7 @@ $desk: 1300px;
   }
 }
 .textarea {
-  margin: 0 1rem;
+  margin: 0 1rem 1rem;
   height: 7em;
   border-radius: 20px;
   @media screen and (min-width: $tablet) {
@@ -420,9 +420,11 @@ $desk: 1300px;
 .table__pie {
   margin: 2rem 1rem;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: flex-end;
-  @media screen and (min-width: $tablet) {
+  @media screen and (min-width: $cel) {
+    flex-direction: row;
     margin: 1rem 4.5rem 3rem auto;
   }
 }

@@ -70,7 +70,7 @@
 import ProductService from "@/services/ProductService.js";
 //import EventCard from "../components/EventCard";
 import ShoppingCar from "@/components-svg/ShoppingCar.vue";
-import { mapState, mapMutations } from "vuex";
+import { mapState, mapActions } from "vuex";
 export default {
   components: { ShoppingCar },
   data() {
@@ -84,7 +84,7 @@ export default {
     };
   },
   async created() {
-    await this.getProducto(false);
+    await this.getProductos();
   },
   computed: {
     //  ...mapState(["user"])
@@ -97,12 +97,12 @@ export default {
     })
   },
   methods: {
-    ...mapMutations(["getEventosAction"]),
-    async getProducto(reload) {
+    ...mapActions(["getProductosAction"]),
+    async getProductos(data) {
       try {
-        await this.$store.dispatch("getProductosAction", {
+        await this.getProductosAction({
           empresaId: this.empresaId,
-          reload
+          reload: data?.reload ?? false
         });
       } catch (error) {
         console.log("There was an error:", error.response); // Logs out the error
@@ -124,7 +124,7 @@ export default {
           this.descripcion
         );
         if (responEvent.status == 201) {
-          await this.getProducto(true);
+          await this.getProductos({ reload: true });
         }
       } finally {
         this.isLoadingRequest = false;

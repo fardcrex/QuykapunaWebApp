@@ -3,6 +3,7 @@ import Vuex from "vuex";
 import axios from "axios";
 import EventService from "@/services/EventService.js";
 import ProductService from "@/services/ProductService.js";
+import PedidoService from "@/services/PedidoService.js";
 /* eslint-disable */
 Vue.use(Vuex);
 
@@ -16,10 +17,12 @@ export default function getStore(authService) {
     state: {
       user: { tipoUsuarioId: -1 },
       empresa: null,
-      eventos: [],
-      productos: [],
       isEventosPageLoaded: false,
+      eventos: [],
       isProductosPageLoaded: false,
+      productos: [],
+      isPedidosPageLoaded: false,
+      pedidos: [],
       timeToken: new Date("2000-01-01T00:00:00.0000"),
     },
     mutations: {
@@ -53,6 +56,10 @@ export default function getStore(authService) {
       LOAD_PRODUCTS_DATA(state, productosData) {
         state.isProductosPageLoaded = true;
         state.productos = productosData;
+      },
+      LOAD_PEDIDOS_DATA(state, pedidosData) {
+        state.isPedidosPageLoaded = true;
+        state.pedidos = pedidosData;
       },
       LOGOUT(state) {
         // state.user = null
@@ -127,6 +134,19 @@ export default function getStore(authService) {
         } catch (error) {
           console.log(error); // Logs out the error
           throw "error";
+        }
+      },
+      async getPedidosAction({ commit, state }, data) {
+        try {
+          if (state.isPedidosPageLoaded && !data.reload) {
+            return;
+          }
+          const response = await PedidoService.mostrartPedido(data);
+          const pedidos = response.data.reverse();
+          commit("LOAD_PEDIDOS_DATA", pedidos);
+        } catch (error) {
+          console.log(error, "getPedidosAction");
+          throw "getPedidosAction";
         }
       },
     },

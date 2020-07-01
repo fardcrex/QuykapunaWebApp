@@ -13,6 +13,12 @@ import AllEventosClientPage from "../pages/cliente-pages/AllEventosClientPage.vu
 import EventClientPage from "../pages/cliente-pages/EventClientPage.vue";
 import RealizarPedidoPage from "../pages/cliente-pages/RealizarPedidoPage.vue";
 import PedidosPage from "../pages/cliente-pages/PedidosPage.vue";
+import DetallePedidoPage from "../pages/cliente-pages/DetallePedidoPage.vue";
+
+import CabezeraBody from "@/components/detalles-pedido-page/CabezeraBody.vue";
+import ListProductos from "@/components/detalles-pedido-page/ListProductos.vue";
+import QrImagen from "@/components/detalles-pedido-page/QrImagen.vue";
+import FooterBody from "@/components/detalles-pedido-page/FooterBody.vue";
 
 Vue.use(VueRouter);
 
@@ -59,28 +65,48 @@ const routes = [
     meta: { requiresAuth: true, isCliente: true },
   },
   {
-    path: "/pedidos",
+    path: "/Pedidos",
     name: "PedidosPage",
     component: PedidosPage,
     meta: { requiresAuth: true, isCliente: true },
   },
   {
-    path: "/pedidos/:idPedido/:idEstado",
-    name: "PedidosPageFound",
-    component: PedidosPage,
-    meta: { requiresAuth: true, isCliente: true },
-  },
-  {
-    path: "/evento/:idEvent",
+    path: "/Evento/:idEvent",
     name: "EventoClientePage",
     component: EventClientPage,
     meta: { requiresAuth: true, isCliente: true },
   },
   {
-    path: "/pedido/:idEvent",
+    path: "/Realizar-Pedido/:idEvent",
     name: "RealizarPedidoPage",
     component: RealizarPedidoPage,
     meta: { requiresAuth: true, isCliente: true },
+  },
+  {
+    path: "/detalle-pedido/:idPedido/:idEvent",
+    name: "DetallePedidoPage",
+    component: DetallePedidoPage,
+    redirect: "/detalle-pedido/:idPedido/:idEvent/lista-items",
+    meta: { requiresAuth: true, isCliente: true },
+    children: [
+      {
+        path: "lista-items",
+        components: {
+          default: ListProductos,
+          cabezera: CabezeraBody,
+          footer: FooterBody,
+        },
+
+        name: "ListOfItems",
+      },
+      {
+        path: "codigo-Qr",
+        component: CabezeraBody,
+        components: { default: QrImagen, cabezera: CabezeraBody },
+        name: "CodigoQR",
+        props: { cabezera: { isVistaQr: true } },
+      },
+    ],
   },
   {
     path: "/entrar",
@@ -110,6 +136,8 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes,
   scrollBehavior(to, from, savedPosition) {
+    if (to.name === "ListOfItems" || to.name === "CodigoQR")
+      return savedPosition;
     if (savedPosition) {
       return savedPosition;
     } else {

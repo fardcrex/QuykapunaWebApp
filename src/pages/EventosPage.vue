@@ -29,8 +29,8 @@
 
       <select
         class="child condominio_style"
-        name="cars"
-        id="cars"
+        name="Condominios"
+        id="Condominios"
         placeholder=""
         v-model="adminIdCondominio"
       >
@@ -123,10 +123,10 @@ export default {
   computed: {
     //  ...mapState(["user"])
     ...mapState({
-      usuarioId: state => state.user.usuarioId,
-      administradorId: state => state.empresa.administradorId,
-      empresaId: state => state.empresa.empresaId,
       eventos: state => state.eventos,
+      usuarioId: state => state.user.usuarioId,
+      empresaId: state => state.empresa.empresaId,
+      administradorId: state => state.empresa.administradorId,
       isEventosPageLoaded: state => state.isEventosPageLoaded
     })
   },
@@ -170,7 +170,8 @@ export default {
         console.log(responEvent);
 
         if (responEvent.status == 201) {
-          this.$store.dispatch("getEventosAction");
+          await this.$store.dispatch("getEventosAction");
+          this.isLoadingRequest = false;
         }
       } finally {
         this.clearForm();

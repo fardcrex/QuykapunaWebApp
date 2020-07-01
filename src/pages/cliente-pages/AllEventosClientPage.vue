@@ -34,8 +34,10 @@ export default {
       isEventosPageLoaded: state => state.isEventosPageLoaded
     })
   },
-  created() {
-    this.getEventosByIdUserAction();
+  async created() {
+    if (!this.isEventosPageLoaded) this.isLoadingList = true;
+    await this.getEventosByIdUserAction();
+    this.isLoadingList = false;
   },
   methods: {
     ...mapActions(["getEventosByIdUserAction"])
@@ -66,7 +68,7 @@ $desk: 1300px;
   row-gap: 1.5rem;
   column-gap: 1.5rem;
   width: 80%;
-  grid-template-columns: repeat(1, minmax(300px, 1fr));
+  grid-template-columns: repeat(1, minmax(auto, 1fr));
 
   @media screen and (min-width: $tablet) {
     grid-column: 1/3;
@@ -87,5 +89,10 @@ $desk: 1300px;
   max-width: 1024px;
   margin: auto;
   grid-template-columns: 100%;
+}
+.preloader {
+  margin-top: 10em;
+  width: 60px;
+  height: 60px;
 }
 </style>
