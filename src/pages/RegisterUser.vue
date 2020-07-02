@@ -8,7 +8,7 @@
       class="container__body"
     >
       <TittleLogo class="logo"></TittleLogo>
-      <div></div>
+
       <template v-if="estadoForm===1">
         <input
           placeholder="Dni"
@@ -113,8 +113,12 @@
       </div>
       <p class="error">{{errors}}</p>
       <p class="mensaje">{{mensaje}}</p>
+      <router-link
+        to="/entrar"
+        class="link"
+      >login</router-link>
     </form>
-    <router-link to="/entrar">login</router-link>
+
   </div>
 </template>
 
@@ -215,19 +219,25 @@ form {
   justify-items: center;
   height: 75vh;
   display: grid;
-  width: 60%;
+  width: 75%;
   max-width: 1000px;
   margin: auto;
-  grid-template-rows: auto 3vh auto auto 2fr 1fr 3fr;
+  grid-template-rows: 140px auto auto auto 1fr;
+  @media screen and (min-width: $cel) {
+    width: 60%;
+    grid-template-rows: auto auto auto auto 1fr;
+  }
 }
 .input {
-  padding: 1.6em 2em;
+  padding: 1.6em 1.8em;
+  @media screen and (min-width: $tablet) {
+    padding: 1.6em 2em;
+  }
 }
 .child {
   display: block;
   margin: 0.6em 0;
   height: 3em;
-  width: 250px;
 }
 .btn {
   margin-top: 1.5em;
@@ -235,8 +245,10 @@ form {
 }
 .logo {
   margin: 0 auto;
-  width: 75%;
+  width: 85%;
+  height: 140px;
   @media screen and (min-width: $tablet) {
+    height: 150px;
     width: 45%;
   }
   @media screen and (min-width: $laptop) {
@@ -323,12 +335,19 @@ $color-white: #fff;
 }
 .condominio_style {
   height: 50px;
-  width: 250px;
+  width: 225px;
   color: rgba(85, 85, 85, 0.863);
+  @media screen and (min-width: $tablet) {
+    width: 225px;
+  }
 }
 .preloader {
   margin-top: 1.6em;
   width: 60px;
   height: 60px;
+}
+.link {
+  display: block;
+  margin: 1.5em 0;
 }
 </style>

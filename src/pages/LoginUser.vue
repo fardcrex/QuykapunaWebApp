@@ -7,7 +7,7 @@
       class="container__body"
     >
       <TittleLogo class="logo"></TittleLogo>
-      <div></div>
+
       <input
         placeholder="Correo"
         class="child input"
@@ -37,8 +37,12 @@
         class="preloader"
       ></div>
       <p>{{ error }}</p>
+      <router-link
+        to="/registro"
+        class="link"
+      >Registrarse</router-link>
     </form>
-    <router-link to="/registro">Registrarse</router-link>
+
   </div>
 </template>
 
@@ -92,15 +96,23 @@ form {
 }
 .container__body {
   justify-items: center;
+
   height: 75vh;
   display: grid;
-  width: 60%;
+  width: 70%;
   max-width: 1000px;
   margin: auto;
-  grid-template-rows: auto 3vh auto auto 2fr 1fr 3fr;
+  grid-template-rows: 140px auto auto auto 1fr;
+  @media screen and (min-width: $cel) {
+    width: 60%;
+    grid-template-rows: auto auto auto auto 1fr;
+  }
 }
 .input {
-  padding: 1.6em 2em;
+  padding: 1.6em 1.8em;
+  @media screen and (min-width: $tablet) {
+    padding: 1.6em 2em;
+  }
 }
 .child {
   display: block;
@@ -113,8 +125,10 @@ form {
 }
 .logo {
   margin: 0 auto;
-  width: 75%;
+  width: 85%;
+  height: 140px;
   @media screen and (min-width: $tablet) {
+    height: 150px;
     width: 45%;
   }
   @media screen and (min-width: $laptop) {
@@ -128,5 +142,9 @@ p {
   margin-top: 1.6em;
   width: 60px;
   height: 60px;
+}
+.link {
+  display: block;
+  margin: 1.5em 0;
 }
 </style>
