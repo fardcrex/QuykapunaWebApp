@@ -1,6 +1,5 @@
 <template>
   <div class="container">
-
     <img
       class="imagen"
       :src="imagenQr"
@@ -32,7 +31,7 @@ export default {
       strData += `|${producto.productoNombre}|${producto.cantidad}|${producto.productoCosto}`;
     }
     console.log(strData);
-    QRCode.toDataURL(strData, { errorCorrectionLevel: "M" })
+    QRCode.toDataURL(strData, { errorCorrectionLevel: "Q" })
       .then(url => {
         this.imagenQr = url;
       })
@@ -44,6 +43,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+$cel: 540px;
+$tablet: 814px;
+$laptop: 1025px;
+$desk: 1300px;
 .container {
   display: flex;
   justify-content: center;
@@ -52,11 +55,16 @@ export default {
 }
 .imagen {
   display: block;
-  width: 100%;
-}
-.preloader {
-  margin: 10em auto;
-  width: 70px;
-  height: 70px;
+  width: 90%;
+  @media screen and (min-width: $cel) {
+    width: 65%;
+  }
+  @media screen and (min-width: $tablet) {
+    margin: auto;
+    width: 55%;
+  }
+  @media screen and (min-width: $laptop) {
+    width: 50%;
+  }
 }
 </style>

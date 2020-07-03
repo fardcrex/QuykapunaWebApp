@@ -63,7 +63,6 @@ $laptop: 1025px;
 .neumorphic-card {
   display: grid;
   flex-direction: row;
-  justify-content: start;
   align-items: center;
   background-color: #f9f9f9;
   padding: 10px 15px 10px 15px;
@@ -72,13 +71,13 @@ $laptop: 1025px;
     0px 0px 4px rgba(255, 255, 255, 0.2) !important;
   border-radius: 20px;
   grid-template-columns: auto minmax(auto, 150px) auto;
-  justify-content: space-between;
+
   width: 90%;
   @media screen and (min-width: $cel) {
     grid-template-columns:
-      minmax(auto, 75px) minmax(auto, 150px) minmax(180px, 1fr)
+      minmax(auto, 75px) minmax(auto, 150px) minmax(auto, 250px)
       auto;
-    width: 100%;
+    width: auto;
   }
   @media screen and (min-width: $tablet) {
     width: 100%;

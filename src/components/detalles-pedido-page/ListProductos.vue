@@ -1,5 +1,5 @@
 <template>
-  <div class="eventList">
+  <div class="productList">
 
     <div
       class="rowCardProduct"
@@ -40,24 +40,23 @@ $tablet: 814px;
 $laptop: 1025px;
 $desk: 1300px;
 .productList {
-  grid-column: 1/2;
   display: grid;
+  row-gap: 1rem;
+  width: auto;
+  grid-template-columns: 100%;
+  grid-template-rows: auto;
 
-  row-gap: 15px;
-  // width: max-content;
-  justify-content: center;
-  grid-template-columns: 95%;
   @media screen and (min-width: $tablet) {
     padding: 0 1rem;
     justify-items: stretch;
-    width: 100%;
+
     grid-column: 1/3;
   }
 }
 .rowCardProduct {
   display: flex;
   align-items: flex-end;
-
+  margin: 0 1em;
   flex-direction: column;
   @media screen and (min-width: $tablet) {
     align-items: center;
@@ -92,13 +91,6 @@ $desk: 1300px;
   min-width: 5rem;
   @media screen and (min-width: $tablet) {
     margin-left: 1rem;
-  }
-}
-
-.cantidad__text {
-  padding: 0 0.5rem;
-  @media screen and (min-width: $tablet) {
-    display: none;
   }
 }
 </style>

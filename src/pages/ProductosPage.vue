@@ -16,13 +16,7 @@
         v-model="descripcion"
         value
       />
-      <input
-        placeholder="Imagen Url"
-        class="child input"
-        v-model="imagen"
-        type="text"
-        value
-      />
+      <input class="child " type="file" @change="previewImage" accept="image/*" >
       <input
         placeholder="Costo"
         class="child input input-costo"
@@ -36,7 +30,7 @@
         class="red child btn"
         type="submit"
         name="button"
-        v-on:click="createProducto"
+        v-on:click="onUpload"
       >Crear Producto</button>
       <div
         v-else
@@ -68,19 +62,23 @@
 
 <script>
 import ProductService from "@/services/ProductService.js";
-//import EventCard from "../components/EventCard";
 import ShoppingCar from "@/components-svg/ShoppingCar.vue";
+import firebase from "firebase";
 import { mapState, mapActions } from "vuex";
 export default {
   components: { ShoppingCar },
   data() {
     return {
+      //Loader para el formulario
       isLoadingRequest: false,
+      //Loader de la lista de productos
       isLoadingList: true,
       name: "",
       descripcion: "",
-      costo: null,
-      imagen: null
+      imageData: null,
+      picture: null,
+      uploadValue: 0,
+      costo: null
     };
   },
   async created() {
@@ -92,12 +90,43 @@ export default {
       usuarioId: state => state.user.usuarioId,
       administradorId: state => state.empresa.administradorId,
       empresaId: state => state.empresa.empresaId,
+      empresaRuc: state => state.empresa.empresaRuc,
       productos: state => state.productos,
       isProductosPageLoaded: state => state.isProductosPageLoaded
     })
   },
   methods: {
     ...mapActions(["getProductosAction"]),
+    previewImage(event) {
+      this.uploadValue = 0;
+      this.picture = null;
+      this.imageData = event.target.files[0];
+    },
+    onUpload() {
+      this.isLoadingRequest = true;
+      this.picture = null;
+      const storageRef = firebase
+        .storage()
+        .ref(`${this.empresaRuc}/${this.imageData.name}`)
+        .put(this.imageData);
+      storageRef.on(
+        `state_changed`,
+        snapshot => {
+          this.uploadValue =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        },
+        error => {
+          console.log(error.message);
+        },
+        () => {
+          this.uploadValue = 100;
+          storageRef.snapshot.ref.getDownloadURL().then(url => {
+            this.picture = url;
+            this.createProducto();
+          });
+        }
+      );
+    },
     async getProductos(data) {
       try {
         await this.getProductosAction({
@@ -111,7 +140,6 @@ export default {
       }
     },
     async createProducto() {
-      this.isLoadingRequest = true;
       if (!this.empresaId) {
         return;
       }
@@ -119,7 +147,7 @@ export default {
         let responEvent = await ProductService.postCrearProducto(
           this.empresaId,
           this.costo,
-          this.imagen,
+          this.picture,
           this.name,
           this.descripcion
         );

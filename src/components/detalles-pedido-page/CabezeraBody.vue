@@ -1,5 +1,6 @@
 <template>
   <div class="container_title">
+
     <button
       class="red btn"
       type="submit"
@@ -7,7 +8,9 @@
       v-on:click="goTheOtherPage"
     >{{getTextButton}}</button>
     <h2 class="title2">{{getTitle}}</h2>
+    <div class="empthy_container">
 
+    </div>
   </div>
 </template>
 
@@ -40,8 +43,42 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+$cel: 540px;
+$tablet: 814px;
+$laptop: 1025px;
+$desk: 1300px;
 .btn {
-  margin: 1em auto 0;
-  background-color: #fff9f5;
+  margin: 1.5em auto 1em;
+  background-color: #f9f9f9;
+  @media screen and (min-width: $tablet) {
+    margin: 1em 0 2em;
+    flex-direction: row-reverse;
+    align-items: center;
+  }
+}
+.container_title {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1em;
+  @media screen and (min-width: $tablet) {
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+.title2 {
+  align-self: center;
+  grid-row: 3/4;
+  grid-column: 1/2;
+  @media screen and (min-width: $tablet) {
+    grid-row: 2/3;
+    grid-column: 1/3;
+    width: 90%;
+  }
+  @media screen and (min-width: $laptop) {
+  }
+}
+.empthy_container {
+  width: 170px;
 }
 </style>

@@ -49,9 +49,9 @@ export default {
 }
 .neumorphic-image {
   border-radius: 10px;
-  min-height: 180px;
+  min-height: 8rem;
   height: auto;
-  max-height: 35vh;
+  max-height: 10rem;
   display: block;
   width: 100%;
 }
@@ -65,7 +65,7 @@ export default {
     -5px -4px 10px rgba(255, 255, 255, 0.98),
     0px 0px 4px rgba(255, 255, 255, 0.2) !important;
   border-radius: 20px;
-  height: minmax(300px, auto);
+  height: minmax(280px, auto);
   width: auto;
 }
 

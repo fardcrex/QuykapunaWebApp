@@ -111,10 +111,11 @@ export default {
   },
   methods: {
     goTheEvent() {
-      this.$router.push({
-        name: this.route,
-        params: { idEvent: this.event.eventoId }
-      });
+      if (this.isPointer)
+        this.$router.push({
+          name: this.route,
+          params: { idEvent: this.event.eventoId }
+        });
     }
   },
   name: "BaseCardEvent"

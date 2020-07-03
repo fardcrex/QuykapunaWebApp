@@ -6,7 +6,22 @@ import axios from "axios";
 import AuthService from "@/services/AuthService.js";
 import upperFirst from "lodash/upperFirst";
 import camelCase from "lodash/camelCase";
+import firebase from "firebase";
 
+// Your web app's Firebase configuration
+var firebaseConfig = {
+  apiKey: "AIzaSyBOqk-3vA7jF2JgD9MWZTohkGo2mt4JKLI",
+  authDomain: "delypuerta.firebaseapp.com",
+  databaseURL: "https://delypuerta.firebaseio.com",
+  projectId: "delypuerta",
+  storageBucket: "delypuerta.appspot.com",
+  messagingSenderId: "252011148220",
+  appId: "1:252011148220:web:622a98ee13efe8cc24b1b9",
+  measurementId: "G-QJLRBH74V3",
+};
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+firebase.analytics();
 Vue.config.productionTip = false;
 const requireComponent = require.context(
   // La ruta relativa de la carpeta de componentes

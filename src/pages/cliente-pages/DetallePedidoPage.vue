@@ -14,14 +14,23 @@
     v-else
     class="container"
   >
-    <div class="detallesPedidoData">
+    <div class="eventoStyle">
+      <BaseCardEvent :event="evento"></BaseCardEvent>
+
       <!--   Estado del pedido: <span v-bind:style="getColorStyle">{{stateEventName}}</span> -->
+    </div>
+    <div class="detallesEmpresa">
+      <p>Ruc empresa: <span class="style_empresa"> {{evento.empresaRuc}}</span></p>
+      <p>Razón Social: <span class="style_empresa"> {{evento.empresaRazonSocial}}</span></p>
     </div>
     <div class="title2">
       <router-view name="cabezera"></router-view>
     </div>
     <template v-if="!isLoadingList">
-      <router-view :productos="productos"></router-view>
+      <router-view
+        :productos="productos"
+        class="body_container"
+      ></router-view>
       <router-view
         :precioTotal="precioTotal"
         name="footer"
@@ -38,11 +47,9 @@
 <script>
 import PedidoService from "@/services/PedidoService.js";
 import NotFoundSvg from "@/components-svg/NotFoundSvg.vue";
-import { mapState } from "vuex";
 export default {
   components: { NotFoundSvg },
   computed: {
-    ...mapState(["eventos"]),
     isBlocked() {
       if (this.adminIdState == 0) return true;
       return false;
@@ -54,15 +61,7 @@ export default {
       });
       return Math.round(precioSum * 100) / 100;
     },
-    stateEventName() {
-      const estadoEvento = this.estados[this.evento.estadoEventoId - 1];
-      if (estadoEvento) {
-        return estadoEvento.estadoEventoNombre;
-      }
-      // return "";
-      return "Sin definir";
-    },
-    getColorStyle() {
+    getColorPedidoStyle() {
       let colores = {
         "Por Recoger": "#4BA2F2",
         Entregado: "#FFA134",
@@ -74,12 +73,8 @@ export default {
   },
   data() {
     return {
-      evento: {
-        eventoNombre: "cargando",
-        eventoDescripcion: "cargando",
-        estadoEventoId: "cargando"
-      },
-      loading: false,
+      evento: {},
+      loading: true,
       productos: [],
       isLoadingList: true,
       notFound: false,
@@ -105,6 +100,40 @@ export default {
           estadoPedidoId: 4,
           estadoPedidoNombre: "Pagado",
           estadoPedidoDescripcion: "Pagado"
+        }
+      ],
+      estados: [
+        {
+          estadoEventoId: 1,
+          estadoEventoNombre: "Propuesto"
+        },
+        {
+          estadoEventoId: 2,
+          estadoEventoNombre: "Aceptado"
+        },
+        {
+          estadoEventoId: 3,
+          estadoEventoNombre: "Publicado"
+        },
+        {
+          estadoEventoId: 4,
+          estadoEventoNombre: "Definitivo"
+        },
+        {
+          estadoEventoId: 5,
+          estadoEventoNombre: "En salida"
+        },
+        {
+          estadoEventoId: 6,
+          estadoEventoNombre: "Iniciado"
+        },
+        {
+          estadoEventoId: 7,
+          estadoEventoNombre: "Terminado"
+        },
+        {
+          estadoEventoId: 8,
+          estadoEventoNombre: "Cancelado"
         }
       ]
     };
@@ -138,8 +167,24 @@ export default {
 
     this.loading = false;
     */
-    await this.getProductos();
-    this.isLoadingList = false;
+    try {
+      this.getProductos().then(() => {
+        this.isLoadingList = false;
+      });
+      const respuesta = await PedidoService.getEmpresaByEventoId(
+        this.$route.params.idEvent
+      );
+      if (respuesta.data[0]) {
+        this.evento = respuesta.data[0];
+        this.loading = false;
+      } else {
+        this.notFound = true;
+        this.loading = false;
+        return;
+      }
+    } catch (error) {
+      console.log(error);
+    }
   },
   methods: {
     async getProductos() {
@@ -206,15 +251,24 @@ $desk: 1300px;
     grid-template-columns: 1fr 1fr;
   }
 }
-.title2 {
-  margin-top: 3vh;
-  align-self: center;
+
+.detallesEmpresa {
   grid-row: 2/3;
+  @media screen and (min-width: $tablet) {
+    align-self: center;
+    grid-row: 1/2;
+    grid-column: 2/3;
+    width: 90%;
+  }
+}
+.title2 {
+  align-self: center;
+  grid-row: 3/4;
   grid-column: 1/2;
   @media screen and (min-width: $tablet) {
     grid-row: 2/3;
     grid-column: 1/3;
-    width: 90%;
+    width: 85%;
   }
   @media screen and (min-width: $laptop) {
   }
@@ -223,21 +277,32 @@ $desk: 1300px;
   margin: 1rem auto 1rem;
   width: 80%;
   @media screen and (min-width: $cel) {
-    margin: 2rem auto 1rem;
-    width: 65%;
+    margin: 2rem auto 2rem;
+    width: 50%;
   }
   @media screen and (min-width: $tablet) {
-    margin: auto;
     width: 65%;
   }
   @media screen and (min-width: $laptop) {
-    margin: auto;
     width: 80%;
   }
 }
-.state_info {
-  font-size: 1.5rem;
-  margin: 1rem auto 0.6rem;
+.table__pie {
+  margin: 2rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  @media screen and (min-width: $tablet) {
+    grid-column: 1/3;
+    margin: 1rem 4.5rem 0 auto;
+  }
+}
+.body_container {
+  grid-column: 1/2;
+  @media screen and (min-width: $tablet) {
+    width: 95%;
+    grid-column: 1/3;
+  }
 }
 .btn_svg {
   width: 70%;
@@ -249,7 +314,9 @@ $desk: 1300px;
 .btn {
   margin: 1em auto 0;
 }
-
+.style_empresa {
+  font-weight: 600;
+}
 .preloader {
   margin: 10em auto;
   width: 70px;
@@ -263,15 +330,6 @@ $desk: 1300px;
   @media screen and (min-width: $tablet) {
     margin: 4em auto 4em;
     grid-column: 1/3;
-  }
-}
-.table__pie {
-  margin: 2rem 1rem;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  @media screen and (min-width: $tablet) {
-    margin: 1rem 4.5rem 3rem auto;
   }
 }
 </style>
