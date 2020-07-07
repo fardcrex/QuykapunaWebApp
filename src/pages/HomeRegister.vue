@@ -17,12 +17,12 @@
       >
         <div class="botones">
           <button
-            class="red btn"
+            class="primary btn"
             type="button"
             v-on:click="goToPageLogin"
           >Cliente</button>
           <button
-            class="red btn btn__2"
+            class="primary btn btn__2"
             type="button"
             v-on:click="goToPageRegiste"
           >Proveedor</button>
@@ -56,10 +56,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-:root {
-  --value: 40%;
-  --back-color: #ebecf0;
-}
 .container__body {
   justify-items: center;
   height: 90vh;

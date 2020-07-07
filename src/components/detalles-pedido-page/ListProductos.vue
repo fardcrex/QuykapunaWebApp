@@ -32,13 +32,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-$greyLight-2: #c8d0e7;
-$color-primary: #ff6531;
-$color-bg: #f9f9f9;
-$cel: 540px;
-$tablet: 814px;
-$laptop: 1025px;
-$desk: 1300px;
+@import "@/assets/styles/global.scss";
+
 .productList {
   display: grid;
   row-gap: 1rem;
@@ -46,7 +41,7 @@ $desk: 1300px;
   grid-template-columns: 100%;
   grid-template-rows: auto;
 
-  @media screen and (min-width: $tablet) {
+  @media screen and (min-width: $notebook) {
     padding: 0 1rem;
     justify-items: stretch;
 
@@ -58,7 +53,7 @@ $desk: 1300px;
   align-items: flex-end;
   margin: 0 1em;
   flex-direction: column;
-  @media screen and (min-width: $tablet) {
+  @media screen and (min-width: $notebook) {
     align-items: center;
     justify-content: space-between;
     flex-direction: row;
@@ -71,7 +66,7 @@ $desk: 1300px;
 
   align-items: center;
   justify-content: flex-end;
-  @media screen and (min-width: $tablet) {
+  @media screen and (min-width: $notebook) {
     margin-left: 1rem;
   }
 }
@@ -79,7 +74,7 @@ $desk: 1300px;
 .cantidad__value {
   min-width: 20px;
   padding: 0 0.5rem;
-  @media screen and (min-width: $tablet) {
+  @media screen and (min-width: $notebook) {
     padding: 0 1rem;
   }
 }
@@ -89,7 +84,7 @@ $desk: 1300px;
   display: inline;
   font-weight: 500;
   min-width: 5rem;
-  @media screen and (min-width: $tablet) {
+  @media screen and (min-width: $notebook) {
     margin-left: 1rem;
   }
 }

@@ -22,7 +22,7 @@
           class="cardproduct"
         ></BaseCardProduct>
         <button
-          class="red child btn btn__add"
+          class="primary child btn btn__add"
           type="submit"
           name="button"
           v-on:click="agregarProducto(producto)"
@@ -105,11 +105,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-$cel: 540px;
-$tablet: 814px;
-$laptop: 1025px;
-$desk: 1300px;
-
+@import "@/assets/styles/global.scss";
 .container {
   justify-items: center;
 
@@ -119,7 +115,7 @@ $desk: 1300px;
   margin: auto;
   grid-template-columns: 100%;
   grid-template-rows: 2vh 10vh auto 10vh;
-  @media screen and (min-width: $tablet) {
+  @media screen and (min-width: $notebook) {
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 3vh 8vh 8vh auto 10vh;
   }
@@ -132,7 +128,7 @@ $desk: 1300px;
   align-self: center;
   grid-column: 1/2;
   grid-row: 3;
-  @media screen and (min-width: $tablet) {
+  @media screen and (min-width: $notebook) {
     grid-column: 1/3;
   }
 }
@@ -140,7 +136,7 @@ $desk: 1300px;
   align-self: center;
   grid-row: 2;
   grid-column: 1/2;
-  @media screen and (min-width: $tablet) {
+  @media screen and (min-width: $notebook) {
     grid-column: 1/3;
     width: 90%;
   }
@@ -157,12 +153,12 @@ $desk: 1300px;
   column-gap: 1.5rem;
   width: 85%;
   grid-template-columns: repeat(auto-fit, minmax(auto, 1fr));
-  @media screen and (min-width: $cel) {
+  @media screen and (min-width: $tablet) {
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     width: 85%;
   }
 
-  @media screen and (min-width: $tablet) {
+  @media screen and (min-width: $notebook) {
     row-gap: 3.5rem;
     grid-column: 1/3;
     width: 95%;
@@ -206,7 +202,7 @@ $desk: 1300px;
   height: 80px;
   grid-column: 1/2;
   grid-row: 4;
-  @media screen and (min-width: $tablet) {
+  @media screen and (min-width: $notebook) {
     grid-column: 1/3;
   }
 }

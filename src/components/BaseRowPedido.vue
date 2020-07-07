@@ -17,7 +17,7 @@
 </template>
 
 <script>
-/* import EventService from "@/services/EventService.js"; */
+import { getFormatTime, getFormatFecha } from "@/helpers/timeHelper.js";
 export default {
   props: {
     pedido: {
@@ -34,21 +34,10 @@ export default {
   },
   computed: {
     fechaLocal() {
-      if (this.pedido.pedidoFecha) {
-        let date = new Date(this.pedido.pedidoFecha);
-        return `${date.getDate()}/${date.getMonth() +
-          1}/${date.getFullYear()}, `;
-      } else {
-        return "0/0/0";
-      }
+      return getFormatFecha(this.pedido.pedidoFecha);
     },
     getHora() {
-      if (this.pedido.pedidoFecha) {
-        let date = new Date(this.pedido.pedidoFecha);
-        return `${date.toLocaleTimeString()}`;
-      } else {
-        return "00:00";
-      }
+      return getFormatTime(this.pedido.pedidoFecha);
     },
     getDescripcionText() {
       if (this.pedido.pedidoDescripcion) {
@@ -81,13 +70,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-:root {
-  --value: 40%;
-  --back-color: #dd2222;
-}
-$cel: 540px;
-$tablet: 814px;
-$laptop: 1025px;
+@import "@/assets/styles/global.scss";
+
 .pointer {
   cursor: pointer;
 }
@@ -95,21 +79,19 @@ $laptop: 1025px;
   display: grid;
   flex-direction: row;
   align-items: center;
-  background-color: #f9f9f9;
+  background-color: $color-card;
   padding: 10px 15px 10px 15px;
-  box-shadow: 4px 4px 5px rgba(55, 84, 170, 0.15),
-    -5px -4px 10px rgba(255, 255, 255, 0.98),
-    0px 0px 4px rgba(255, 255, 255, 0.2) !important;
+  box-shadow: $shadow-neumorphic;
   border-radius: 20px;
   grid-template-columns: auto minmax(auto, 150px) auto;
   justify-content: space-around;
-  width: 90%;
-  @media screen and (min-width: $cel) {
+  width: 100%;
+  @media screen and (min-width: $tablet) {
     grid-template-columns:
       minmax(auto, 50px)
       1fr 1.5fr minmax(auto, 150px);
   }
-  @media screen and (min-width: $tablet) {
+  @media screen and (min-width: $notebook) {
     width: 100%;
     grid-template-columns:
       minmax(auto, 50px)
@@ -119,29 +101,31 @@ $laptop: 1025px;
 
 .neumorphic-card__title {
   display: block;
-  color: #555f76;
-  font-size: 22px;
+  color: $color-font-row-title;
   padding: 0 0 0 1rem;
   text-align: start;
+  p {
+    font-size: $font-title-row;
+  }
 }
 .neumorphic-card__text {
   display: none;
   padding: 0 1em;
-  font-size: 15px;
+  font-size: $font-text;
   text-align: start;
-  color: #8d96a8;
-  @media screen and (min-width: $cel) {
+  color: $color-font-text;
+  @media screen and (min-width: $tablet) {
     display: block;
   }
 }
 .neumorphic-card__fecha {
   display: grid;
-  font-size: 12px;
+  font-size: $font-fecha * 0.85;
   text-align: start;
-  color: #8d96a8;
-  @media screen and (min-width: $cel) {
+  color: $color-font-fecha;
+  @media screen and (min-width: $tablet) {
     display: block;
-    font-size: 15px;
+    font-size: $font-fecha;
   }
 }
 </style>

@@ -58,10 +58,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-$cel: 540px;
-$tablet: 814px;
-$laptop: 1025px;
-$desk: 1300px;
+@import "@/assets/styles/global.scss";
 
 #nav {
   display: flex;
@@ -71,10 +68,10 @@ $desk: 1300px;
   margin: auto;
   padding: 0.2em 0.6em;
 
-  @media screen and (min-width: $cel) {
+  @media screen and (min-width: $tablet) {
   }
 
-  @media screen and (min-width: $tablet) {
+  @media screen and (min-width: $notebook) {
     padding: 0.2em 10%;
   }
   @media screen and (min-width: $laptop) {
@@ -82,15 +79,13 @@ $desk: 1300px;
   }
 }
 .shadow {
-  background: #f9f9f9;
-  box-shadow: 4px 4px 5px rgba(55, 84, 170, 0.15),
-    -5px -4px 10px rgba(255, 255, 255, 0.98),
-    0px 0px 4px rgba(255, 255, 255, 0.2) !important;
+  background: $color-card;
+  box-shadow: $shadow-neumorphic;
 }
 .nav-welcome {
   margin-left: auto;
   margin-right: 1rem;
-  color: white;
+  color: $color-white;
 }
 
 a {
@@ -103,15 +98,15 @@ a {
 }
 
 .router-link-exact-active {
-  color: #ff6531;
-  border-bottom: 2px solid #f9f8f8;
+  color: $color-primary;
+  border-bottom: 2px solid $color-card-outer;
 }
 
 button,
 .button {
   margin-left: auto;
-  background: #f9f8f8;
-  box-shadow: 2px 2px 4px #d6d6d4, -4px -4px 8px #ffffff;
+  background: $color-card-outer;
+  box-shadow: 2px 2px 4px $color-shadow, -4px -4px 8px $color-white;
   text-decoration: none;
   color: #2c3e50;
   padding: 0.8em 1.5em;

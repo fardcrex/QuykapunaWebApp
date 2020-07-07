@@ -19,6 +19,7 @@
 </template>
 
 <script>
+import { getFormatTime, getFormatFecha } from "@/helpers/timeHelper.js";
 export default {
   props: {
     event: {
@@ -91,15 +92,14 @@ export default {
       };
       return { color: colores[this.stateEventName] };
     },
+
     fechaLocal() {
-      if (this.event.eventoFecha) {
-        let date = new Date(this.event.eventoFecha);
-        return `${date.getDate()}/${date.getMonth() +
-          1}/${date.getFullYear()}, ${date.toLocaleTimeString()}`;
-      } else {
-        return "0/0/0 00:00";
-      }
+      return (
+        getFormatFecha(this.event.eventoFecha) +
+        getFormatTime(this.event.eventoFecha)
+      );
     },
+
     stateEventName() {
       const estadoEvento = this.estados[this.event.estadoEventoId - 1];
       if (estadoEvento) {
@@ -123,10 +123,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-:root {
-  --value: 40%;
-  --back-color: #dd2222;
-}
+@import "@/assets/styles/global.scss";
 .pointer {
   cursor: pointer;
 }
@@ -134,19 +131,17 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  background-color: #f9f9f9;
+  background-color: $color-card;
   padding: 35px 40px 20px 40px;
-  box-shadow: 4px 4px 5px rgba(55, 84, 170, 0.15),
-    -5px -4px 10px rgba(255, 255, 255, 0.98),
-    0px 0px 4px rgba(255, 255, 255, 0.2) !important;
+  box-shadow: $shadow-neumorphic;
   border-radius: 20px;
   width: auto;
 }
 
 .neumorphic-card__title {
   display: block;
-  color: #ff6531;
-  font-size: 22px;
+  color: $color-primary;
+  font-size: $font-title-card;
   padding: 0 0 10px;
   text-align: start;
 }
@@ -155,22 +150,22 @@ export default {
   display: block;
   padding: 0 0 10px;
   text-align: start;
-  color: #8d96a8;
+  color: $color-font-text;
+  font-size: $font-text;
   min-height: 10vh;
 }
 
-p {
-  font-size: 1em;
-  text-align: end;
-  margin: 0;
-
-  color: #8d96a8;
-}
 .neumorphic-card__fecha {
   display: block;
   padding: 0.5em 0 0 0;
   text-align: end;
-  font-size: 1em;
-  color: #8d96a8;
+  font-size: $font-fecha;
+  color: $color-font-fecha;
+}
+p {
+  font-size: $font-text;
+  text-align: end;
+  margin: 0;
+  color: $color-font-text;
 }
 </style>

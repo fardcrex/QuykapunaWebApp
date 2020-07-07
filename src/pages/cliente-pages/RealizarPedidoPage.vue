@@ -75,7 +75,7 @@
     <div v-if="requestCompleted">
       <h2>Su pedido ha sido realizado</h2>
       <button
-        class="red btn"
+        class="primary btn"
         type="submit"
         name="button"
         v-on:click="goToTheDetallesPedidos"
@@ -236,18 +236,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-$greyLight-2: #c8d0e7;
-$color-primary: #ff6531;
-$color-bg: #f9f9f9;
-$color-shadow: #e3e5e9;
-$color-white: #fff;
-$shadow: 0.3rem 0.3rem 0.6rem $color-shadow, -0.5rem -0.5rem 1rem $color-white;
-$inner-shadow: inset 0.2rem 0.2rem 0.5rem $color-shadow,
-  inset -0.2rem -0.2rem 0.5rem $color-white;
-$cel: 540px;
-$tablet: 814px;
-$laptop: 1025px;
-$desk: 1300px;
+@import "@/assets/styles/global.scss";
+
 .container__not_found {
   display: grid;
   width: 90%;
@@ -277,11 +267,11 @@ $desk: 1300px;
   margin: 2em 2em 0;
 
   width: 80%;
-  @media screen and (min-width: $cel) {
+  @media screen and (min-width: $tablet) {
     margin: 2em 5em 0;
     width: 65%;
   }
-  @media screen and (min-width: $tablet) {
+  @media screen and (min-width: $notebook) {
     margin: 2em 3em;
     width: 65%;
   }
@@ -294,15 +284,16 @@ $desk: 1300px;
 .btn_svg {
   width: 70%;
   margin: 1em auto;
-  @media screen and (min-width: $tablet) {
+  @media screen and (min-width: $notebook) {
     margin: auto;
   }
 }
 .btn {
+  color: $color-primary;
   margin: 1em auto 0;
 }
 .btn__isBlocked {
-  color: $greyLight-2;
+  color: $color-desactive-btn;
 }
 .eventList {
   grid-column: 1/2;
@@ -312,12 +303,12 @@ $desk: 1300px;
   // width: max-content;
   justify-content: center;
   grid-template-columns: 95%;
-  @media screen and (min-width: $tablet) {
+  @media screen and (min-width: $notebook) {
     padding: 0 1rem;
     justify-items: stretch;
     width: 100%;
   }
-  /*  @media screen and (min-width: $cel) {
+  /*  @media screen and (min-width: $tablet) {
   }
   @media screen and (min-width: $laptop) {
     width: 100%;
@@ -329,7 +320,7 @@ $desk: 1300px;
   align-items: flex-end;
 
   flex-direction: column;
-  @media screen and (min-width: $tablet) {
+  @media screen and (min-width: $notebook) {
     align-items: center;
     justify-content: space-between;
     flex-direction: row;
@@ -345,7 +336,7 @@ $desk: 1300px;
   width: 70px;
   height: 70px;
   grid-column: 1/2;
-  @media screen and (min-width: $tablet) {
+  @media screen and (min-width: $notebook) {
     margin: 4em auto 4em;
     grid-column: 1/3;
   }
@@ -362,7 +353,7 @@ $desk: 1300px;
 
   align-items: center;
   justify-content: flex-end;
-  @media screen and (min-width: $tablet) {
+  @media screen and (min-width: $notebook) {
     margin-left: 1rem;
   }
   &__plus,
@@ -372,7 +363,7 @@ $desk: 1300px;
     background-color: $color-bg;
 
     border-radius: 50%;
-    box-shadow: $shadow;
+    box-shadow: $shadow-neumorphic;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -380,7 +371,7 @@ $desk: 1300px;
     cursor: pointer;
     color: $color-primary;
     transition: all 0.5s ease;
-    @media screen and (min-width: $tablet) {
+    @media screen and (min-width: $notebook) {
       width: 2.5rem;
       height: 2.5rem;
     }
@@ -395,7 +386,7 @@ $desk: 1300px;
 }
 .cantidad__text {
   padding: 0 0.5rem;
-  @media screen and (min-width: $tablet) {
+  @media screen and (min-width: $notebook) {
     display: none;
   }
 }
@@ -405,7 +396,7 @@ $desk: 1300px;
 .cantidad__value {
   min-width: 20px;
   padding: 0 0.5rem;
-  @media screen and (min-width: $tablet) {
+  @media screen and (min-width: $notebook) {
     padding: 0 1rem;
   }
 }
@@ -413,7 +404,7 @@ $desk: 1300px;
   margin: 0 1rem 1rem;
   height: 7em;
   border-radius: 20px;
-  @media screen and (min-width: $tablet) {
+  @media screen and (min-width: $notebook) {
     margin: 0 3rem;
   }
 }
@@ -423,7 +414,7 @@ $desk: 1300px;
   flex-direction: column;
   align-items: center;
   justify-content: flex-end;
-  @media screen and (min-width: $cel) {
+  @media screen and (min-width: $tablet) {
     flex-direction: row;
     margin: 1rem 4.5rem 3rem auto;
   }
@@ -439,7 +430,7 @@ $desk: 1300px;
   display: inline;
   font-weight: 500;
   min-width: 5rem;
-  @media screen and (min-width: $tablet) {
+  @media screen and (min-width: $notebook) {
     margin-left: 1rem;
   }
 }

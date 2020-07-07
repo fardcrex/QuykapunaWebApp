@@ -43,10 +43,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-:root {
-  --value: 40%;
-  --back-color: #dd2222;
-}
+@import "@/assets/styles/global.scss";
 .neumorphic-image {
   border-radius: 10px;
   min-height: 8rem;
@@ -59,11 +56,9 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  background-color: #f9f9f9;
+  background-color: $color-card;
   padding: 20px 30px 20px 30px;
-  box-shadow: 4px 4px 5px rgba(55, 84, 170, 0.15),
-    -5px -4px 10px rgba(255, 255, 255, 0.98),
-    0px 0px 4px rgba(255, 255, 255, 0.2) !important;
+  box-shadow: $shadow-neumorphic;
   border-radius: 20px;
   height: minmax(280px, auto);
   width: auto;
@@ -71,8 +66,8 @@ export default {
 
 .neumorphic-card__title {
   display: block;
-  color: #555f76;
-  font-size: 22px;
+  color: $color-secondary;
+  font-size: $font-title-card;
   padding: 0.2em 0 1em;
   text-align: start;
 }
@@ -81,15 +76,15 @@ export default {
   display: block;
   padding: 1.5em 0 10px;
   text-align: start;
-  color: #8d96a8;
+  color: $color-font-text;
+  font-size: $font-text;
   min-height: 4vh;
 }
 .neumorphic-card__outer {
-  background-color: #f9f8f8;
+  background-color: $color-card-outer;
   border-radius: 10px;
   border: 1px solid #f3f4f7;
-  box-shadow: inset 4px 4px 6px #e3e5e9, inset -6px -6px 10px rgb(255, 255, 255),
-    0px 0px 4px rgba(255, 255, 255, 0.2) !important;
+  box-shadow: $shadow-neumorphic-outer;
   margin: -5px;
   padding: 12px;
 }
@@ -97,6 +92,6 @@ export default {
   display: block;
 
   text-align: end;
-  font-size: 1em;
+  font-size: $font-precio;
 }
 </style>

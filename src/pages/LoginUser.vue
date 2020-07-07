@@ -28,7 +28,7 @@
 
       <button
         v-if="!loading"
-        class="red child btn"
+        class="primary child btn"
         type="submit"
         name="button"
       >Entrar</button>
@@ -87,10 +87,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-$cel: 540px;
-$tablet: 814px;
-$laptop: 1025px;
-$desk: 1300px;
+@import "@/assets/styles/global.scss";
 form {
   margin: 0;
 }
@@ -103,14 +100,14 @@ form {
   max-width: 1000px;
   margin: auto;
   grid-template-rows: 140px auto auto auto 1fr;
-  @media screen and (min-width: $cel) {
+  @media screen and (min-width: $tablet) {
     width: 60%;
     grid-template-rows: auto auto auto auto 1fr;
   }
 }
 .input {
   padding: 1.6em 1.8em;
-  @media screen and (min-width: $tablet) {
+  @media screen and (min-width: $notebook) {
     padding: 1.6em 2em;
   }
 }
@@ -127,7 +124,7 @@ form {
   margin: 0 auto;
   width: 85%;
   height: 140px;
-  @media screen and (min-width: $tablet) {
+  @media screen and (min-width: $notebook) {
     height: 150px;
     width: 45%;
   }

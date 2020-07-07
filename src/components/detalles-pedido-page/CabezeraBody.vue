@@ -2,7 +2,7 @@
   <div class="container_title">
 
     <button
-      class="red btn"
+      class="primary btn"
       type="submit"
       name="button"
       v-on:click="goTheOtherPage"
@@ -43,14 +43,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-$cel: 540px;
-$tablet: 814px;
-$laptop: 1025px;
-$desk: 1300px;
+@import "@/assets/styles/global.scss";
+
 .btn {
   margin: 1.5em auto 1em;
   background-color: #f9f9f9;
-  @media screen and (min-width: $tablet) {
+  @media screen and (min-width: $notebook) {
     margin: 1em 0 2em;
     flex-direction: row-reverse;
     align-items: center;
@@ -60,7 +58,7 @@ $desk: 1300px;
   display: flex;
   flex-direction: column;
   margin-bottom: 1em;
-  @media screen and (min-width: $tablet) {
+  @media screen and (min-width: $notebook) {
     flex-direction: row-reverse;
     justify-content: space-between;
     align-items: center;
@@ -70,7 +68,7 @@ $desk: 1300px;
   align-self: center;
   grid-row: 3/4;
   grid-column: 1/2;
-  @media screen and (min-width: $tablet) {
+  @media screen and (min-width: $notebook) {
     grid-row: 2/3;
     grid-column: 1/3;
     width: 90%;

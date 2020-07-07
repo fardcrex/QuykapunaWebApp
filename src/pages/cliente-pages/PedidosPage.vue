@@ -104,18 +104,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-$greyLight-2: #c8d0e7;
-$color-primary: #ff6531;
-$color-bg: #f9f9f9;
-$color-shadow: #e3e5e9;
-$color-white: #fff;
-$shadow: 0.3rem 0.3rem 0.6rem $color-shadow, -0.5rem -0.5rem 1rem $color-white;
-$inner-shadow: inset 0.2rem 0.2rem 0.5rem $color-shadow,
-  inset -0.2rem -0.2rem 0.5rem $color-white;
-$cel: 540px;
-$tablet: 814px;
-$laptop: 1025px;
-$desk: 1300px;
+@import "@/assets/styles/global.scss";
 
 .container {
   justify-items: center;
@@ -136,11 +125,11 @@ $desk: 1300px;
   margin: 2em 2em 0;
 
   width: 80%;
-  @media screen and (min-width: $cel) {
+  @media screen and (min-width: $tablet) {
     margin: 2em 5em 0;
     width: 65%;
   }
-  @media screen and (min-width: $tablet) {
+  @media screen and (min-width: $notebook) {
     margin: 2em 3em;
     width: 65%;
   }
@@ -153,16 +142,11 @@ $desk: 1300px;
 .btn_svg {
   width: 70%;
   margin: 1em auto;
-  @media screen and (min-width: $tablet) {
+  @media screen and (min-width: $notebook) {
     margin: auto;
   }
 }
-.btn {
-  margin: 1em auto 0;
-}
-.btn__isBlocked {
-  color: $greyLight-2;
-}
+
 .eventList {
   grid-column: 1/2;
   display: grid;
@@ -172,10 +156,10 @@ $desk: 1300px;
   justify-content: center;
   justify-items: center;
   grid-template-columns: 95%;
-  @media screen and (min-width: $tablet) {
+  @media screen and (min-width: $notebook) {
     width: 95%;
   }
-  /* @media screen and (min-width: $cel) {
+  /* @media screen and (min-width: $tablet) {
   }
   @media screen and (min-width: $laptop) {
     padding: 0 1rem;
@@ -186,7 +170,7 @@ $desk: 1300px;
   align-items: flex-end;
 
   flex-direction: column;
-  @media screen and (min-width: $tablet) {
+  @media screen and (min-width: $notebook) {
     align-items: center;
     justify-content: space-between;
     flex-direction: row;
@@ -202,7 +186,7 @@ $desk: 1300px;
   width: 70px;
   height: 70px;
   grid-column: 1/2;
-  @media screen and (min-width: $tablet) {
+  @media screen and (min-width: $notebook) {
     margin: 4em auto 4em;
     grid-column: 1/3;
   }

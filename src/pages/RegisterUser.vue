@@ -95,14 +95,14 @@
       >Siguiente</div>
       <div
         v-if="estadoForm===2"
-        class="red child btn btn_next"
+        class="primary child btn btn_next"
         name="button"
         v-on:click="nextForm3"
       >Siguiente</div>
       <div v-if="estadoForm===3">
         <button
           v-if="!loading"
-          class="red child btn"
+          class="primary child btn"
           type="submit"
           name="button"
         >Registrarse</button>
@@ -208,10 +208,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-$cel: 540px;
-$tablet: 814px;
-$laptop: 1025px;
-$desk: 1300px;
+@import "@/assets/styles/global.scss";
 form {
   margin: 0;
 }
@@ -223,14 +220,14 @@ form {
   max-width: 1000px;
   margin: auto;
   grid-template-rows: 140px auto auto auto 1fr;
-  @media screen and (min-width: $cel) {
+  @media screen and (min-width: $tablet) {
     width: 60%;
     grid-template-rows: auto auto auto auto 1fr;
   }
 }
 .input {
   padding: 1.6em 1.8em;
-  @media screen and (min-width: $tablet) {
+  @media screen and (min-width: $notebook) {
     padding: 1.6em 2em;
   }
 }
@@ -247,7 +244,7 @@ form {
   margin: 0 auto;
   width: 85%;
   height: 140px;
-  @media screen and (min-width: $tablet) {
+  @media screen and (min-width: $notebook) {
     height: 150px;
     width: 45%;
   }
@@ -262,11 +259,6 @@ form {
   color: green;
   width: 80%;
 }
-$ruler: 16px;
-$color-red: #ff6531;
-$color-bg: #f9f9f9;
-$color-shadow: #e3e5e9;
-$color-white: #fff;
 
 .btn_next {
   border: 0;
@@ -330,14 +322,14 @@ $color-white: #fff;
 
   &.red {
     display: block;
-    color: $color-red;
+    color: $color-primary;
   }
 }
 .condominio_style {
   height: 50px;
   width: 225px;
   color: rgba(85, 85, 85, 0.863);
-  @media screen and (min-width: $tablet) {
+  @media screen and (min-width: $notebook) {
     width: 225px;
   }
 }

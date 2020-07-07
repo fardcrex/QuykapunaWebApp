@@ -133,7 +133,7 @@ export default {
         },
         {
           estadoEventoId: 8,
-          estadoEventoNombre: "Cancelado"
+          estadoEventoNombre: "Cantabletado"
         }
       ]
     };
@@ -206,13 +206,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-$greyLight-2: #c8d0e7;
-$color-primary: #ff6531;
-$color-bg: #f9f9f9;
-$cel: 540px;
-$tablet: 814px;
-$laptop: 1025px;
-$desk: 1300px;
+@import "@/assets/styles/global.scss";
+
 .container__not_found {
   display: grid;
   width: 100%;
@@ -224,10 +219,10 @@ $desk: 1300px;
 }
 .svg {
   width: 80%;
-  @media screen and (min-width: $cel) {
+  @media screen and (min-width: $tablet) {
     width: 70%;
   }
-  @media screen and (min-width: $tablet) {
+  @media screen and (min-width: $notebook) {
     width: 65%;
   }
   @media screen and (min-width: $laptop) {
@@ -244,17 +239,17 @@ $desk: 1300px;
   margin: auto;
   grid-template-columns: 100%;
   grid-template-rows: auto auto auto auto 10vh;
-  @media screen and (min-width: $tablet) {
+  @media screen and (min-width: $notebook) {
     grid-template-rows: minmax(200px, auto) 10vh auto 10vh;
   }
-  @media screen and (min-width: $tablet) {
+  @media screen and (min-width: $notebook) {
     grid-template-columns: 1fr 1fr;
   }
 }
 
 .detallesEmpresa {
   grid-row: 2/3;
-  @media screen and (min-width: $tablet) {
+  @media screen and (min-width: $notebook) {
     align-self: center;
     grid-row: 1/2;
     grid-column: 2/3;
@@ -265,7 +260,7 @@ $desk: 1300px;
   align-self: center;
   grid-row: 3/4;
   grid-column: 1/2;
-  @media screen and (min-width: $tablet) {
+  @media screen and (min-width: $notebook) {
     grid-row: 2/3;
     grid-column: 1/3;
     width: 85%;
@@ -276,11 +271,11 @@ $desk: 1300px;
 .eventoStyle {
   margin: 1rem auto 1rem;
   width: 80%;
-  @media screen and (min-width: $cel) {
+  @media screen and (min-width: $tablet) {
     margin: 2rem auto 2rem;
     width: 50%;
   }
-  @media screen and (min-width: $tablet) {
+  @media screen and (min-width: $notebook) {
     width: 65%;
   }
   @media screen and (min-width: $laptop) {
@@ -292,14 +287,14 @@ $desk: 1300px;
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  @media screen and (min-width: $tablet) {
+  @media screen and (min-width: $notebook) {
     grid-column: 1/3;
     margin: 1rem 4.5rem 0 auto;
   }
 }
 .body_container {
   grid-column: 1/2;
-  @media screen and (min-width: $tablet) {
+  @media screen and (min-width: $notebook) {
     width: 95%;
     grid-column: 1/3;
   }
@@ -307,7 +302,7 @@ $desk: 1300px;
 .btn_svg {
   width: 70%;
   margin: 1em auto;
-  @media screen and (min-width: $tablet) {
+  @media screen and (min-width: $notebook) {
     margin: auto;
   }
 }
@@ -327,7 +322,7 @@ $desk: 1300px;
   width: 70px;
   height: 70px;
   grid-column: 1/2;
-  @media screen and (min-width: $tablet) {
+  @media screen and (min-width: $notebook) {
     margin: 4em auto 4em;
     grid-column: 1/3;
   }

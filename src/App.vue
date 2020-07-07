@@ -13,12 +13,7 @@ export default {
 </script>
 <style lang="scss">
 @import "./assets/styles/normalize.css";
-@import "./assets/styles/global.scss";
-
-$cel: 540px;
-$tablet: 814px;
-$laptop: 1025px;
-$desk: 1300px;
+@import "@/assets/styles/base.scss";
 
 .circle1 {
   position: fixed;

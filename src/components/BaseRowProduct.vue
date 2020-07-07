@@ -25,33 +25,26 @@
 export default {
   props: {
     producto: {
-      type: Object
+      type: Object,
+      required: true
     }
   },
   computed: {
     imgProducto() {
-      if (
-        this.producto.productoImagen == "dasdasdas" ||
-        this.producto.productoImagen === ""
-      ) {
+      if (!this.producto.productoImagen) {
         return "./producto-default.png";
       }
       return this.producto.productoImagen;
     }
   },
 
-  name: "BaseCardEvent"
+  name: "BaseRowProduct"
 };
 </script>
 
 <style lang="scss" scoped>
-:root {
-  --value: 40%;
-  --back-color: #dd2222;
-}
-$cel: 540px;
-$tablet: 814px;
-$laptop: 1025px;
+@import "@/assets/styles/global.scss";
+
 .neumorphic-image {
   border-radius: 10px;
   margin: auto;
@@ -64,49 +57,46 @@ $laptop: 1025px;
   display: grid;
   flex-direction: row;
   align-items: center;
-  background-color: #f9f9f9;
+  background-color: $color-card;
   padding: 10px 15px 10px 15px;
-  box-shadow: 4px 4px 5px rgba(55, 84, 170, 0.15),
-    -5px -4px 10px rgba(255, 255, 255, 0.98),
-    0px 0px 4px rgba(255, 255, 255, 0.2) !important;
+  box-shadow: $shadow-neumorphic;
   border-radius: 20px;
   grid-template-columns: auto minmax(auto, 150px) auto;
 
-  width: 90%;
-  @media screen and (min-width: $cel) {
+  width: 100%;
+  @media screen and (min-width: $tablet) {
     grid-template-columns:
       minmax(auto, 75px) minmax(auto, 150px) minmax(auto, 250px)
       auto;
     width: auto;
   }
-  @media screen and (min-width: $tablet) {
-    width: 100%;
-  }
 }
 
 .neumorphic-card__title {
   display: block;
-  color: #555f76;
-  font-size: 22px;
+  color: $color-font-row-title;
+
   padding: 0 0 0 1rem;
   text-align: start;
+  p {
+    font-size: $font-title-row;
+  }
 }
 .neumorphic-card__text {
   display: none;
   padding: 0 1em;
-  font-size: 15px;
+  font-size: $font-text * 0.98;
   text-align: start;
-  color: #8d96a8;
-  @media screen and (min-width: $cel) {
+  color: $color-font-text;
+  @media screen and (min-width: $tablet) {
     display: block;
   }
 }
 .neumorphic-card__outer {
-  background-color: #f9f8f8;
+  background-color: $color-card-outer;
   border-radius: 10px;
   border: 1px solid #f3f4f7;
-  box-shadow: inset 4px 4px 6px #e3e5e9, inset -6px -6px 10px rgb(255, 255, 255),
-    0px 0px 4px rgba(255, 255, 255, 0.2) !important;
+  box-shadow: $inner-shadow;
   margin: -5px;
   padding: 6px;
 }
@@ -115,6 +105,7 @@ $laptop: 1025px;
   display: block;
   min-width: 50px;
   text-align: end;
-  font-size: 1em;
+  font-size: $font-precio;
+  color: $color-font-precio;
 }
 </style>

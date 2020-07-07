@@ -43,10 +43,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-$cel: 540px;
-$tablet: 814px;
-$laptop: 1025px;
-$desk: 1300px;
+@import "@/assets/styles/global.scss";
 .container {
   display: flex;
   justify-content: center;
@@ -56,10 +53,10 @@ $desk: 1300px;
 .imagen {
   display: block;
   width: 90%;
-  @media screen and (min-width: $cel) {
+  @media screen and (min-width: $tablet) {
     width: 65%;
   }
-  @media screen and (min-width: $tablet) {
+  @media screen and (min-width: $notebook) {
     margin: auto;
     width: 55%;
   }

@@ -169,11 +169,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-$cel: 540px;
-$tablet: 814px;
-$laptop: 1025px;
-$desk: 1300px;
-
+@import "@/assets/styles/global.scss";
 .container {
   justify-items: center;
 
@@ -183,14 +179,14 @@ $desk: 1300px;
   margin: auto;
   grid-template-columns: 100%;
   grid-template-rows: auto auto auto;
-  @media screen and (min-width: $tablet) {
+  @media screen and (min-width: $notebook) {
     grid-template-columns: 1fr 1fr;
     grid-template-rows: minmax(550px, auto) 10vh auto 10vh;
   }
 }
 .title {
   margin-top: 5vh;
-  @media screen and (min-width: $tablet) {
+  @media screen and (min-width: $notebook) {
     margin-top: 9vh;
   }
 }
@@ -198,7 +194,7 @@ $desk: 1300px;
   grid-row: 1;
   margin: 3vh 1em 0 1em;
   width: 80%;
-  @media screen and (min-width: $tablet) {
+  @media screen and (min-width: $notebook) {
     grid-column: 2;
     margin: auto;
     width: 90%;
@@ -210,7 +206,7 @@ $desk: 1300px;
 .child-1 {
   width: 80%;
   grid-row: 2/3;
-  @media screen and (min-width: $tablet) {
+  @media screen and (min-width: $notebook) {
     grid-row: 1/2;
     grid-column: 1/2;
     width: 75%;
@@ -225,7 +221,7 @@ $desk: 1300px;
   align-self: center;
   grid-row: 3/4;
   grid-column: 1/2;
-  @media screen and (min-width: $tablet) {
+  @media screen and (min-width: $notebook) {
     grid-row: 2/3;
     grid-column: 1/3;
     width: 90%;
@@ -242,12 +238,12 @@ $desk: 1300px;
   column-gap: 1.5rem;
   width: 85%;
   grid-template-columns: repeat(auto-fit, minmax(auto, 1fr));
-  @media screen and (min-width: $cel) {
+  @media screen and (min-width: $tablet) {
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     width: 85%;
   }
 
-  @media screen and (min-width: $tablet) {
+  @media screen and (min-width: $notebook) {
     row-gap: 2.5rem;
     grid-column: 1/3;
     width: 95%;
@@ -272,7 +268,7 @@ $desk: 1300px;
   margin: 0 auto 1em auto;
   margin-top: 1.5em;
   width: 10em;
-  @media screen and (min-width: $tablet) {
+  @media screen and (min-width: $notebook) {
     margin: 2em auto 1em auto;
   }
 }
@@ -290,7 +286,7 @@ $desk: 1300px;
   width: 70px;
   height: 70px;
   grid-column: 1/2;
-  @media screen and (min-width: $tablet) {
+  @media screen and (min-width: $notebook) {
     grid-column: 1/3;
   }
 }

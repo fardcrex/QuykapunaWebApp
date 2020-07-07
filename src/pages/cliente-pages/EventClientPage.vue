@@ -133,10 +133,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-$cel: 540px;
-$tablet: 814px;
-$laptop: 1025px;
-$desk: 1300px;
+@import "@/assets/styles/global.scss";
 .container__not_found {
   display: grid;
   width: 100%;
@@ -148,10 +145,10 @@ $desk: 1300px;
 }
 .svg {
   width: 80%;
-  @media screen and (min-width: $cel) {
+  @media screen and (min-width: $tablet) {
     width: 70%;
   }
-  @media screen and (min-width: $tablet) {
+  @media screen and (min-width: $notebook) {
     width: 65%;
   }
   @media screen and (min-width: $laptop) {
@@ -168,10 +165,8 @@ $desk: 1300px;
   margin: auto;
   grid-template-columns: 100%;
   grid-template-rows: auto auto auto auto 10vh;
-  @media screen and (min-width: $tablet) {
-    grid-template-rows: minmax(350px, auto) 10vh auto auto 10vh;
-  }
-  @media screen and (min-width: $tablet) {
+
+  @media screen and (min-width: $notebook) {
     grid-template-columns: 1fr 1fr;
     grid-template-rows: minmax(350px, auto) 10vh auto auto 10vh;
   }
@@ -181,7 +176,7 @@ $desk: 1300px;
   align-self: center;
   grid-row: 3/4;
   grid-column: 1/2;
-  @media screen and (min-width: $tablet) {
+  @media screen and (min-width: $notebook) {
     grid-row: 2/3;
     grid-column: 1/3;
     width: 90%;
@@ -193,11 +188,11 @@ $desk: 1300px;
   margin: 2em 2em 0;
 
   width: 80%;
-  @media screen and (min-width: $cel) {
+  @media screen and (min-width: $tablet) {
     margin: 2em 5em 0;
     width: 65%;
   }
-  @media screen and (min-width: $tablet) {
+  @media screen and (min-width: $notebook) {
     margin: 2em 3em;
     width: 65%;
   }
@@ -210,7 +205,7 @@ $desk: 1300px;
 .btn_svg {
   width: 70%;
   margin: 1em auto;
-  @media screen and (min-width: $tablet) {
+  @media screen and (min-width: $notebook) {
     margin: auto;
   }
 }
@@ -226,10 +221,10 @@ $desk: 1300px;
   width: 90%;
   grid-template-columns: repeat(1, auto);
 
-  @media screen and (min-width: $cel) {
+  @media screen and (min-width: $tablet) {
     grid-template-columns: repeat(2, minmax(200px, 1fr));
   }
-  @media screen and (min-width: $tablet) {
+  @media screen and (min-width: $notebook) {
     grid-column: 1/3;
     width: 95%;
     grid-template-columns: repeat(3, minmax(200px, 1fr));
@@ -250,12 +245,18 @@ $desk: 1300px;
   width: 70px;
   height: 70px;
   grid-column: 1/2;
-  @media screen and (min-width: $tablet) {
+  @media screen and (min-width: $notebook) {
     margin: 4em auto 4em;
     grid-column: 1/3;
   }
 }
 .svg1 {
-  margin: 2.5em 2.5em 1em 2.5em;
+  margin: 1em auto 0.5em;
+  @media screen and (min-width: $tablet) {
+    width: 75%;
+  }
+  @media screen and (min-width: $notebook) {
+    margin: 2.5em 2.5em 1em 2.5em;
+  }
 }
 </style>

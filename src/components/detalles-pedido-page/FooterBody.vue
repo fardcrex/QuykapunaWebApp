@@ -10,7 +10,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-$color-primary: #ff6531;
+@import "@/assets/styles/global.scss";
 .tolalPrecioFinal {
   min-width: 80px;
   font-weight: 500;

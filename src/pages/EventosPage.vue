@@ -56,7 +56,7 @@
       <!-- <input type="date" name="fecha" v-model="fecha"> -->
       <button
           v-if="!isLoadingRequest"
-        class="red child btn"
+        class="primary child btn"
         type="submit"
         name="button"
         v-on:click="createEvent"
@@ -195,14 +195,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-$cel: 540px;
-$tablet: 814px;
-$laptop: 1025px;
-$desk: 1300px;
-
+@import "@/assets/styles/global.scss";
 .title {
   margin-top: 5vh;
-  @media screen and (min-width: $tablet) {
+  @media screen and (min-width: $notebook) {
     margin-top: 7vh;
   }
   @media screen and (min-width: $laptop) {
@@ -219,7 +215,7 @@ $desk: 1300px;
   margin: auto;
   grid-template-columns: 100%;
   grid-template-rows: auto auto;
-  @media screen and (min-width: $tablet) {
+  @media screen and (min-width: $notebook) {
     grid-template-columns: 1fr 1fr;
     grid-template-rows: minmax(500px, auto) 8vh auto 10vh;
   }
@@ -232,7 +228,7 @@ $desk: 1300px;
   grid-row: 1;
   margin: auto;
   width: 85%;
-  @media screen and (min-width: $tablet) {
+  @media screen and (min-width: $notebook) {
     grid-column: 2;
     width: 90%;
   }
@@ -245,7 +241,7 @@ $desk: 1300px;
   flex-direction: column;
   width: 80%;
   grid-row: 2/3;
-  @media screen and (min-width: $tablet) {
+  @media screen and (min-width: $notebook) {
     grid-row: 1/2;
     grid-column: 1/2;
     width: 90%;
@@ -257,7 +253,7 @@ $desk: 1300px;
 .title2 {
   grid-row: 3/4;
   grid-column: 1/2;
-  @media screen and (min-width: $tablet) {
+  @media screen and (min-width: $notebook) {
     grid-row: 2/3;
     grid-column: 1/3;
     width: 90%;
@@ -273,12 +269,12 @@ $desk: 1300px;
   column-gap: 1.5rem;
   width: 90%;
   grid-template-columns: repeat(1, minmax(auto, 1fr));
-  @media screen and (min-width: $cel) {
+  @media screen and (min-width: $tablet) {
     grid-column: 1/3;
     width: 95%;
     grid-template-columns: repeat(2, minmax(240px, 1fr));
   }
-  @media screen and (min-width: $tablet) {
+  @media screen and (min-width: $notebook) {
     grid-column: 1/3;
     width: 95%;
     grid-template-columns: repeat(2, minmax(270px, 1fr));
@@ -314,7 +310,7 @@ $desk: 1300px;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  @media screen and (min-width: $cel) {
+  @media screen and (min-width: $tablet) {
     flex-direction: row;
   }
 }
@@ -323,7 +319,7 @@ input,
   margin-top: 0;
   width: 100%;
   margin-bottom: 0;
-  @media screen and (min-width: $cel) {
+  @media screen and (min-width: $tablet) {
     width: 55%;
     margin-top: 0rem;
   }
@@ -333,7 +329,7 @@ input,
   margin-top: 2rem;
   width: 80%;
   margin-bottom: 0;
-  @media screen and (min-width: $cel) {
+  @media screen and (min-width: $tablet) {
     width: 40%;
     margin-top: 0rem;
   }
@@ -351,7 +347,7 @@ input,
   height: 70px;
 
   grid-column: 1/2;
-  @media screen and (min-width: $tablet) {
+  @media screen and (min-width: $notebook) {
     grid-column: 1/3;
   }
 }

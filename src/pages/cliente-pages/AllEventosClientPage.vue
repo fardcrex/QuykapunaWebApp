@@ -46,10 +46,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-$cel: 540px;
-$tablet: 814px;
-$laptop: 1025px;
-$desk: 1300px;
+@import "@/assets/styles/global.scss";
+
 .preloader {
   margin: auto;
   margin-bottom: 2em;
@@ -57,7 +55,7 @@ $desk: 1300px;
   height: 70px;
 
   grid-column: 1/2;
-  @media screen and (min-width: $tablet) {
+  @media screen and (min-width: $notebook) {
     grid-column: 1/3;
   }
 }
@@ -67,17 +65,17 @@ $desk: 1300px;
   padding: 1rem;
   row-gap: 1.5rem;
   column-gap: 1.5rem;
-  width: 80%;
+  width: 90%;
   grid-template-columns: repeat(1, minmax(auto, 1fr));
 
   @media screen and (min-width: $tablet) {
     grid-column: 1/3;
     width: 95%;
-    grid-template-columns: repeat(2, minmax(300px, 1fr));
+    grid-template-columns: repeat(2, minmax(200px, 1fr));
   }
-  @media screen and (min-width: $laptop) {
+  @media screen and (min-width: $notebook) {
     width: 100%;
-    grid-template-columns: repeat(3, minmax(300px, 1fr));
+    grid-template-columns: repeat(3, minmax(250px, 1fr));
   }
 }
 
