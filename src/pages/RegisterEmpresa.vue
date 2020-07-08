@@ -36,6 +36,7 @@
         />
       </template>
       <template v-if="estadoForm===2">
+
         <input
           placeholder="Email"
           class="child input"
@@ -53,11 +54,12 @@
           value
         />
         <input
-          placeholder="Contraseña"
+          placeholder="Confirmar Contraseña"
           class="child input"
           v-model="passwordTwo"
           type="password"
           name="password"
+          autocomplete="on"
           value
         />
       </template>
@@ -70,27 +72,20 @@
           name="phone"
           value
         />
-        <select
-          class="child condominio_style"
-          v-model="edificio"
-        >
-          <optgroup label="Condominios">
-
-            <option
-              v-for="edificio in edificios"
-              v-bind:key="edificio.condominioId"
-              :value="edificio.condominioId"
-            >{{edificio.condominioNombre}}</option>
-
-          </optgroup>
-
-        </select>
         <input
-          placeholder="Departamento"
+          placeholder="Ruc"
           class="child input"
-          v-model="departamento"
+          v-model="ruc"
           type="text"
-          name="departamento"
+          name="ruc"
+          value
+        />
+        <input
+          placeholder="Razón Social"
+          class="child input"
+          v-model="razonSocial"
+          type="text"
+          name="razonSocial"
           value
         />
       </template>
@@ -143,8 +138,8 @@ export default {
       lastname: "",
       phone: "",
       email: "",
-      departamento: "",
-      edificio: -1,
+      ruc: "",
+      razonSocial: "",
       password: "",
       passwordTwo: "",
       errors: null,
@@ -183,25 +178,21 @@ export default {
       this.estadoForm = this.estadoForm + 1;
     },
     register() {
-      if (
-        this.phone === "" ||
-        this.departamento === "" ||
-        this.edificio === -1
-      ) {
+      if (this.phone === "" || this.ruc === "" || this.razonSocial === "") {
         this.errors = "Falta completar datos";
         return;
       }
       this.loading = true;
       this.$store
-        .dispatch("register", {
-          nombre: this.name,
-          dni: this.dni,
-          apellido: this.lastname,
-          telefono: this.phone,
-          correo: this.email,
-          departamento: this.departamento,
-          edificio: this.edificio,
-          contraseña: this.password
+        .dispatch("registerEmpresa", {
+          usuarioNombre: this.name,
+          usuarioDni: this.dni,
+          usuarioApellido: this.lastname,
+          usuarioTelefono: this.phone,
+          usuarioCorreo: this.email,
+          ruc: this.ruc,
+          razonsocial: this.razonSocial,
+          usuarioContraseña: this.password
         })
         .then(res => {
           console.log(res);

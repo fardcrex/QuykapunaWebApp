@@ -7,6 +7,9 @@ export default {
   postRegister(credentials) {
     return apiClient.post("/Usuario/registrarUsuario", credentials);
   },
+  postRegisterEmpresa(credentials) {
+    return apiClient.post("/Usuario/registrarEmpresa", credentials);
+  },
   postRegistrarToken(token, id) {
     return apiClient.post("/registrartoken", { token, id });
   },

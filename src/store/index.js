@@ -75,6 +75,9 @@ export default function getStore(authService) {
       register({ commit }, credentials) {
         return authService.postRegister(credentials);
       },
+      registerEmpresa({ commit }, credentials) {
+        return authService.postRegisterEmpresa(credentials);
+      },
 
       async login({ commit }, credentials) {
         const resUser = await authService.postLogin(credentials);
@@ -88,12 +91,13 @@ export default function getStore(authService) {
         const user = resUser.data.datos;
 
         authService.postRegistrarToken(resUser.data.token, user.usuarioId);
-        if (user.tipoUsuarioId === 2) {
+        if (user.tipoUsuarioId === 2 || user.tipoUsuarioId === 3) {
           const resEmpresa = await EventService.getEmpresaData(user.usuarioId);
           console.log(resEmpresa);
 
           if (resEmpresa.data) {
             const data = resEmpresa.data[0];
+            console.log(data);
             localStorage.setItem("empresa", JSON.stringify(data));
             commit("SET_EMPRESA_DATA", data);
           }

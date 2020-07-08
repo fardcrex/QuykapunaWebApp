@@ -22,7 +22,7 @@
         class="child input"
         v-model="password"
         type="password"
-        name="contraseña"
+        name="password"
         value
       />
 

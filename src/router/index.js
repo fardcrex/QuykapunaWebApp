@@ -4,9 +4,10 @@ import Home from "../pages/Home.vue";
 import EventosPage from "../pages/EventosPage.vue";
 import ProductosPage from "../pages/ProductosPage.vue";
 import LoginUser from "../pages/LoginUser.vue";
-import EventPage from "../pages/EventPage.vue";
+import EventPage from "../pages/EventDetallePage.vue";
 import EventStatePage from "../pages/EventStatePage.vue";
 import RegisterUser from "../pages/RegisterUser.vue";
+import RegisterEmpresa from "../pages/RegisterEmpresa.vue";
 import RegisterOption from "../pages/HomeRegister.vue";
 import AgregarProductosPage from "../pages/AgregarProductosPage.vue";
 import AllEventosClientPage from "../pages/cliente-pages/AllEventosClientPage.vue";
@@ -124,9 +125,9 @@ const routes = [
     component: RegisterOption,
   },
   {
-    path: "/registro-proveedor",
-    name: "RegisterProveedor",
-    component: RegisterUser,
+    path: "/registro-empresa",
+    name: "RegisterEmpresa",
+    component: RegisterEmpresa,
   },
   { path: "*", component: Home },
 ];

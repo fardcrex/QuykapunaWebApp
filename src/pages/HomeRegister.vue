@@ -49,7 +49,7 @@ export default {
       this.$router.push({ name: "RegisterUser" });
     },
     goToPageRegiste: function() {
-      // this.$router.push({ name: "RegisterProveedor" });
+      this.$router.push({ name: "RegisterEmpresa" });
     }
   }
 };
