@@ -61,14 +61,25 @@ export default {
   padding: 10px 15px 10px 15px;
   box-shadow: $shadow-neumorphic;
   border-radius: 20px;
-  grid-template-columns: auto minmax(auto, 150px) auto;
+  grid-template-columns: auto minmax(auto, 120px) auto;
 
-  width: 100%;
   @media screen and (min-width: $tablet) {
     grid-template-columns:
-      minmax(auto, 75px) minmax(auto, 150px) minmax(auto, 250px)
+      minmax(auto, 75px) minmax(auto, 130px) auto
       auto;
-    width: auto;
+    width: 100%;
+  }
+  @media screen and (min-width: $notebook) {
+    grid-template-columns:
+      minmax(auto, 75px) minmax(auto, 140px) auto
+      auto;
+
+    width: 100%;
+  }
+  @media screen and (min-width: $laptop) {
+    grid-template-columns:
+      minmax(auto, 75px) minmax(auto, 160px) auto
+      auto;
   }
 }
 

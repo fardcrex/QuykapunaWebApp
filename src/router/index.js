@@ -18,6 +18,7 @@ import DetallePedidoPage from "../pages/cliente-pages/DetallePedidoPage.vue";
 
 import CabezeraBody from "@/components/detalles-pedido-page/CabezeraBody.vue";
 import ListProductos from "@/components/detalles-pedido-page/ListProductos.vue";
+import ChangeListProductos from "@/components/detalles-pedido-page/ChangeListProductos.vue";
 import QrImagen from "@/components/detalles-pedido-page/QrImagen.vue";
 import FooterBody from "@/components/detalles-pedido-page/FooterBody.vue";
 
@@ -101,8 +102,17 @@ const routes = [
         name: "ListOfItems",
       },
       {
+        path: "modificar-lista-items",
+        components: {
+          default: ChangeListProductos,
+          cabezera: CabezeraBody,
+          footer: FooterBody,
+        },
+        name: "ListOfItems",
+        props: { cabezera: { isVistaModificar: true } },
+      },
+      {
         path: "codigo-Qr",
-        component: CabezeraBody,
         components: { default: QrImagen, cabezera: CabezeraBody },
         name: "CodigoQR",
         props: { cabezera: { isVistaQr: true } },
@@ -163,7 +173,8 @@ router.beforeEach((to, from, next) => {
         next("/");
         return;
       }
-      const isProveedor = userData.tipoUsuarioId === 2;
+      const isProveedor =
+        userData.tipoUsuarioId === 2 || userData.tipoUsuarioId === 3;
       if (to.matched.some((record) => record.meta.isProveedor) && isProveedor) {
         next();
         return;

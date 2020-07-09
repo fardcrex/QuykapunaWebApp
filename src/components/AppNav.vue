@@ -45,8 +45,9 @@ export default {
   computed: {
     ...authComputed,
     ...mapState({
-      isProveedor: state => state.user.tipoUsuarioId == 2,
-      isCliente: state => state.user.tipoUsuarioId == 1
+      isProveedor: state =>
+        state.user.tipoUsuarioId === 2 || state.user.tipoUsuarioId === 3,
+      isCliente: state => state.user.tipoUsuarioId === 1
     })
   },
   methods: {

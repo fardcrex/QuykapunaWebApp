@@ -62,18 +62,6 @@ new Vue({
     const timeTokenString = localStorage.getItem("timeToken");
     if (userString) {
       const userData = JSON.parse(userString);
-      firebase
-        .auth()
-        .signInWithCustomToken(userData.token)
-        .catch(function(error) {
-          // Handle Errors here.
-          var errorCode = error.code;
-          var errorMessage = error.message;
-          console.log(errorCode);
-          console.log(errorMessage);
-
-          // ...
-        });
       this.$store.commit("SET_USER_DATA", userData);
     }
     if (empresaString) {

@@ -44,7 +44,7 @@ export default {
   @media screen and (min-width: $notebook) {
     padding: 0 1rem;
     justify-items: stretch;
-
+    width: 100%;
     grid-column: 1/3;
   }
 }

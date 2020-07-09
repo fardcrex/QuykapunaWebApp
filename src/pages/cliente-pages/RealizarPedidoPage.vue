@@ -24,18 +24,12 @@
           <BaseRowProduct :producto="producto"></BaseRowProduct>
           <div class="icon">
             <div class="cantidad__text">Cantidad:</div>
-            <div
-              class="icon__minus"
-              v-on:click="minusOne(index)"
-            >
-              <div>-</div>
+            <div v-on:click="minusOne(index)">
+              <BaseCircularButton type="minus" />
             </div>
             <div class="cantidad__value">{{producto.cantidad}}</div>
-            <div
-              class="icon__plus"
-              v-on:click="plusOne(index)"
-            >
-              <div>+</div>
+            <div v-on:click="plusOne(index)">
+              <BaseCircularButton type="plus" />
             </div>
             <span class="tolalPrecioProducto">S/ {{producto.cantidad*producto.productoCosto}}</span>
           </div>
@@ -224,6 +218,8 @@ export default {
       this.notFound = true;
     },
     plusOne(index) {
+      console.log("aasd");
+
       this.productos[index].cantidad++;
     },
     minusOne(index) {
@@ -356,34 +352,8 @@ export default {
   @media screen and (min-width: $notebook) {
     margin-left: 1rem;
   }
-  &__plus,
-  &__minus {
-    width: 2rem;
-    height: 2rem;
-    background-color: $color-bg;
-
-    border-radius: 50%;
-    box-shadow: $shadow-neumorphic;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 2rem;
-    cursor: pointer;
-    color: $color-primary;
-    transition: all 0.5s ease;
-    @media screen and (min-width: $notebook) {
-      width: 2.5rem;
-      height: 2.5rem;
-    }
-    &:active {
-      box-shadow: $inner-shadow;
-      color: $color-primary;
-    }
-    &:hover {
-      color: $color-primary;
-    }
-  }
 }
+
 .cantidad__text {
   padding: 0 0.5rem;
   @media screen and (min-width: $notebook) {
@@ -429,7 +399,7 @@ export default {
   color: $color-primary;
   display: inline;
   font-weight: 500;
-  min-width: 5rem;
+  min-width: 4rem;
   @media screen and (min-width: $notebook) {
     margin-left: 1rem;
   }

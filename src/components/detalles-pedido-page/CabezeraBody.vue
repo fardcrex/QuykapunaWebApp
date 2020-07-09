@@ -5,12 +5,20 @@
       class="primary btn"
       type="submit"
       name="button"
-      v-on:click="goTheOtherPage"
+      v-on:click="goTheQrPage"
     >{{getTextButton}}</button>
     <h2 class="title2">{{getTitle}}</h2>
-    <div class="empthy_container">
-
-    </div>
+    <div
+      v-if="isVistaQr"
+      class="empthy_container"
+    >
+    </div><button
+      v-else
+      class="primary btn"
+      type="submit"
+      name="button"
+      v-on:click="goTheChangePage"
+    >{{getTextButtonModify}}</button>
   </div>
 </template>
 
@@ -20,22 +28,51 @@ export default {
     isVistaQr: {
       type: Boolean,
       default: false
+    },
+    isVistaModificar: {
+      type: Boolean,
+      default: false
+    },
+    productos: {
+      type: Array,
+      default: function() {
+        return [];
+      }
+    },
+    productsOriginal: {
+      type: Array,
+      default: function() {
+        return [];
+      }
     }
   },
   computed: {
     getTitle() {
       if (this.isVistaQr) return "Código QR";
-      return "Lista de Productos";
+      if (this.isVistaModificar) return "Modificar Pedido";
+      return "Pedidos";
     },
     getTextButton() {
-      if (this.isVistaQr) return "Ver listado de items";
-      return "Generar Código QR";
+      if (this.isVistaQr) return "Ver pedido";
+      if (this.isVistaModificar) return "Terminar";
+      return "Código QR";
+    },
+    getTextButtonModify() {
+      if (this.isVistaModificar) return "Cancelar";
+      return "Modificar";
     }
   },
   methods: {
-    goTheOtherPage() {
+    goTheQrPage() {
       if (this.isVistaQr) this.$router.push("lista-items");
+      else if (this.isVistaModificar) this.$router.push("lista-items");
       else this.$router.push("codigo-Qr");
+    },
+    goTheChangePage() {
+      if (this.isVistaModificar) {
+        this.$emit("cancelar");
+        this.$router.push("lista-items");
+      } else this.$router.push("modificar-lista-items");
     }
   },
   name: "CabezeraBody"
@@ -46,6 +83,7 @@ export default {
 @import "@/assets/styles/global.scss";
 
 .btn {
+  min-width: 7rem;
   margin: 1.5em auto 1em;
   background-color: #f9f9f9;
   @media screen and (min-width: $notebook) {

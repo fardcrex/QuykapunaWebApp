@@ -24,7 +24,10 @@
       <p>Razón Social: <span class="style_empresa"> {{evento.empresaRazonSocial}}</span></p>
     </div>
     <div class="title2">
-      <router-view name="cabezera"></router-view>
+      <router-view
+        name="cabezera"
+        @cancelar="cancelar"
+      ></router-view>
     </div>
     <template v-if="!isLoadingList">
       <router-view
@@ -76,6 +79,7 @@ export default {
       evento: {},
       loading: true,
       productos: [],
+      productsOriginal: [],
       isLoadingList: true,
       notFound: false,
       adminIdState: 0,
@@ -194,13 +198,20 @@ export default {
         );
 
         this.productos = response.data.reverse();
+        this.productsOriginal = this.productos.map(val => {
+          return { ...val };
+        });
         this.isLoading = false;
         // For now, logs out the response
       } catch (error) {
         console.log("There was an error:", error); // Logs out the error
       }
     },
-    getCodeSQR() {}
+    cancelar() {
+      this.productos = this.productsOriginal.map(val => {
+        return { ...val };
+      });
+    }
   }
 };
 </script>
@@ -235,12 +246,12 @@ export default {
 
   display: grid;
   width: 100%;
-  max-width: 900px;
+  max-width: 1100px;
   margin: auto;
   grid-template-columns: 100%;
   grid-template-rows: auto auto auto auto 10vh;
   @media screen and (min-width: $notebook) {
-    grid-template-rows: minmax(200px, auto) 10vh auto 10vh;
+    grid-template-rows: minmax(200px, auto) 10vh auto 15vh;
   }
   @media screen and (min-width: $notebook) {
     grid-template-columns: 1fr 1fr;
@@ -289,13 +300,13 @@ export default {
   justify-content: flex-end;
   @media screen and (min-width: $notebook) {
     grid-column: 1/3;
-    margin: 1rem 4.5rem 0 auto;
+    margin: 0 4.5rem 0 auto;
   }
 }
 .body_container {
   grid-column: 1/2;
   @media screen and (min-width: $notebook) {
-    width: 95%;
+    width: 100%;
     grid-column: 1/3;
   }
 }
