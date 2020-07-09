@@ -11,13 +11,14 @@
 
         <div class="cantidad__value">{{producto.cantidad}} unidad(es)</div>
 
-        <span class="tolalPrecioProducto">S/ {{producto.cantidad*producto.productoCosto}}</span>
+        <span class="tolalPrecioProducto">S/ {{formatPrecioComputed(producto)}}</span>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { formatPrecio } from "@/helpers/precioHelper.js";
 export default {
   props: {
     productos: {
@@ -25,6 +26,11 @@ export default {
       default: function() {
         return [];
       }
+    }
+  },
+  methods: {
+    formatPrecioComputed(producto) {
+      return formatPrecio(producto.cantidad * producto.productoCosto);
     }
   },
   name: "ListProductos"
