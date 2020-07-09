@@ -51,7 +51,7 @@ export default {
   height: auto;
   max-height: 40px;
   display: block;
-  width: auto;
+  max-width: 100%;
 }
 .neumorphic-card {
   display: grid;
@@ -61,7 +61,7 @@ export default {
   padding: 10px 15px 10px 15px;
   box-shadow: $shadow-neumorphic;
   border-radius: 20px;
-  grid-template-columns: auto minmax(auto, 120px) auto;
+  grid-template-columns: minmax(auto, 65px) minmax(auto, 120px) auto;
 
   @media screen and (min-width: $tablet) {
     grid-template-columns:

@@ -15,10 +15,12 @@
     class="container"
   >
     <div class="eventoStyle">
-      <BaseCardEvent :event="evento"></BaseCardEvent>
-
-      <!--   Estado del pedido: <span v-bind:style="getColorStyle">{{stateEventName}}</span> -->
+      <BaseCardEvent
+        :event="evento"
+        class="eventoStyle"
+      />
     </div>
+    <!--   Estado del pedido: <span v-bind:style="getColorStyle">{{stateEventName}}</span> -->
     <div class="detallesEmpresa">
       <p>Ruc empresa: <span class="style_empresa"> {{evento.empresaRuc}}</span></p>
       <p>Razón Social: <span class="style_empresa"> {{evento.empresaRazonSocial}}</span></p>
@@ -217,16 +219,14 @@ export default {
       this.isLoadingList = true;
       for (const val of this.productos) {
         if (val.isChange) {
-          await PedidoService.updateItemsPedido({
+          PedidoService.updateItemsPedido({
             itemId: val.itemId,
             cantidad: val.cantidad
           });
         }
       }
 
-      this.productsOriginal = this.productos.map(val => {
-        return { ...val, isChange: false };
-      });
+      await this.getProductos();
       this.isLoadingList = false;
     }
   }
@@ -263,14 +263,13 @@ export default {
 
   display: grid;
   width: 100%;
-  max-width: 1100px;
+  max-width: 1024px;
   margin: auto;
   grid-template-columns: 100%;
   grid-template-rows: auto auto auto auto 10vh;
+
   @media screen and (min-width: $notebook) {
-    grid-template-rows: minmax(200px, auto) 10vh auto 15vh;
-  }
-  @media screen and (min-width: $notebook) {
+    grid-template-rows: minmax(250px, auto) 12vh auto 15vh;
     grid-template-columns: 1fr 1fr;
   }
 }
@@ -288,19 +287,20 @@ export default {
   align-self: center;
   grid-row: 3/4;
   grid-column: 1/2;
+  @media screen and (min-width: $tablet) {
+    width: 70%;
+  }
   @media screen and (min-width: $notebook) {
     grid-row: 2/3;
     grid-column: 1/3;
     width: 85%;
-  }
-  @media screen and (min-width: $laptop) {
   }
 }
 .eventoStyle {
   margin: 1rem auto 1rem;
   width: 80%;
   @media screen and (min-width: $tablet) {
-    margin: 2rem auto 2rem;
+    margin: 1.2rem auto 1.5rem;
     width: 50%;
   }
   @media screen and (min-width: $notebook) {

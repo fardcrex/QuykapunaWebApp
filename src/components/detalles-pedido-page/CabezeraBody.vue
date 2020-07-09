@@ -86,36 +86,27 @@ export default {
 
 .btn {
   min-width: 7rem;
-  margin: 1.5em auto 1em;
+  margin: 1.5em auto 1.5em;
   background-color: #f9f9f9;
-  @media screen and (min-width: $notebook) {
+  @media screen and (min-width: $tablet) {
     margin: 1em 0 2em;
     flex-direction: row-reverse;
     align-items: center;
   }
 }
 .container_title {
+  margin: auto;
   display: flex;
   flex-direction: column;
-  margin-bottom: 1em;
-  @media screen and (min-width: $notebook) {
+  height: max-content;
+  width: 100%;
+  @media screen and (min-width: $tablet) {
     flex-direction: row-reverse;
     justify-content: space-between;
     align-items: center;
   }
 }
-.title2 {
-  align-self: center;
-  grid-row: 3/4;
-  grid-column: 1/2;
-  @media screen and (min-width: $notebook) {
-    grid-row: 2/3;
-    grid-column: 1/3;
-    width: 90%;
-  }
-  @media screen and (min-width: $laptop) {
-  }
-}
+
 .empthy_container {
   width: 170px;
 }

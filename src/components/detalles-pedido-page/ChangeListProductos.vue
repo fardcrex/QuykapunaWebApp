@@ -20,8 +20,11 @@
             <span class="tolalPrecioProducto">S/ {{formatPrecioComputed(producto)}}</span>
           </div>
         </div>
-        <div v-on:click="eliminar(index)">
-          <EliminarSvg class="sizeSvg" />
+        <div
+          class="sizeSvg"
+          v-on:click="eliminar(index)"
+        >
+          <EliminarSvg />
         </div>
       </template>
     </div>
@@ -69,13 +72,14 @@ export default {
 @import "@/assets/styles/global.scss";
 
 .sizeSvg {
-  width: 2rem;
+  width: 2.5rem;
   cursor: pointer;
-  margin-right: 1.5rem;
-  @media screen and (max-width: $notebook) {
-    margin-top: 1.5rem;
-    margin-left: 1.5rem;
-    margin-right: 1.5rem;
+  margin-top: 1.5rem;
+  margin-left: 0.3;
+  margin-right: 1.3rem;
+
+  @media screen and (min-width: $notebook) {
+    margin: 1rem;
   }
 }
 

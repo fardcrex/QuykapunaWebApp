@@ -7,10 +7,12 @@
     v-else-if="!notFound"
     class="container"
   >
-    <BaseCardEvent
-      :event="evento"
-      class="eventoStyle"
-    ></BaseCardEvent>
+    <div class="eventoStyle">
+      <BaseCardEvent
+        :event="evento"
+        class="eventoStyle"
+      />
+    </div>
     <div class="btn_svg">
       <NotFoundSvg class="svg1"></NotFoundSvg>
       <div class="button_container">
@@ -122,12 +124,9 @@ export default {
     ...mapMutations(["ADD_TO_EVENTS_DATA"]),
     async getProductos() {
       try {
-        console.log("response");
         var response = await ProductService.getProductosForEvent(
           this.$route.params.idEvent
         );
-        console.log(response);
-
         this.productos = response.data.reverse();
         this.isLoading = false;
         // For now, logs out the response
@@ -209,19 +208,16 @@ export default {
   }
 }
 .eventoStyle {
-  margin: 2em 2em 0;
-
+  margin: 1rem auto 1rem;
   width: 80%;
   @media screen and (min-width: $tablet) {
-    margin: 2em 5em 0;
-    width: 65%;
+    width: 50%;
   }
   @media screen and (min-width: $notebook) {
-    margin: 2em 3em;
+    margin: 1.8rem auto 2rem;
     width: 65%;
   }
   @media screen and (min-width: $laptop) {
-    margin: 3em auto 2em;
     width: 80%;
   }
 }
@@ -244,10 +240,10 @@ export default {
   grid-column: 1/2;
   display: grid;
   padding: 1rem;
-  row-gap: 2rem;
+  row-gap: 1.2rem;
   column-gap: 1.5rem;
-  width: 90%;
-  grid-template-columns: repeat(1, minmax(auto, 1fr));
+  width: 85%;
+  grid-template-columns: repeat(1, auto);
 
   @media screen and (min-width: $tablet) {
     grid-template-columns: repeat(2, minmax(200px, 1fr));
@@ -255,11 +251,12 @@ export default {
   @media screen and (min-width: $notebook) {
     grid-column: 1/3;
     width: 95%;
-    grid-template-columns: repeat(3, minmax(300px, 1fr));
+    grid-template-columns: repeat(3, minmax(220px, 1fr));
   }
   @media screen and (min-width: $laptop) {
+    row-gap: 1.5rem;
     width: 100%;
-    grid-template-columns: repeat(3, minmax(300px, 1fr));
+    grid-template-columns: repeat(4, minmax(230px, 1fr));
   }
 }
 .preloader {

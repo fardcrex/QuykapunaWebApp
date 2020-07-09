@@ -107,6 +107,7 @@ export default {
 @import "@/assets/styles/global.scss";
 
 .container {
+  justify-content: center;
   justify-items: center;
 
   display: grid;
@@ -114,7 +115,13 @@ export default {
   max-width: 1024px;
   margin: auto;
   grid-template-columns: 100%;
-  grid-template-rows: minmax(6rem, 10vh) auto;
+  grid-template-rows: minmax(6rem, 10vh) auto 10vh;
+  @media screen and (min-width: $tablet) {
+    grid-template-columns: 95%;
+  }
+  @media screen and (min-width: $laptop) {
+    grid-template-columns: 100%;
+  }
 }
 .title {
   margin: auto;

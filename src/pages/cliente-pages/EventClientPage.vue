@@ -7,13 +7,16 @@
     v-else-if="!notFound"
     class="container"
   >
-    <BaseCardEvent
-      :event="evento"
-      class="eventoStyle"
-    ></BaseCardEvent>
+    <div class="eventoStyle">
+      <BaseCardEvent
+        :event="evento"
+        class="eventoStyle"
+      />
+    </div>
     <div class="btn_svg">
       <ShoppingCar class="svg1"></ShoppingCar>
       <button
+        :class="{btn__isBlocked:isBlocked}"
         class="primary btn"
         type="submit"
         name="button"
@@ -55,7 +58,11 @@ export default {
   name: "EventClientPage",
   components: { NotFoundSvg, ShoppingCar },
   computed: {
-    ...mapState(["eventos"])
+    ...mapState(["eventos"]),
+    isBlocked() {
+      if (this.productos.length === 0) return true;
+      return false;
+    }
   },
   data() {
     return {
@@ -123,6 +130,9 @@ export default {
       }
     },
     hacerPedido() {
+      if (this.isBlocked) {
+        return;
+      }
       this.$router.push({
         name: "RealizarPedidoPage",
         params: { idEvent: this.evento.eventoId }
@@ -168,7 +178,7 @@ export default {
 
   @media screen and (min-width: $notebook) {
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: minmax(350px, auto) 10vh auto auto 10vh;
+    grid-template-rows: minmax(220px, auto) 10vh auto auto 10vh;
   }
 }
 .title2 {
@@ -185,19 +195,16 @@ export default {
   }
 }
 .eventoStyle {
-  margin: 2em 2em 0;
-
+  margin: 1rem auto 1rem;
   width: 80%;
   @media screen and (min-width: $tablet) {
-    margin: 2em 5em 0;
-    width: 65%;
+    width: 50%;
   }
   @media screen and (min-width: $notebook) {
-    margin: 2em 3em;
+    margin: 1.8rem auto 2rem;
     width: 65%;
   }
   @media screen and (min-width: $laptop) {
-    margin: 3em auto 2em;
     width: 80%;
   }
 }
@@ -218,7 +225,7 @@ export default {
   padding: 1rem;
   row-gap: 1.2rem;
   column-gap: 1.5rem;
-  width: 90%;
+  width: 85%;
   grid-template-columns: repeat(1, auto);
 
   @media screen and (min-width: $tablet) {
@@ -227,12 +234,12 @@ export default {
   @media screen and (min-width: $notebook) {
     grid-column: 1/3;
     width: 95%;
-    grid-template-columns: repeat(3, minmax(200px, 1fr));
+    grid-template-columns: repeat(3, minmax(220px, 1fr));
   }
   @media screen and (min-width: $laptop) {
     row-gap: 1.5rem;
     width: 100%;
-    grid-template-columns: repeat(4, minmax(200px, 1fr));
+    grid-template-columns: repeat(4, minmax(230px, 1fr));
   }
 }
 .preloader {
@@ -258,5 +265,9 @@ export default {
   @media screen and (min-width: $notebook) {
     margin: 2.5em 2.5em 1em 2.5em;
   }
+}
+
+.btn__isBlocked {
+  color: $color-desactive-btn;
 }
 </style>

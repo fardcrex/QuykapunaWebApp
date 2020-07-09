@@ -4,7 +4,7 @@
     class="neumorphic-card pointer"
     v-on:click="goToThePedido"
   >
-    <div>{{numRow}}</div>
+    <div class="number_style">{{numRow}}</div>
     <div class="neumorphic-card__title">
       <p>{{pedido.eventoNombre}}</p>
     </div>
@@ -98,7 +98,9 @@ export default {
       1fr 1.5fr minmax(auto, 200px);
   }
 }
-
+.number_style {
+  color: $color-secondary;
+}
 .neumorphic-card__title {
   display: block;
   color: $color-font-row-title;

@@ -102,7 +102,7 @@ form {
   grid-template-rows: 140px auto auto auto 1fr;
   @media screen and (min-width: $tablet) {
     width: 60%;
-    grid-template-rows: auto auto auto auto 1fr;
+    grid-template-rows: auto auto auto auto 10vh 1fr;
   }
 }
 .input {
@@ -122,9 +122,11 @@ form {
 }
 .logo {
   margin: 0 auto;
+
   width: 85%;
   height: 140px;
   @media screen and (min-width: $notebook) {
+    margin-top: 50px;
     height: 150px;
     width: 45%;
   }
