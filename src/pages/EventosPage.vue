@@ -126,7 +126,6 @@ export default {
       eventos: state => state.eventos,
       usuarioId: state => state.user.usuarioId,
       empresaId: state => state.empresa.empresaId,
-      administradorId: state => state.empresa.administradorId,
       isEventosPageLoaded: state => state.isEventosPageLoaded
     })
   },
@@ -161,7 +160,7 @@ export default {
 
         let responEvent = await EventService.agregarEvento({
           empresaId: this.empresaId,
-          administradorId: this.administradorId,
+          administradorId: this.adminIdCondominio,
           estadoEven: 1,
           nombre: this.name,
           descripcion: this.descripcion,
