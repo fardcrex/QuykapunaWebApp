@@ -17,7 +17,7 @@
             <div v-on:click="plusOne(index)">
               <BaseCircularButton type="plus" />
             </div>
-            <span class="tolalPrecioProducto">S/ {{producto.cantidad*producto.productoCosto}}</span>
+            <span class="tolalPrecioProducto">S/ {{formatPrecioComputed(producto)}}</span>
           </div>
         </div>
         <div v-on:click="eliminar(index)">
@@ -30,6 +30,7 @@
 
 <script>
 import EliminarSvg from "@/components-svg/EliminarSvg.vue";
+import { formatPrecio } from "@/helpers/precioHelper.js";
 export default {
   components: { EliminarSvg },
   props: {
@@ -52,6 +53,9 @@ export default {
         this.productos[index].cantidad--;
         this.productos[index].isChange = true;
       }
+    },
+    formatPrecioComputed(producto) {
+      return formatPrecio(producto.cantidad * producto.productoCosto);
     },
     eliminar(index) {
       this.productos[index].cantidad = 0;

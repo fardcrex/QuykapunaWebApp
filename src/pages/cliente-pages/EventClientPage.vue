@@ -14,7 +14,7 @@
     <div class="btn_svg">
       <ShoppingCar class="svg1"></ShoppingCar>
       <button
-        class="red btn"
+        class="primary btn"
         type="submit"
         name="button"
         v-on:click="hacerPedido"

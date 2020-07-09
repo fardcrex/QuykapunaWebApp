@@ -215,13 +215,15 @@ export default {
     },
     async terminar() {
       this.isLoadingList = true;
-      await this.productos.forEach(async val => {
-        if (val.isChange)
+      for (const val of this.productos) {
+        if (val.isChange) {
           await PedidoService.updateItemsPedido({
             itemId: val.itemId,
             cantidad: val.cantidad
           });
-      });
+        }
+      }
+
       this.productsOriginal = this.productos.map(val => {
         return { ...val, isChange: false };
       });

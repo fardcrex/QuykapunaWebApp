@@ -31,7 +31,7 @@
             <div v-on:click="plusOne(index)">
               <BaseCircularButton type="plus" />
             </div>
-            <span class="tolalPrecioProducto">S/ {{producto.cantidad*producto.productoCosto}}</span>
+            <span class="tolalPrecioProducto">S/ {{formatPrecioComputed(producto)}}</span>
           </div>
         </div>
       </div>
@@ -85,7 +85,8 @@ import ProductService from "@/services/ProductService.js";
 import EventService from "@/services/EventService.js";
 import PedidoService from "@/services/PedidoService.js";
 import NotFoundSvg from "@/components-svg/NotFoundSvg.vue";
-import { mapState, mapMutations } from "vuex";
+import { formatPrecio } from "@/helpers/precioHelper.js";
+import { mapState, mapMutations, mapActions } from "vuex";
 export default {
   name: "EventClientPage",
   components: { NotFoundSvg },
@@ -99,7 +100,7 @@ export default {
       this.productos.forEach(producto => {
         precioSum = precioSum + producto.cantidad * producto.productoCosto;
       });
-      return Math.round(precioSum * 100) / 100;
+      return formatPrecio(precioSum);
     },
     isBlocked() {
       for (const producto of this.productos) {
@@ -161,6 +162,7 @@ export default {
   },
   methods: {
     ...mapMutations(["ADD_TO_EVENTS_DATA"]),
+    ...mapActions(["getPedidosAction"]),
     goToTheDetallesPedidos() {
       this.$router.push({
         name: "DetallePedidoPage",
@@ -210,6 +212,11 @@ export default {
             }
           });
         }
+        await this.getPedidosAction({
+          usuarioId: this.usuarioId,
+          idEstado: 1,
+          reload: true
+        });
       } catch (error) {
         console.log(error);
       }
@@ -217,6 +224,10 @@ export default {
       this.requestCompleted = true;
       this.notFound = true;
     },
+    formatPrecioComputed(producto) {
+      return formatPrecio(producto.cantidad * producto.productoCosto);
+    },
+
     plusOne(index) {
       this.productos[index].cantidad++;
     },
