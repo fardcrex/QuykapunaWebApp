@@ -104,9 +104,11 @@ export default function getStore(authService) {
         }
       },
 
-      async getEventosAction({ commit }) {
+      async getEventosAction({ commit, state }) {
         try {
-          var response = await EventService.getEvents();
+          var response = await EventService.getEventsByEmpresaId(
+            state.empresa.empresaId
+          );
           const events = response.data.reverse();
           commit("LOAD_EVENTS_DATA", events);
         } catch (error) {

@@ -5,6 +5,11 @@ export default {
   getEvents() {
     return axios.get(`${servers.produccion}/Eventos/mostrarEventos`);
   },
+  getEventsByEmpresaId(empresaId) {
+    return axios.get(
+      `${servers.produccion}/Eventos/mostrarEventosxEmpresa/${empresaId}`
+    );
+  },
   getEventsById(eventoId) {
     return axios.get(
       `${servers.produccion}/Eventos/mostrarEventos/${eventoId}`
