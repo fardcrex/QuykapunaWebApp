@@ -31,4 +31,10 @@ export default {
   getItemsByPedidoId(pedidoId) {
     return axios.get(`${servers.produccion}/Pedido/obtenerItems/${pedidoId}`);
   },
+  updateItemsPedido(body) {
+    return axios.put(
+      `${servers.produccion}/Pedido/actualizarItemsPedido`,
+      body
+    );
+  },
 };

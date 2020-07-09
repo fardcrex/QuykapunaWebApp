@@ -218,8 +218,6 @@ export default {
       this.notFound = true;
     },
     plusOne(index) {
-      console.log("aasd");
-
       this.productos[index].cantidad++;
     },
     minusOne(index) {

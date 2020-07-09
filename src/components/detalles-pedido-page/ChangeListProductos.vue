@@ -5,22 +5,25 @@
       class="rowContainer"
       v-for="(producto,index) in productos"
       v-bind:key="index"
-    >
-      <div class="rowCardProduct">
-        <BaseRowProduct :producto="producto"></BaseRowProduct>
+    > <template v-if="producto.cantidad>0 ">
+        <div class="rowCardProduct">
+          <BaseRowProduct :producto="producto"></BaseRowProduct>
 
-        <div class="icon">
-          <div v-on:click="minusOne(index)">
-            <BaseCircularButton type="minus" />
+          <div class="icon">
+            <div v-on:click="minusOne(index)">
+              <BaseCircularButton type="minus" />
+            </div>
+            <div class="cantidad__value">{{producto.cantidad}}</div>
+            <div v-on:click="plusOne(index)">
+              <BaseCircularButton type="plus" />
+            </div>
+            <span class="tolalPrecioProducto">S/ {{producto.cantidad*producto.productoCosto}}</span>
           </div>
-          <div class="cantidad__value">{{producto.cantidad}}</div>
-          <div v-on:click="plusOne(index)">
-            <BaseCircularButton type="plus" />
-          </div>
-          <span class="tolalPrecioProducto">S/ {{producto.cantidad*producto.productoCosto}}</span>
         </div>
-      </div>
-      <EliminarSvg class="sizeSvg" />
+        <div v-on:click="eliminar(index)">
+          <EliminarSvg class="sizeSvg" />
+        </div>
+      </template>
     </div>
   </div>
 </template>
@@ -39,14 +42,20 @@ export default {
   },
   methods: {
     plusOne(index) {
-      console.log("aasd");
-
       this.productos[index].cantidad++;
+      this.productos[index].isChange = true;
     },
     minusOne(index) {
-      if (this.productos[index].cantidad == 0) {
-        this.productos[index].cantidad = 0;
-      } else this.productos[index].cantidad--;
+      if (this.productos[index].cantidad == 1) {
+        this.productos[index].cantidad = 1;
+      } else {
+        this.productos[index].cantidad--;
+        this.productos[index].isChange = true;
+      }
+    },
+    eliminar(index) {
+      this.productos[index].cantidad = 0;
+      this.productos[index].isChange = true;
     }
   }
 };
@@ -57,6 +66,7 @@ export default {
 
 .sizeSvg {
   width: 2rem;
+  cursor: pointer;
   margin-right: 1.5rem;
   @media screen and (max-width: $notebook) {
     margin-top: 1.5rem;

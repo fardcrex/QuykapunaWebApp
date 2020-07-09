@@ -65,8 +65,10 @@ export default {
   methods: {
     goTheQrPage() {
       if (this.isVistaQr) this.$router.push("lista-items");
-      else if (this.isVistaModificar) this.$router.push("lista-items");
-      else this.$router.push("codigo-Qr");
+      else if (this.isVistaModificar) {
+        this.$emit("terminar");
+        this.$router.push("lista-items");
+      } else this.$router.push("codigo-Qr");
     },
     goTheChangePage() {
       if (this.isVistaModificar) {

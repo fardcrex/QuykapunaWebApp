@@ -27,6 +27,7 @@
       <router-view
         name="cabezera"
         @cancelar="cancelar"
+        @terminar="terminar"
       ></router-view>
     </div>
     <template v-if="!isLoadingList">
@@ -197,9 +198,9 @@ export default {
           this.$route.params.idPedido
         );
 
-        this.productos = response.data.reverse();
-        this.productsOriginal = this.productos.map(val => {
-          return { ...val };
+        this.productsOriginal = response.data.reverse();
+        this.productos = this.productsOriginal.map(val => {
+          return { ...val, isChange: false };
         });
         this.isLoading = false;
         // For now, logs out the response
@@ -211,6 +212,20 @@ export default {
       this.productos = this.productsOriginal.map(val => {
         return { ...val };
       });
+    },
+    async terminar() {
+      this.isLoadingList = true;
+      await this.productos.forEach(async val => {
+        if (val.isChange)
+          await PedidoService.updateItemsPedido({
+            itemId: val.itemId,
+            cantidad: val.cantidad
+          });
+      });
+      this.productsOriginal = this.productos.map(val => {
+        return { ...val, isChange: false };
+      });
+      this.isLoadingList = false;
     }
   }
 };
