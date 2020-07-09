@@ -31,10 +31,18 @@ export default {
   getItemsByPedidoId(pedidoId) {
     return axios.get(`${servers.produccion}/Pedido/obtenerItems/${pedidoId}`);
   },
-  updateItemsPedido(body) {
-    return axios.put(
-      `${servers.produccion}/Pedido/actualizarItemsPedido`,
-      body
-    );
+  updateItemsPedido(productos) {
+    const peticiones = [];
+    for (const val of productos) {
+      if (val.isChange) {
+        peticiones.push(
+          axios.put(`${servers.produccion}/Pedido/actualizarItemsPedido`, {
+            itemId: val.itemId,
+            cantidad: val.cantidad,
+          })
+        );
+      }
+    }
+    return axios.all(peticiones);
   },
 };

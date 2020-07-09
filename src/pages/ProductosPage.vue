@@ -63,7 +63,7 @@
 <script>
 import ProductService from "@/services/ProductService.js";
 import ShoppingCar from "@/components-svg/ShoppingCar.vue";
-import firebase from "firebase";
+import fire from "@/fire";
 import { mapState, mapActions } from "vuex";
 export default {
   components: { ShoppingCar },
@@ -116,7 +116,7 @@ export default {
       }
       this.isLoadingRequest = true;
       this.picture = null;
-      const storageRef = firebase
+      const storageRef = fire
         .storage()
         .ref(`${this.empresaRuc}/${this.imageData.name}`)
         .put(this.imageData);

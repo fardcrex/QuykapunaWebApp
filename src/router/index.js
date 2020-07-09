@@ -108,7 +108,7 @@ const routes = [
           cabezera: CabezeraBody,
           footer: FooterBody,
         },
-        name: "ListOfItems",
+        name: "UpdateListOfItems",
         props: { cabezera: { isVistaModificar: true } },
       },
       {

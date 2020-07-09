@@ -217,15 +217,7 @@ export default {
     },
     async terminar() {
       this.isLoadingList = true;
-      for (const val of this.productos) {
-        if (val.isChange) {
-          PedidoService.updateItemsPedido({
-            itemId: val.itemId,
-            cantidad: val.cantidad
-          });
-        }
-      }
-
+      await PedidoService.updateItemsPedido(this.productos);
       await this.getProductos();
       this.isLoadingList = false;
     }

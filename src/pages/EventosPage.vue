@@ -148,7 +148,7 @@ export default {
         if (
           !this.empresaId ||
           !this.name ||
-          this.name.length < 5 ||
+          this.name.length < 4 ||
           this.adminIdCondominio === -1
         ) {
           this.isLoadingRequest = false;
