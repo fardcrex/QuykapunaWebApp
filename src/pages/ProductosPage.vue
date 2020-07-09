@@ -27,7 +27,7 @@
       <!-- <input type="date" name="fecha" v-model="fecha"> -->
       <button
           v-if="!isLoadingRequest"
-        class="red child btn"
+        class="primary child btn"
         type="submit"
         name="button"
         v-on:click="onUpload"
@@ -103,6 +103,17 @@ export default {
       this.imageData = event.target.files[0];
     },
     onUpload() {
+      if (
+        !this.empresaId ||
+        !this.name ||
+        !this.descripcion ||
+        !this.imageData ||
+        !this.costo ||
+        this.name.length < 3
+      ) {
+        this.isLoadingRequest = false;
+        return;
+      }
       this.isLoadingRequest = true;
       this.picture = null;
       const storageRef = firebase
@@ -140,9 +151,6 @@ export default {
       }
     },
     async createProducto() {
-      if (!this.empresaId) {
-        return;
-      }
       try {
         let responEvent = await ProductService.postCrearProducto(
           this.empresaId,
@@ -160,10 +168,12 @@ export default {
       }
     },
     clearForm() {
-      (this.name = ""),
-        (this.descripcion = ""),
-        (this.costo = null),
-        (this.imagen = null);
+      this.name = "";
+      this.descripcion = "";
+      this.costo = null;
+      this.imageData = null;
+      this.uploadValue = 0;
+      this.picture = null;
     }
   }
 };

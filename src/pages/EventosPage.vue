@@ -188,6 +188,9 @@ export default {
     clearForm() {
       this.name = "";
       this.descripcion = "";
+      this.fecha = "";
+      this.adminIdCondominio = -1;
+      this.time = "";
     }
   }
 };
