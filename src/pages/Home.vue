@@ -5,7 +5,7 @@
     <div class="home container__body">
       <div v-bind:class="{ heightChild: loggedIn }"></div>
       <DeliverySvg class="child svg"></DeliverySvg>
-      <h1 class="child">Bienvenidos a Quykapuna!</h1>
+      <h1 class="child">{{welcomeText}}</h1>
       <div class="parrafo">
         <p>
           La plataforma para la
@@ -40,11 +40,18 @@ import { authComputed } from "../store/helpers.js";
 import DeliverySvg from "@/components-svg/DeliverySvg.vue";
 import Circle1 from "@/components-svg/Circle1.vue";
 import Circle2 from "@/components-svg/Circle2.vue";
-
+import { mapState } from "vuex";
 export default {
   components: { DeliverySvg, Circle1, Circle2 },
   computed: {
-    ...authComputed
+    ...authComputed,
+    ...mapState({
+      nameUser: state => state.user.usuarioNombre
+    }),
+    welcomeText() {
+      if (this.loggedIn) return "Bienvenido " + this.nameUser;
+      else return "Bienvenidos a Quykapuna!";
+    }
   },
   methods: {
     goToPageLogin: function() {

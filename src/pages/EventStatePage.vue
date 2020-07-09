@@ -243,7 +243,7 @@ export default {
 
   display: grid;
   width: 100%;
-  max-width: 900px;
+  max-width: 1024px;
   margin: auto;
   grid-template-columns: 100%;
   grid-template-rows: auto auto auto auto 10vh;
@@ -271,15 +271,15 @@ export default {
   margin: 1rem auto 1rem;
   width: 80%;
   @media screen and (min-width: $tablet) {
-    margin: 2rem auto 1rem;
+    margin: 2rem auto 2rem;
     width: 65%;
   }
   @media screen and (min-width: $notebook) {
     margin: auto;
-    width: 65%;
+    margin-left: 5rem;
+    width: 75%;
   }
   @media screen and (min-width: $laptop) {
-    margin: auto;
     width: 80%;
   }
 }
@@ -317,10 +317,10 @@ export default {
   }
   @media screen and (min-width: $notebook) {
     grid-column: 1/3;
-    width: 70%;
+    width: 85%;
   }
   @media screen and (min-width: $laptop) {
-    width: 80%;
+    width: 90%;
   }
 }
 .preloader {

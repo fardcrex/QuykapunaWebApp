@@ -97,12 +97,12 @@ export default {
   @media screen and (min-width: $notebook) {
     justify-content: space-between;
     grid-template-columns:
-      minmax(auto, 75px) minmax(auto, 200px) minmax(180px, 1fr)
+      minmax(auto, 75px) minmax(auto, 160px) minmax(180px, 1fr)
       auto;
   }
   @media screen and (min-width: $laptop) {
     grid-template-columns:
-      minmax(auto, 75px) minmax(auto, 240px) minmax(180px, 1fr)
+      minmax(auto, 75px) minmax(auto, 180px) minmax(180px, 1fr)
       auto;
   }
 }
