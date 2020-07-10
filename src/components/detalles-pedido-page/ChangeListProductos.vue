@@ -33,7 +33,7 @@
 
 <script>
 import EliminarSvg from "@/components-svg/EliminarSvg.vue";
-import { formatPrecio } from "@/helpers/precioHelper.js";
+import { formatPrecio } from "@/recursos/precioHelper.js";
 export default {
   components: { EliminarSvg },
   props: {

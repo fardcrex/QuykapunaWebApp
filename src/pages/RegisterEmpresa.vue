@@ -13,7 +13,7 @@
         <input
           placeholder="Dni"
           class="child input"
-          v-model="dni"
+          v-model="credentials.usuarioDni"
           type="text"
           name="Dni"
           value
@@ -21,36 +21,68 @@
         <input
           placeholder="Nombre"
           class="child input"
-          v-model="name"
+          v-model="credentials.usuarioNombre"
           type="text"
           name="name"
+          autocomplete="given-name"
           value
         />
         <input
           placeholder="Apellido"
           class="child input"
-          v-model="lastname"
+          v-model="credentials.usuarioApellido"
           type="text"
           name="name"
+          autocomplete="additional-name"
           value
         />
       </template>
       <template v-if="estadoForm===2">
-
+        <input
+          placeholder="Telefono"
+          class="child input"
+          v-model="credentials.usuarioTelefono"
+          type="tel"
+          name="phone"
+          autocomplete="tel"
+          value
+        />
+        <input
+          placeholder="Ruc"
+          class="child input"
+          v-model="credentials.ruc"
+          type="text"
+          name="ruc"
+          autocomplete="off"
+          value
+        />
+        <input
+          placeholder="Razón Social"
+          class="child input"
+          v-model="credentials.razonsocial"
+          type="text"
+          name="razonSocial"
+          autocomplete="off"
+          value
+        />
+      </template>
+      <template v-if="estadoForm===3">
         <input
           placeholder="Email"
           class="child input"
-          v-model="email"
+          v-model="credentials.usuarioCorreo"
           type="email"
           name="email"
+          autocomplete="email"
           value
         />
         <input
           placeholder="Contraseña"
           class="child input"
-          v-model="password"
+          v-model="credentials.usuarioContraseña"
           type="password"
           name="password"
+          autocomplete="new-password"
           value
         />
         <input
@@ -59,33 +91,7 @@
           v-model="passwordTwo"
           type="password"
           name="password"
-          autocomplete="on"
-          value
-        />
-      </template>
-      <template v-if="estadoForm===3">
-        <input
-          placeholder="Telefono"
-          class="child input"
-          v-model="phone"
-          type="text"
-          name="phone"
-          value
-        />
-        <input
-          placeholder="Ruc"
-          class="child input"
-          v-model="ruc"
-          type="text"
-          name="ruc"
-          value
-        />
-        <input
-          placeholder="Razón Social"
-          class="child input"
-          v-model="razonSocial"
-          type="text"
-          name="razonSocial"
+          autocomplete="off"
           value
         />
       </template>
@@ -114,7 +120,6 @@
         ></div>
       </div>
       <p class="error">{{errors}}</p>
-      <p class="mensaje">{{mensaje}}</p>
       <router-link
         to="/entrar"
         class="link"
@@ -128,98 +133,87 @@
 import Circle1 from "@/components-svg/Circle1.vue";
 import Circle2 from "@/components-svg/Circle2.vue";
 import TittleLogo from "@/components-svg/TittleLogo.vue";
-import CondominioService from "@/services/CondominioService.js";
+import { message } from "@/recursos/DataInformation.js";
+
 export default {
   components: { Circle1, Circle2, TittleLogo },
   data() {
     return {
-      name: "",
-      dni: "",
-      lastname: "",
-      phone: "",
-      email: "",
-      ruc: "",
-      razonSocial: "",
-      password: "",
+      credentials: {
+        usuarioNombre: "",
+        usuarioDni: "",
+        usuarioApellido: "",
+        usuarioTelefono: "",
+        usuarioCorreo: "",
+        ruc: "",
+        razonsocial: "",
+        usuarioContraseña: ""
+      },
       passwordTwo: "",
       errors: null,
-      mensaje: "",
       loading: false,
-      edificios: [],
       estadoForm: 1
     };
   },
-  async created() {
-    this.getCondominios();
-  },
   methods: {
     nextForm2() {
-      if (this.dni === "" || this.name === "" || this.lastname === "") {
-        this.errors = "Falta completar datos";
+      const credentials = this.credentials;
+      if (
+        credentials.usuarioNombre === "" ||
+        credentials.usuarioDni === "" ||
+        credentials.usuarioApellido === ""
+      ) {
+        this.errors = message.notCompleted;
         return;
       }
       this.errors = "";
       this.estadoForm = this.estadoForm + 1;
     },
     nextForm3() {
+      const credentials = this.credentials;
       if (
-        this.passwordTwo === "" ||
-        this.email === "" ||
-        this.password === ""
+        credentials.phone === "" ||
+        credentials.ruc === "" ||
+        credentials.razonSocial === ""
       ) {
-        this.errors = "Falta completar datos";
-        return;
-      }
-      if (this.passwordTwo !== this.password) {
-        this.errors = "Las Contraseñas no coinciden";
+        this.errors = message.notCompleted;
         return;
       }
       this.errors = "";
       this.estadoForm = this.estadoForm + 1;
     },
-    register() {
-      if (this.phone === "" || this.ruc === "" || this.razonSocial === "") {
-        this.errors = "Falta completar datos";
-        return;
-      }
-      this.loading = true;
-      this.$store
-        .dispatch("registerEmpresa", {
-          usuarioNombre: this.name,
-          usuarioDni: this.dni,
-          usuarioApellido: this.lastname,
-          usuarioTelefono: this.phone,
-          usuarioCorreo: this.email,
-          ruc: this.ruc,
-          razonsocial: this.razonSocial,
-          usuarioContraseña: this.password
-        })
-        .then(res => {
-          console.log(res);
-          this.loading = false;
-          if (res.data[0].resultado === "Registrado") {
-            return this.$store.dispatch("login", {
-              correo: this.email,
-              password: this.password
-            });
-          }
-        })
-        .then(() => {
-          this.loading = false;
-          this.$router.push({ name: "Home" });
-        })
-        .catch(err => {
-          console.log("user data is", err);
-          this.error = err.response.data.error;
-        });
-    },
-    async getCondominios() {
+    async register() {
       try {
-        const response = await CondominioService.showCondominios();
-        this.edificios = response.data;
+        const credentials = this.credentials;
+        if (
+          this.passwordTwo === "" ||
+          credentials.usuarioCorreo === "" ||
+          credentials.usuarioContraseña === ""
+        ) {
+          this.errors = message.notCompleted;
+          return;
+        }
+        if (this.passwordTwo !== credentials.usuarioContraseña) {
+          this.errors = message.passwordNotEqual;
+          return;
+        }
+        this.loading = true;
+        const res = await this.$store.dispatch("registerEmpresa", credentials);
+        if (res.data.successful === true) {
+          await this.$store.dispatch("login", {
+            correo: credentials.usuarioCorreo,
+            password: credentials.usuarioContraseña
+          });
+          this.$router.push({ name: "Home" });
+        } else {
+          this.errors = res.data.resultado;
+          this.estadoForm = 1;
+        }
       } catch (error) {
-        console.log(error);
+        console.log("user data is", error);
+        this.errors = error.response.data.error;
       }
+      this.loading = false;
     }
   }
 };
@@ -272,10 +266,6 @@ form {
 }
 .error {
   color: red;
-}
-.mensaje {
-  color: green;
-  width: 80%;
 }
 
 .btn_next {

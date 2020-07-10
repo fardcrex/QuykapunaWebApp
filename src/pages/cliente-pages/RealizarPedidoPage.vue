@@ -85,7 +85,7 @@ import ProductService from "@/services/ProductService.js";
 import EventService from "@/services/EventService.js";
 import PedidoService from "@/services/PedidoService.js";
 import NotFoundSvg from "@/components-svg/NotFoundSvg.vue";
-import { formatPrecio } from "@/helpers/precioHelper.js";
+import { formatPrecio } from "@/recursos/precioHelper.js";
 import { mapState, mapMutations, mapActions } from "vuex";
 export default {
   name: "EventClientPage",

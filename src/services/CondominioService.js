@@ -10,4 +10,9 @@ export default {
   showCondominios() {
     return axios.get(`${servers.produccion}/Condominio/mostrarCondominios`);
   },
+  showEdificioByCondominioId(idCondominio) {
+    return axios.get(
+      `${servers.produccion}/Condominio/mostrarEdificioXCondominio/${idCondominio}`
+    );
+  },
 };

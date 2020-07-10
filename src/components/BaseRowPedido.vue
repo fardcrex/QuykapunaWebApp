@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import { getFormatTime, getFormatFecha } from "@/helpers/timeHelper.js";
+import { getFormatTime, getFormatFecha } from "@/recursos/timeHelper.js";
 export default {
   props: {
     pedido: {

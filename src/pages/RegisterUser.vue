@@ -13,7 +13,7 @@
         <input
           placeholder="Dni"
           class="child input"
-          v-model="dni"
+          v-model="cliente.dni"
           type="text"
           name="Dni"
           value
@@ -21,35 +21,88 @@
         <input
           placeholder="Nombre"
           class="child input"
-          v-model="name"
+          v-model="cliente.nombre"
           type="text"
           name="name"
+          autocomplete="given-name"
           value
         />
         <input
           placeholder="Apellido"
           class="child input"
-          v-model="lastname"
+          v-model="cliente.apellido"
           type="text"
           name="name"
+          autocomplete="additional-name"
           value
         />
       </template>
       <template v-if="estadoForm===2">
         <input
+          placeholder="Telefono"
+          class="child input"
+          v-model="cliente.telefono"
+          type="text"
+          name="phone"
+          autocomplete="tel"
+          value
+        />
+        <select
+          class="child condominio_style"
+          v-model="condominioId"
+        >
+          <optgroup label="Condominios">
+            <option
+              v-for="condominio in condominios"
+              v-bind:key="condominio.condominioId"
+              :value="condominio.condominioId"
+            >{{condominio.condominioNombre}}</option>
+          </optgroup>
+        </select>
+        <select
+          v-if="isCondominioChecked"
+          class="child condominio_style"
+          v-model="cliente.edificio"
+        >
+          <optgroup label="Edificios">
+            <option
+              v-for="edificio in edificios"
+              v-bind:key="edificio.edificioId"
+              :value="edificio.edificioId"
+            >{{edificio.edificioNombre}}</option>
+          </optgroup>
+        </select>
+        <div
+          v-if="isLoadingEdificios"
+          class="preloader preloader__min"
+        ></div>
+        <input
+          placeholder="Departamento"
+          class="child input"
+          v-model="departamento"
+          type="text"
+          name="departamento"
+          autocomplete="off"
+          value
+        />
+      </template>
+      <template v-if="estadoForm===3">
+        <input
           placeholder="Email"
           class="child input"
-          v-model="email"
+          v-model="cliente.correo"
           type="email"
           name="email"
+          autocomplete="email"
           value
         />
         <input
           placeholder="Contraseña"
           class="child input"
-          v-model="password"
+          v-model="cliente.contraseña"
           type="password"
           name="password"
+          autocomplete="new-password"
           value
         />
         <input
@@ -58,39 +111,7 @@
           v-model="passwordTwo"
           type="password"
           name="password"
-          value
-        />
-      </template>
-      <template v-if="estadoForm===3">
-        <input
-          placeholder="Telefono"
-          class="child input"
-          v-model="phone"
-          type="text"
-          name="phone"
-          value
-        />
-        <select
-          class="child condominio_style"
-          v-model="edificio"
-        >
-          <optgroup label="Condominios">
-
-            <option
-              v-for="edificio in edificios"
-              v-bind:key="edificio.condominioId"
-              :value="edificio.condominioId"
-            >{{edificio.condominioNombre}}</option>
-
-          </optgroup>
-
-        </select>
-        <input
-          placeholder="Departamento"
-          class="child input"
-          v-model="departamento"
-          type="text"
-          name="departamento"
+          autocomplete="off"
           value
         />
       </template>
@@ -134,97 +155,122 @@ import Circle1 from "@/components-svg/Circle1.vue";
 import Circle2 from "@/components-svg/Circle2.vue";
 import TittleLogo from "@/components-svg/TittleLogo.vue";
 import CondominioService from "@/services/CondominioService.js";
+import { message } from "@/recursos/DataInformation.js";
 export default {
   components: { Circle1, Circle2, TittleLogo },
   data() {
     return {
-      name: "",
-      dni: "",
-      lastname: "",
-      phone: "",
-      email: "",
-      departamento: "",
-      edificio: -1,
-      password: "",
+      cliente: {
+        nombre: "",
+        dni: "",
+        apellido: "",
+        telefono: "",
+        correo: "",
+        departamento: "",
+        edificio: -1,
+        contraseña: ""
+      },
       passwordTwo: "",
-      errors: null,
+      condominioId: -1,
+      errors: "",
       mensaje: "",
-      loading: false,
       edificios: [],
-      estadoForm: 1
+      condominios: [],
+      estadoForm: 1,
+      isCondominioChecked: false,
+      loading: false,
+      isLoadingEdificios: false
     };
+  },
+  computed: {},
+  watch: {
+    async condominioId(newQuestion, oldQuestion) {
+      if (newQuestion !== oldQuestion) {
+        this.isCondominioChecked = false;
+        this.isLoadingEdificios = true;
+        await this.getEdificios();
+        this.isLoadingEdificios = false;
+        this.isCondominioChecked = true;
+      }
+    }
   },
   async created() {
     this.getCondominios();
   },
   methods: {
     nextForm2() {
-      if (this.dni === "" || this.name === "" || this.lastname === "") {
-        this.errors = "Falta completar datos";
+      const cliente = this.cliente;
+      if (
+        cliente.dni === "" ||
+        cliente.nombre === "" ||
+        cliente.apellido === ""
+      ) {
+        this.errors = message.notCompleted;
         return;
       }
       this.errors = "";
       this.estadoForm = this.estadoForm + 1;
     },
     nextForm3() {
+      const cliente = this.cliente;
       if (
-        this.passwordTwo === "" ||
-        this.email === "" ||
-        this.password === ""
+        cliente.telefono === "" ||
+        cliente.departamento === "" ||
+        cliente.edificio === -1
       ) {
-        this.errors = "Falta completar datos";
+        this.errors = message.notCompleted;
         return;
       }
-      if (this.passwordTwo !== this.password) {
-        this.errors = "Las Contraseñas no coinciden";
-        return;
-      }
+
       this.errors = "";
       this.estadoForm = this.estadoForm + 1;
     },
-    register() {
-      if (
-        this.phone === "" ||
-        this.departamento === "" ||
-        this.edificio === -1
-      ) {
-        this.errors = "Falta completar datos";
-        return;
-      }
-      this.loading = true;
-      this.$store
-        .dispatch("register", {
-          nombre: this.name,
-          dni: this.dni,
-          apellido: this.lastname,
-          telefono: this.phone,
-          correo: this.email,
-          departamento: this.departamento,
-          edificio: this.edificio,
-          contraseña: this.password
-        })
-        .then(res => {
-          console.log(res);
-          this.loading = false;
-          if (res.data[0].resultado === "Registrado") {
-            return this.$store.dispatch("login", {
-              correo: this.email,
-              password: this.password
-            });
-          }
-        })
-        .then(() => {
-          this.loading = false;
+    async register() {
+      try {
+        const cliente = this.cliente;
+        if (
+          this.passwordTwo === "" ||
+          cliente.email === "" ||
+          cliente.contraseña === ""
+        ) {
+          this.errors = message.notCompleted;
+          return;
+        }
+        if (this.passwordTwo !== cliente.contraseña) {
+          this.errors = message.passwordNotEqual;
+        }
+        this.loading = true;
+
+        const res = await this.$store.dispatch("register", cliente);
+        if (res.data.successful === true) {
+          await this.$store.dispatch("login", {
+            correo: cliente.correo,
+            password: cliente.contraseña
+          });
           this.$router.push({ name: "Home" });
-        })
-        .catch(err => {
-          console.log("user data is", err);
-          this.error = err.response.data.error;
-        });
+        } else {
+          this.errors = res.data.resultado;
+          this.estadoForm = 1;
+        }
+      } catch (error) {
+        console.log("user data is", error);
+        this.errors = error.response.data.error;
+      }
+      this.loading = false;
     },
     async getCondominios() {
       try {
         const response = await CondominioService.showCondominios();
+        this.condominios = response.data;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async getEdificios() {
+      try {
+        const response = await CondominioService.showEdificioByCondominioId(
+          this.condominioId
+        );
         this.edificios = response.data;
       } catch (error) {
         console.log(error);
@@ -364,7 +410,16 @@ form {
   margin-top: 1.6em;
   width: 60px;
   height: 60px;
+  &__min {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    width: 30px;
+    height: 30px;
+    border: 7px solid #fdebd7;
+    border-top: 7px solid #ff865e;
+  }
 }
+
 .link {
   display: block;
   margin: 1.5em 0;

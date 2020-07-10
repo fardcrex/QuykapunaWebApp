@@ -86,7 +86,6 @@ export default {
 .neumorphic-card__title {
   display: block;
   color: $color-font-row-title;
-
   padding: 0 0 0 1rem;
   text-align: start;
   p {

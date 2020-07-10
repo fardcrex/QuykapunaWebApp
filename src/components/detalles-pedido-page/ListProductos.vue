@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import { formatPrecio } from "@/helpers/precioHelper.js";
+import { formatPrecio } from "@/recursos/precioHelper.js";
 export default {
   props: {
     productos: {

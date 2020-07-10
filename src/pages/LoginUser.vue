@@ -50,6 +50,7 @@
 import Circle1 from "@/components-svg/Circle1.vue";
 import Circle2 from "@/components-svg/Circle2.vue";
 import TittleLogo from "@/components-svg/TittleLogo.vue";
+import { message } from "@/recursos/DataInformation.js";
 export default {
   components: { Circle1, Circle2, TittleLogo },
   data() {
@@ -63,7 +64,7 @@ export default {
   methods: {
     login() {
       if (this.email === "" || this.password === "") {
-        this.error = "Falta completar datos";
+        this.error = message.notCompleted;
         return;
       }
       this.loading = true;
