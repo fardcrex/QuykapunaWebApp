@@ -79,7 +79,7 @@
         <input
           placeholder="Departamento"
           class="child input"
-          v-model="departamento"
+          v-model="cliente.departamento"
           type="text"
           name="departamento"
           autocomplete="off"
@@ -221,7 +221,6 @@ export default {
         this.errors = message.notCompleted;
         return;
       }
-
       this.errors = "";
       this.estadoForm = this.estadoForm + 1;
     },
