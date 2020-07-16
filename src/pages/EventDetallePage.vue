@@ -14,7 +14,7 @@
       />
     </div>
     <div class="btn_svg">
-      <NotFoundSvg class="svg1"></NotFoundSvg>
+      <ManSitOnTheBox class="svg1"></ManSitOnTheBox>
       <div class="button_container">
         <button
           :class="{btn__isBlocked:isBlocked}"
@@ -60,9 +60,10 @@
 import ProductService from "@/services/ProductService.js";
 import EventService from "@/services/EventService.js";
 import NotFoundSvg from "@/components-svg/NotFoundSvg.vue";
+import ManSitOnTheBox from "@/components-svg/ManSitOnTheBox.vue";
 import { mapState, mapMutations } from "vuex";
 export default {
-  components: { NotFoundSvg },
+  components: { NotFoundSvg, ManSitOnTheBox },
   computed: {
     ...mapState(["eventos"]),
     isBlocked() {
@@ -159,7 +160,7 @@ export default {
   display: grid;
   width: 100%;
   max-width: 1024px;
-  margin: 3em auto;
+  margin: 1em auto;
   justify-items: center;
   align-items: center;
   grid-template-rows: 20vh auto;

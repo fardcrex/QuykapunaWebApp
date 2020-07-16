@@ -13,7 +13,7 @@
       </div>
       <div class="neumorphic-card__text">{{producto.productoDescripcion}}</div>
     </div>
-    <div class="neumorphic-card__precio">S./ {{producto.productoCosto}}</div>
+    <div class="neumorphic-card__precio">S/. {{producto.productoCosto}}</div>
 
   </div>
 

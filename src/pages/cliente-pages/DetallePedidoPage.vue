@@ -232,7 +232,7 @@ export default {
   display: grid;
   width: 100%;
   max-width: 1024px;
-  margin: 3em auto;
+  margin: 1em auto;
   justify-items: center;
   align-items: center;
   grid-template-rows: 20vh auto;

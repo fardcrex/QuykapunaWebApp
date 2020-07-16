@@ -18,7 +18,7 @@
       />
       <input class="child " type="file" @change="previewImage" accept="image/*" >
       <input
-        placeholder="Costo"
+        placeholder="Precio"
         class="child input input-costo"
         v-model.number="costo"
         type="number"
@@ -38,7 +38,7 @@
       ></div>
     </div>
 
-    <ShoppingCar class="svg"></ShoppingCar>
+    <Personaje class="svg"></Personaje>
     <h2 class="title2">Lista de Productos</h2>
     <div class="eventList"  v-if="!isLoadingList">
       <BaseCardProduct  v-for="producto in productos"  v-bind:key="producto.productoId"
@@ -62,11 +62,11 @@
 
 <script>
 import ProductService from "@/services/ProductService.js";
-import ShoppingCar from "@/components-svg/ShoppingCar.vue";
+import Personaje from "@/components-svg/Personaje.vue";
 import fire from "@/fire";
 import { mapState, mapActions } from "vuex";
 export default {
-  components: { ShoppingCar },
+  components: { Personaje },
   data() {
     return {
       //Loader para el formulario

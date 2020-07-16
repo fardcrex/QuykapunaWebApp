@@ -66,7 +66,7 @@
         class="preloader__min preloader"
       ></div>
     </div>
-    <Personaje class="svg"></Personaje>
+    <ManCarWithBox class="svg"></ManCarWithBox>
     <h2 class="title2">Lista de Eventos</h2>
     <div class="eventList" v-if="!isLoadingList">
       <BaseCardEvent  v-for="event in eventos"  v-bind:key="event.eventoId"
@@ -90,13 +90,13 @@
 
 <script>
 //import EventCard from "../components/EventCard";
-import Personaje from "@/components-svg/Personaje.vue";
+import ManCarWithBox from "@/components-svg/ManCarWithBox.vue";
 import CondominioService from "@/services/CondominioService.js";
 import EventService from "@/services/EventService.js";
 import { mapState, mapActions } from "vuex";
 
 export default {
-  components: { Personaje },
+  components: { ManCarWithBox },
   data() {
     return {
       isLoadingRequest: false,
