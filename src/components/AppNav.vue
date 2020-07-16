@@ -7,7 +7,7 @@
     <router-link to="/">Inicio</router-link>
     <router-link
       v-if="isProveedor"
-      to="/Eventos-proveedor"
+      to="/eventos-proveedor"
     >Eventos</router-link>
     <router-link
       v-if="isProveedor"

@@ -11,34 +11,69 @@
       <p class="state_info">
         Estado del evento: <span v-bind:style="getColorStyle">{{stateEventName}}</span>
       </p>
+      <div class="input_style">
+        <select
+          class="svg1"
+          name="cars"
+          id="cars"
+          placeholder=""
+          v-model="adminIdState"
+        >
+          <optgroup label="Estados">
+            <option
+              v-for="state in estados"
+              v-bind:key="state.estadoEventoId"
+              :value="state.estadoEventoId"
+            >{{state.estadoEventoNombre}}</option>
+          </optgroup>
+        </select>
+        <button
+          :class="{btn__isBlocked:isBlocked}"
+          class="primary btn"
+          type="submit"
+          name="button"
+          v-on:click="changeState"
+        >Cambiar estado</button>
+      </div>
     </div>
-    <div class="btn_svg">
-      <select
-        class="svg1"
-        name="cars"
-        id="cars"
-        placeholder=""
-        v-model="adminIdState"
-      >
-        <optgroup label="Estados">
-
-          <option
-            v-for="state in estados"
-            v-bind:key="state.estadoEventoId"
-            :value="state.estadoEventoId"
-          >{{state.estadoEventoNombre}}</option>
-
-        </optgroup>
-
-      </select>
-
+    <div class="container_form">
+      <div class="container_input">
+        <div class="container_title_select">
+          <input
+            placeholder="Título"
+            class="child input"
+            v-model="title"
+            type="text"
+            value
+          />
+          <select
+            class="child input"
+            v-model="condominioId"
+          >
+            <optgroup label="Condominios">
+              <option
+                v-for="condominio in condominios"
+                v-bind:key="condominio.condominioId"
+                :value="condominio.condominioId"
+              >{{condominio.condominioNombre}}</option>
+            </optgroup>
+          </select>
+        </div>
+        <textarea
+          rows="6"
+          placeholder="Descripción"
+          class="child textarea"
+          v-model="descripcion"
+          value
+        />
+        </div>
       <button
-        :class="{btn__isBlocked:isBlocked}"
-        class="primary btn"
+        :class="{btn__isBlocked:isBlockedButtonNotify}"
+        class="primary btn_two"
         type="submit"
         name="button"
-        v-on:click="changeState"
-      >Cambiar estado</button>
+        v-on:click="sendNotify"
+      >Enviar Notificación</button>
 
     </div>
     <h2 class="title2">Cantidad de Productos</h2>
@@ -71,6 +106,7 @@
 import ProductService from "@/services/ProductService.js";
 import EventService from "@/services/EventService.js";
 import NotFoundSvg from "@/components-svg/NotFoundSvg.vue";
+import CondominioService from "@/services/CondominioService.js";
 import { mapState, mapMutations } from "vuex";
 export default {
   components: { NotFoundSvg },
@@ -78,6 +114,15 @@ export default {
     ...mapState(["eventos"]),
     isBlocked() {
       if (this.adminIdState == 0) return true;
+      return false;
+    },
+    isBlockedButtonNotify() {
+      if (
+        this.condominioId === -1 ||
+        this.title === "" ||
+        this.descripcion === ""
+      )
+        return true;
       return false;
     },
     stateEventName() {
@@ -104,6 +149,8 @@ export default {
   },
   data() {
     return {
+      title: "",
+      descripcion: "",
       evento: {
         eventoNombre: "cargando",
         eventoDescripcion: "cargando",
@@ -147,7 +194,9 @@ export default {
           estadoEventoId: 8,
           estadoEventoNombre: "Cancelado"
         }
-      ]
+      ],
+      condominios: [],
+      condominioId: -1
     };
   },
   async created() {
@@ -176,8 +225,8 @@ export default {
         return;
       }
     }
-
     this.loading = false;
+    this.getCondominios();
     await this.getProductos();
     this.isLoadingList = false;
   },
@@ -207,6 +256,35 @@ export default {
         this.adminIdState = 0;
       } catch (error) {
         console.log(error);
+      }
+    },
+    async getCondominios() {
+      try {
+        const response = await CondominioService.showCondominios();
+        this.condominios = response.data;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async sendNotify() {
+      if (
+        this.condominioId === -1 ||
+        this.title === "" ||
+        this.descripcion === ""
+      ) {
+        return;
+      }
+      const respond = await CondominioService.getTokenByCondominioId(
+        this.condominioId
+      );
+      for (const user of respond.data) {
+        if (user.usuarioTokenCelular)
+          CondominioService.sendNotify({
+            title: this.title,
+            body: this.descripcion,
+            data: this.$route.params.idEvent,
+            token: user.usuarioTokenCelular
+          });
       }
     }
   }
@@ -287,15 +365,14 @@ export default {
   font-size: 1.5rem;
   margin: 1rem auto 0.6rem;
 }
-.btn_svg {
-  width: 70%;
-  margin: 1em auto;
-  @media screen and (min-width: $notebook) {
-    margin: auto;
-  }
+.input_style {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
+
 .btn {
-  margin: 1em auto 0;
+  margin: 1em 0 1em 1em;
 }
 
 .btn__isBlocked {
@@ -341,5 +418,27 @@ export default {
 .button_container {
   display: flex;
   justify-content: center;
+}
+.input {
+  margin: 0.6em 1em;
+  width: 15em;
+}
+.btn_two {
+  margin: 1em auto;
+}
+.textarea {
+  width: 15em;
+  height: 8em;
+  margin: 0.6em 1em;
+  border-radius: 20px;
+}
+.container_input {
+  display: flex;
+}
+.container_title_select {
+  width: min-content;
+}
+.container_form {
+  margin: 1em auto;
 }
 </style>
