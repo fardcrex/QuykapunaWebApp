@@ -79,11 +79,9 @@ export default {
   },
   async created() {
     if (this.eventos[0]) {
-      console.log("response 1s");
       let eventoFind;
       for (let event of this.eventos) {
         if (event.eventoId == this.$route.params.idEvent) {
-          console.log("response 2s");
           eventoFind = event;
           break;
         }
@@ -107,7 +105,6 @@ export default {
         return;
       }
     }
-
     this.loading = false;
     await this.getProductos();
     this.isLoadingList = false;
@@ -116,12 +113,9 @@ export default {
     ...mapMutations(["ADD_TO_EVENTS_DATA"]),
     async getProductos() {
       try {
-        console.log("response");
         var response = await ProductService.getProductosForEvent(
           this.$route.params.idEvent
         );
-        console.log(response);
-
         this.productos = response.data.reverse();
         this.isLoading = false;
         // For now, logs out the response

@@ -17,7 +17,6 @@
         v-if="!loggedIn"
         class="child"
       >
-
         <div class="botones">
           <button
             class="primary btn"

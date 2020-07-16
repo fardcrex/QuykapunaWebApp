@@ -134,7 +134,9 @@ export default function getStore(authService) {
           if (state.isProductosPageLoaded && !data.reload) {
             return;
           }
-          var response = await ProductService.getProductos(data.empresaId);
+          var response = await ProductService.getProductos(
+            state.empresa.empresaId
+          );
           const productos = response.data.reverse();
           commit("LOAD_PRODUCTS_DATA", productos);
         } catch (error) {

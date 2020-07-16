@@ -2,6 +2,8 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../pages/Home.vue";
 import EventosPage from "../pages/EventosPage.vue";
+import CreateEventPage from "../pages/CreateEventPage.vue";
+import CreateProductPage from "../pages/CreateProductPage.vue";
 import ProductosPage from "../pages/ProductosPage.vue";
 import LoginUser from "../pages/LoginUser.vue";
 import EventPage from "../pages/EventDetallePage.vue";
@@ -16,7 +18,7 @@ import RealizarPedidoPage from "../pages/cliente-pages/RealizarPedidoPage.vue";
 import PedidosPage from "../pages/cliente-pages/PedidosPage.vue";
 import DetallePedidoPage from "../pages/cliente-pages/DetallePedidoPage.vue";
 
-import CabezeraBody from "@/components/detalles-pedido-page/CabezeraBody.vue";
+import HeaderBody from "@/components/detalles-pedido-page/HeaderBody.vue";
 import ListProductos from "@/components/detalles-pedido-page/ListProductos.vue";
 import ChangeListProductos from "@/components/detalles-pedido-page/ChangeListProductos.vue";
 import QrImagen from "@/components/detalles-pedido-page/QrImagen.vue";
@@ -31,7 +33,13 @@ const routes = [
     component: Home,
   },
   {
-    path: "/crear-eventos",
+    path: "/crear-evento",
+    name: "CreateEventPage",
+    component: CreateEventPage,
+    meta: { requiresAuth: true, isProveedor: true },
+  },
+  {
+    path: "/eventos-proveedor",
     name: "EventPage",
     component: EventosPage,
     meta: { requiresAuth: true, isProveedor: true },
@@ -58,6 +66,12 @@ const routes = [
     path: "/productos",
     name: "ProductPage",
     component: ProductosPage,
+    meta: { requiresAuth: true, isProveedor: true },
+  },
+  {
+    path: "/crear-producto",
+    name: "CreateProductPage",
+    component: CreateProductPage,
     meta: { requiresAuth: true, isProveedor: true },
   },
   {
@@ -95,7 +109,7 @@ const routes = [
         path: "lista-items",
         components: {
           default: ListProductos,
-          cabezera: CabezeraBody,
+          cabezera: HeaderBody,
           footer: FooterBody,
         },
 
@@ -105,7 +119,7 @@ const routes = [
         path: "modificar-lista-items",
         components: {
           default: ChangeListProductos,
-          cabezera: CabezeraBody,
+          cabezera: HeaderBody,
           footer: FooterBody,
         },
         name: "UpdateListOfItems",
@@ -113,7 +127,7 @@ const routes = [
       },
       {
         path: "codigo-Qr",
-        components: { default: QrImagen, cabezera: CabezeraBody },
+        components: { default: QrImagen, cabezera: HeaderBody },
         name: "CodigoQR",
         props: { cabezera: { isVistaQr: true } },
       },

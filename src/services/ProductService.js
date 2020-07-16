@@ -12,14 +12,8 @@ export default {
       `${servers.produccion}/Producto/mostrarProductoporEvento/${eventId}`
     );
   },
-  postCrearProducto(empresaId, costo, imagen, name, descripcion) {
-    return axios.post(`${servers.produccion}/empresa/agregarProducto`, {
-      idEmpresa: empresaId,
-      costoP: costo,
-      imagenP: imagen,
-      nombreP: name,
-      descripcionP: descripcion,
-    });
+  postCrearProducto(body) {
+    return axios.post(`${servers.produccion}/empresa/agregarProducto`, body);
   },
   agregarProductoEmpresa(eventoId, productoId) {
     return axios.post(`${servers.produccion}/empresa/Evento/agregarProducto`, {

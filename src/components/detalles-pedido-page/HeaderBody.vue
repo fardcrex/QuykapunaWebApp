@@ -54,7 +54,7 @@ export default {
     },
     getTextButton() {
       if (this.isVistaQr) return "Ver pedido";
-      if (this.isVistaModificar) return "Terminar";
+      if (this.isVistaModificar) return "Guardar";
       return "Código QR";
     },
     getTextButtonModify() {
