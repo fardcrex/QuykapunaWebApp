@@ -286,6 +286,12 @@ export default {
             data: this.$route.params.idEvent,
             token: user.usuarioTokenCelular
           });
+        console.log({
+          title: this.title,
+          body: this.descripcion,
+          data: this.$route.params.idEvent,
+          token: user.usuarioTokenCelular
+        });
       }
       this.clearInput();
       this.message = "enviado";
