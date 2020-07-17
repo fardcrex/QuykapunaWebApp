@@ -74,7 +74,7 @@
         name="button"
         v-on:click="sendNotify"
       >Enviar Notificación</button>
-
+      <p>{{message}}</p>
     </div>
     <h2 class="title2">Cantidad de Productos</h2>
     <div
@@ -195,6 +195,7 @@ export default {
           estadoEventoNombre: "Cancelado"
         }
       ],
+      message: "",
       condominios: [],
       condominioId: -1
     };
@@ -286,6 +287,13 @@ export default {
             token: user.usuarioTokenCelular
           });
       }
+      this.clearInput();
+      this.message = "enviado";
+    },
+    clearInput() {
+      this.title = "";
+      this.descripcion = "";
+      this.condominioId = -1;
     }
   }
 };
@@ -318,7 +326,6 @@ export default {
 
 .container {
   justify-items: center;
-
   display: grid;
   width: 100%;
   max-width: 1024px;

@@ -171,13 +171,13 @@ export default {
     grid-template-rows: minmax(500px, auto) 12vh;
   }
   @media screen and (min-width: $laptop) {
-    grid-template-rows: minmax(550px, auto) 14vh;
+    grid-template-rows: minmax(520px, auto) 14vh;
   }
 }
 .title {
   margin-top: 5vh;
   @media screen and (min-width: $notebook) {
-    margin-top: 9vh;
+    margin-top: 7vh;
   }
 }
 .svg {

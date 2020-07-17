@@ -192,10 +192,6 @@ export default {
   @media screen and (min-width: $notebook) {
     margin-top: 7vh;
   }
-  @media screen and (min-width: $laptop) {
-    margin-top: 9vh;
-    margin-bottom: 0;
-  }
 }
 .container {
   justify-items: center;
@@ -211,7 +207,7 @@ export default {
     grid-template-rows: minmax(500px, auto) 12vh;
   }
   @media screen and (min-width: $laptop) {
-    grid-template-rows: minmax(550px, auto) 14vh;
+    grid-template-rows: minmax(525px, auto) 14vh;
   }
 }
 

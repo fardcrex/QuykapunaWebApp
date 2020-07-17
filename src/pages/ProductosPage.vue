@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="title">
-      <h2>Lista de Productos</h2>
+      <h2>{{title}}</h2>
       <button
         class="primary  btn"
         type="submit"
@@ -32,7 +32,8 @@ export default {
   data() {
     return {
       //Loader de la lista de productos
-      isLoadingList: true
+      isLoadingList: true,
+      title: "Lista de Productos"
     };
   },
   async created() {
@@ -52,6 +53,9 @@ export default {
         console.log("There was an error:", error.response); // Logs out the error
       } finally {
         this.isLoadingList = false;
+      }
+      if (this.productos.length === 0) {
+        this.title = "No hay productos creados";
       }
     },
     goCreateProductPage() {

@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="title">
-      <h2>Lista de Eventos</h2>
+      <h2>{{title}}</h2>
       <button
         class="primary  btn"
         type="submit"
@@ -33,7 +33,8 @@ import { mapState, mapActions } from "vuex";
 export default {
   data() {
     return {
-      isLoadingList: true
+      isLoadingList: true,
+      title: "Lista de Eventos"
     };
   },
   created() {
@@ -53,6 +54,10 @@ export default {
         console.log("There was an error:", error.response); // Logs out the error
       } finally {
         this.isLoadingList = false;
+      }
+      if (this.eventos.length === 0) {
+        this.title = "No hay eventos creados";
+        console.log("this.eventos.length", this.eventos.length);
       }
     },
     goCreateEventPage() {
