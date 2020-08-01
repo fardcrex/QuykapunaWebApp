@@ -4,10 +4,9 @@
     <div>
       <div class="neumorphic-card__title">{{producto.productoNombre}}</div>
       <div class="neumorphic-card__outer">
-        <img
+        <BaseImagen
           class="neumorphic-image"
           :src="imgProducto"
-          loading="lazy"
           :alt="producto.productoNombre"
         />
       </div>
@@ -44,14 +43,7 @@ export default {
 
 <style lang="scss" scoped>
 @import "@/assets/styles/global.scss";
-.neumorphic-image {
-  border-radius: 10px;
-  min-height: 8rem;
-  height: auto;
-  max-height: 10rem;
-  display: block;
-  width: 100%;
-}
+
 .neumorphic-card {
   display: flex;
   flex-direction: column;

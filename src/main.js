@@ -96,7 +96,12 @@ new Vue({
         return response;
       }, // simply return the response
       (error) => {
-        if (error.response.status === 401 || error.response.status === 403) {
+        if (
+          (error.response.status === 401 &&
+            error.config &&
+            !error.config.__isRetryRequest) ||
+          error.response.status === 403
+        ) {
           // if we catch a 401 error
           this.$store.dispatch("logout"); // force a log out
         }

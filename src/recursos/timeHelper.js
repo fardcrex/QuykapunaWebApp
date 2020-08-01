@@ -3,7 +3,10 @@ function getFormatTime(value) {
     let date = new Date(value);
     const hour = date.toLocaleTimeString().split(":")[0];
     const minutes = date.toLocaleTimeString().split(":")[1];
-    const timeAMorPM = date.toLocaleTimeString().split(" ")[1];
+    let timeAMorPM = date.toLocaleTimeString().split(" ")[1];
+    if (!timeAMorPM) {
+      timeAMorPM = "";
+    }
     return `${hour}:${minutes} ${timeAMorPM}`;
   } else {
     return "00:00";

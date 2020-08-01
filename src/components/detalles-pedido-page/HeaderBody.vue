@@ -5,8 +5,8 @@
       class="primary btn"
       type="submit"
       name="button"
-      v-on:click="goTheQrPage"
-    >{{getTextButton}}</button>
+      v-on:click="onButtonLeft"
+    >{{getTextButtonLeft}}</button>
     <h2 class="title2">{{getTitle}}</h2>
     <div
       v-if="isVistaQr"
@@ -17,8 +17,8 @@
       class="primary btn"
       type="submit"
       name="button"
-      v-on:click="goTheChangePage"
-    >{{getTextButtonModify}}</button>
+      v-on:click="onButtonRight"
+    >{{getTextButtonRight}}</button>
   </div>
 </template>
 
@@ -52,25 +52,25 @@ export default {
       if (this.isVistaModificar) return "Modificar Pedido";
       return "Pedidos";
     },
-    getTextButton() {
+    getTextButtonLeft() {
       if (this.isVistaQr) return "Ver pedido";
       if (this.isVistaModificar) return "Guardar";
       return "Código QR";
     },
-    getTextButtonModify() {
+    getTextButtonRight() {
       if (this.isVistaModificar) return "Cancelar";
       return "Modificar";
     }
   },
   methods: {
-    goTheQrPage() {
+    onButtonLeft() {
       if (this.isVistaQr) this.$router.push("lista-items");
       else if (this.isVistaModificar) {
         this.$emit("terminar");
         this.$router.push("lista-items");
       } else this.$router.push("codigo-Qr");
     },
-    goTheChangePage() {
+    onButtonRight() {
       if (this.isVistaModificar) {
         this.$emit("cancelar");
         this.$router.push("lista-items");

@@ -23,7 +23,7 @@ export default function getStore(authService) {
       productos: [],
       isPedidosPageLoaded: false,
       pedidos: [],
-      timeToken: new Date("2000-01-01T00:00:00.0000"),
+      timeToken: new Date(localStorage.getItem("timeToken")),
     },
     mutations: {
       SET_USER_DATA(state, userData) {
@@ -65,7 +65,7 @@ export default function getStore(authService) {
         // state.user = null
         localStorage.clear();
         // axios.defaults.headers.common['Authorization'] = null
-        location.reload();
+        //  location.reload();
       },
     },
     actions: {
@@ -93,8 +93,6 @@ export default function getStore(authService) {
         authService.postRegistrarToken(resUser.data.token, user.usuarioId);
         if (user.tipoUsuarioId === 2 || user.tipoUsuarioId === 3) {
           const resEmpresa = await EventService.getEmpresaData(user.usuarioId);
-          console.log(resEmpresa);
-
           if (resEmpresa.data) {
             const data = resEmpresa.data[0];
             console.log(data);

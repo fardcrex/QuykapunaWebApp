@@ -19,7 +19,6 @@
       class="eventList"
       v-if="!isLoadingList"
     >
-
       <BaseRowPedido
         class="rowCardProduct"
         v-for="(pedido,index) in pedidos"
@@ -27,9 +26,7 @@
         :pedido="pedido"
         :numRow="index"
       ></BaseRowPedido>
-
     </div>
-
     <div
       v-else
       class="preloader preloader__list"

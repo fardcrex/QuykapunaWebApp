@@ -137,21 +137,25 @@ const routes = [
     path: "/entrar",
     name: "LoginUser",
     component: LoginUser,
+    meta: { notRequiresAuth: true },
   },
   {
     path: "/registro-cliente",
     name: "RegisterUser",
     component: RegisterUser,
+    meta: { notRequiresAuth: true },
   },
   {
     path: "/registro",
     name: "RegisterOption",
     component: RegisterOption,
+    meta: { notRequiresAuth: true },
   },
   {
     path: "/registro-empresa",
     name: "RegisterEmpresa",
     component: RegisterEmpresa,
+    meta: { notRequiresAuth: true },
   },
   { path: "*", component: Home },
 ];
@@ -179,6 +183,10 @@ router.beforeEach((to, from, next) => {
     next("/");
     return;
   }
+  if (to.matched.some((record) => record.meta.notRequiresAuth) && loggedIn) {
+    next("/");
+    return;
+  }
 
   if (to.matched.some((record) => record.meta.requiresAuth)) {
     try {
@@ -199,7 +207,7 @@ router.beforeEach((to, from, next) => {
         return;
       }
     } catch (e) {
-      next("/");
+      console.log(e);
     }
     next("/");
     return;
