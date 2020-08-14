@@ -16,14 +16,19 @@
         v-model="producto.descripcionP"
         value
       />
-      <input class="child " type="file" @change="previewImage" accept="image/*" >
-      <input
+      <!--  <input class="child" type="file" @change="previewImage" accept="video/*,image/*" > -->
+     <BaseInputFile @previewFile="previewFileImage" class="child" :isDefaultFileName="isDefaultImagenName" :uploadValue="uploadValueImage" text="Imagen producto"/>
+     <BaseInputFile @previewFile="previewFileVideo" class="child" :isDefaultFileName="isDefaultVideoName" :uploadValue="uploadValueVideo" text="Video (Opcional)" tipoFile="video/*"/>
+     <!-- <BaseInputFile  class="child" text="Video (Opcional)" tipoFile="video/*"/> -->
+     <span class="costo_container">S/.
+        <input
         placeholder="Precio"
         class="child input input-costo"
         v-model.number="producto.costoP"
         type="number"
         value
       />
+      </span> 
       <!-- <input type="date" name="fecha" v-model="fecha"> -->
       <button
           v-if="!isLoadingRequest"
@@ -66,26 +71,40 @@ export default {
       producto: {
         costoP: null,
         nombreP: "",
-        descripcionP: ""
+        descripcionP: "",
       },
       imageData: null,
-      picture: null,
-      uploadValue: 0
+      uploadValueImage: 0,
+      imageUrl: null,
+      isDefaultImagenName: true,
+      videoData: null,
+      uploadValueVideo: 0,
+      videoUrl: "",
+      isDefaultVideoName: true,
+      loadFilesComplete: 0,
     };
   },
   computed: {
     ...mapState({
-      empresaId: state => state.empresa.empresaId
-    })
+      empresaId: (state) => state.empresa.empresaId,
+    }),
   },
   methods: {
     ...mapActions(["getProductosAction"]),
-    previewImage(event) {
-      this.uploadValue = 0;
-      this.picture = null;
-      this.imageData = event.target.files[0];
+    previewFileImage(imageData) {
+      this.uploadValueImage = 0;
+      this.imageUrl = null;
+      this.imageData = imageData;
+      this.isDefaultImagenName = false;
+    },
+    previewFileVideo(videoData) {
+      this.uploadValueVideo = 0;
+      this.videoUrl = null;
+      this.videoData = videoData;
+      this.isDefaultVideoName = false;
     },
     onUpload() {
+      this.isLoadingRequest = true;
       if (
         !this.empresaId ||
         !this.producto.costoP ||
@@ -97,44 +116,85 @@ export default {
         this.isLoadingRequest = false;
         return;
       }
-      this.isLoadingRequest = true;
-      this.picture = null;
+      if (this.videoData) this.uploadVideo();
+      this.uploadImagen();
+    },
+    uploadImagen() {
       const storageRef = fire
         .storage()
-        .ref(`${this.empresaRuc}/${this.imageData.name}`)
+        .ref(
+          `${this.empresaRuc}/${this.producto.nombreP}/${this.imageData.name}`
+        )
         .put(this.imageData);
       storageRef.on(
         `state_changed`,
-        snapshot => {
-          this.uploadValue =
+        (snapshot) => {
+          this.uploadValueImage =
             (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
         },
-        error => {
+        (error) => {
           console.log(error.message);
         },
         () => {
-          this.uploadValue = 100;
-          storageRef.snapshot.ref.getDownloadURL().then(url => {
-            this.picture = url;
-            this.createProducto();
+          storageRef.snapshot.ref.getDownloadURL().then((url) => {
+            this.uploadValueImage = 100;
+            if (this.videoData) {
+              console.log("video data prbando");
+              this.loadFilesComplete = this.loadFilesComplete + 50;
+            } else this.loadFilesComplete = this.loadFilesComplete + 100;
+            this.imageUrl = url;
+          });
+        }
+      );
+    },
+    uploadVideo() {
+      const storageRef = fire
+        .storage()
+        .ref(
+          `${this.empresaRuc}/${this.producto.nombreP}/${this.videoData.name}`
+        )
+        .put(this.videoData);
+      storageRef.on(
+        `state_changed`,
+        (snapshot) => {
+          this.uploadValueVideo =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        },
+        (error) => {
+          console.log(error.message);
+        },
+        () => {
+          storageRef.snapshot.ref.getDownloadURL().then((url) => {
+            this.uploadValueVideo = 100;
+            this.loadFilesComplete = this.loadFilesComplete + 50;
+            this.videoUrl = url;
           });
         }
       );
     },
     async createProducto() {
+      console.log({
+        idEmpresa: this.empresaId,
+        imagenP: this.imageUrl,
+        videoP: this.videoUrl,
+        ...this.producto,
+      });
       try {
         let respondProduct = await ProductService.postCrearProducto({
           idEmpresa: this.empresaId,
-          imagenP: this.picture,
-          ...this.producto
+          imagenP: this.imageUrl,
+          videoP: this.videoUrl,
+          ...this.producto,
         });
         if (respondProduct.data.Status == "Registro exitoso") {
           await this.getProductosAction({
             empresaId: this.empresaId,
-            reload: true
+            reload: true,
           });
         }
-        this.messageRequest = respondProduct.data.Status;
+        if (respondProduct.data.Status)
+          this.messageRequest = respondProduct.data.Status;
+        else this.messageRequest = "No se pudo crear";
       } catch (e) {
         this.messageRequest = e;
       }
@@ -146,17 +206,28 @@ export default {
       this.producto.nombreP = "";
       this.producto.descripcionP = "";
       this.imageData = null;
-      this.uploadValue = 0;
-      this.picture = null;
+      this.videoData = null;
+      this.uploadValueImage = 0;
+      this.uploadValueVideo = 0;
+      this.isDefaultImagenName = true;
+      this.isDefaultVideoName = true;
     },
     anteriorPage() {
       this.$router.push({ name: "ProductPage" });
-    }
-  }
+    },
+  },
+  watch: {
+    loadFilesComplete() {
+      if (this.loadFilesComplete === 100) {
+        this.createProducto();
+      }
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>
 @import "@/assets/styles/global.scss";
+
 .container {
   justify-items: center;
 
@@ -276,5 +347,9 @@ export default {
   width: 40px;
   height: 40px;
   margin: 1.6em auto;
+}
+.costo_container {
+  display: flex;
+  align-items: center;
 }
 </style>

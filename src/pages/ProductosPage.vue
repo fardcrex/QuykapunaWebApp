@@ -33,24 +33,24 @@ export default {
     return {
       //Loader de la lista de productos
       isLoadingList: true,
-      title: "Lista de Productos"
+      title: "Lista de Productos",
     };
   },
   async created() {
     await this.getProductos();
   },
   computed: {
-    ...mapState(["productos", "isProductosPageLoaded"])
+    ...mapState(["productos", "isProductosPageLoaded"]),
   },
   methods: {
     ...mapActions(["getProductosAction"]),
     async getProductos() {
       try {
         await this.getProductosAction({
-          reload: false
+          reload: false,
         });
       } catch (error) {
-        console.log("There was an error:", error.response); // Logs out the error
+        console.log("There was an error Productos Page:", error.response); // Logs out the error
       } finally {
         this.isLoadingList = false;
       }
@@ -60,8 +60,8 @@ export default {
     },
     goCreateProductPage() {
       this.$router.push({ name: "CreateProductPage" });
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>

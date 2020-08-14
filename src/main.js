@@ -65,18 +65,24 @@ new Vue({
         axios.defaults.headers.common["Authorization"]
       ) {
         const token = axios.defaults.headers.common["Authorization"];
-        const res = await AuthService.postRefrescarToken({ token });
+        let res;
+        console.log(token);
+        try {
+          res = await AuthService.postRefrescarToken({ token });
+        } catch (error) {
+          console.log(error);
+        }
         const data = res.data;
+        console.log(data);
         if (data.newtoken) {
+          console.log("here new token");
           this.$store.commit("SET_TIME_TOKEN_DATA");
           axios.defaults.headers.common["Authorization"] = `${data.newtoken}`;
           const userData = JSON.parse(userString);
           userData.token = data.newtoken;
+          userData.idtoken = data.id;
           localStorage.setItem("usuario", JSON.stringify(userData));
-          AuthService.postRegistrarToken(data.newtoken, data.id);
-        } else {
-          this.$store.dispatch("logout");
-          return Promise.reject("bad token");
+          await AuthService.postRegistrarToken(data.newtoken, data.id);
         }
       }
 
@@ -97,10 +103,10 @@ new Vue({
       }, // simply return the response
       (error) => {
         if (
-          (error.response.status === 401 &&
+          (error.response?.status === 401 &&
             error.config &&
             !error.config.__isRetryRequest) ||
-          error.response.status === 403
+          error.response?.status === 403
         ) {
           // if we catch a 401 error
           this.$store.dispatch("logout"); // force a log out

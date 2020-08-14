@@ -12,32 +12,39 @@
       </div>
       <div class="neumorphic-card__text">{{producto.productoDescripcion}}</div>
     </div>
-    <div class="neumorphic-card__precio">S/. {{producto.productoCosto}}</div>
-
+    <div class="neumorphic-card__precio">
+      <div class="is-video">
+        <VideoModal
+          v-if="producto.productoVideo"
+          :urlVideo="producto.productoVideo"
+          :titleVideo="producto.productoNombre"
+        ></VideoModal>
+      </div>
+      <div class="style-precio"> S/. {{producto.productoCosto}} </div>
+    </div>
   </div>
 
 </template>
 
 <script>
+import VideoModal from "@/components/VideoModal.vue";
 export default {
+  components: { VideoModal },
   props: {
     producto: {
-      type: Object
-    }
+      type: Object,
+    },
   },
   computed: {
     imgProducto() {
-      if (
-        this.producto.productoImagen == "dasdasdas" ||
-        this.producto.productoImagen === ""
-      ) {
+      if (this.producto.productoImagen === "") {
         return "./producto-default.png";
       }
       return this.producto.productoImagen;
-    }
+    },
   },
 
-  name: "BaseCardEvent"
+  name: "BaseCardEvent",
 };
 </script>
 
@@ -81,9 +88,15 @@ export default {
   padding: 12px;
 }
 .neumorphic-card__precio {
-  display: block;
-
-  text-align: end;
+  display: flex;
+  justify-content: space-between;
   font-size: $font-precio;
+  margin-top: 0.5rem;
+}
+.is-video {
+  font-size: 1.5rem;
+}
+.style-precio {
+  margin-top: 0.5rem;
 }
 </style>

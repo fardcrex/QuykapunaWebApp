@@ -65,7 +65,7 @@ export default function getStore(authService) {
         // state.user = null
         localStorage.clear();
         // axios.defaults.headers.common['Authorization'] = null
-        //  location.reload();
+        location.reload();
       },
     },
     actions: {

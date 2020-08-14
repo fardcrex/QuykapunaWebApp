@@ -27,25 +27,23 @@ export default {
   props: {
     src: {
       type: String,
-      required: true
+      required: true,
     },
     placeholder: String,
-    background: String
+    background: String,
   },
 
   computed: {
     dataUrl() {
       const { width, height } = this.$attrs;
       if (!width || !height) return "";
-
       // create a tiny png with matching aspect ratio as img
       const w = 100;
       const canvas = document.createElement("canvas");
       canvas.width = w;
       canvas.height = (height / width) * w;
-
       return canvas.toDataURL();
-    }
+    },
   },
 
   mounted() {
@@ -56,7 +54,7 @@ export default {
       const img = $el.querySelector(`.app-img__img`);
       const placeholder = $el.querySelector(`.app-img__placeholder`);
 
-      img.onload = function() {
+      img.onload = function () {
         delete img.onload;
         $el.classList.add(`app-img--loaded`);
         if (placeholder) {
@@ -82,7 +80,7 @@ export default {
         clearTimeout(timeOut);
       }
     });
-  }
+  },
 };
 </script>
 

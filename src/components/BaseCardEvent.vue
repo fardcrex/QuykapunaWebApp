@@ -23,10 +23,10 @@ import { getFormatTime, getFormatFecha } from "@/recursos/timeHelper.js";
 export default {
   props: {
     event: {
-      type: Object
+      type: Object,
     },
     route: String,
-    isPointer: Boolean
+    isPointer: Boolean,
   },
   data() {
     return {
@@ -38,44 +38,44 @@ export default {
 
             productoCosto: 40,
 
-            cantidad: 1
-          }
-        ]
+            cantidad: 1,
+          },
+        ],
       },
       estados: [
         {
           estadoEventoId: 1,
-          estadoEventoNombre: "Propuesto"
+          estadoEventoNombre: "Propuesto",
         },
         {
           estadoEventoId: 2,
-          estadoEventoNombre: "Aceptado"
+          estadoEventoNombre: "Aceptado",
         },
         {
           estadoEventoId: 3,
-          estadoEventoNombre: "Publicado"
+          estadoEventoNombre: "Publicado",
         },
         {
           estadoEventoId: 4,
-          estadoEventoNombre: "Definitivo"
+          estadoEventoNombre: "Definitivo",
         },
         {
           estadoEventoId: 5,
-          estadoEventoNombre: "En salida"
+          estadoEventoNombre: "En salida",
         },
         {
           estadoEventoId: 6,
-          estadoEventoNombre: "Iniciado"
+          estadoEventoNombre: "Iniciado",
         },
         {
           estadoEventoId: 7,
-          estadoEventoNombre: "Terminado"
+          estadoEventoNombre: "Terminado",
         },
         {
           estadoEventoId: 8,
-          estadoEventoNombre: "Cancelado"
-        }
-      ]
+          estadoEventoNombre: "Cancelado",
+        },
+      ],
     };
   },
   computed: {
@@ -88,7 +88,7 @@ export default {
         "En salida": "#27DA0A",
         Iniciado: "#1FD4A9",
         Terminado: "#AA4619",
-        Cancelado: "#F24B4B"
+        Cancelado: "#F24B4B",
       };
       return { color: colores[this.stateEventName] };
     },
@@ -107,18 +107,18 @@ export default {
       }
       // return "";
       return "Sin definir";
-    }
+    },
   },
   methods: {
     goTheEvent() {
       if (this.isPointer)
         this.$router.push({
           name: this.route,
-          params: { idEvent: this.event.eventoId }
+          params: { idEvent: this.event.eventoId },
         });
-    }
+    },
   },
-  name: "BaseCardEvent"
+  name: "BaseCardEvent",
 };
 </script>
 
