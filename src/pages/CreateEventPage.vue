@@ -97,14 +97,14 @@ export default {
         {
           condominioId: "-1",
           administradorId: "-1",
-          condominioNombre: "Condominios"
-        }
+          condominioNombre: "Condominios",
+        },
       ],
       name: "",
       descripcion: "",
       fecha: "",
       adminIdCondominio: -1,
-      time: ""
+      time: "",
     };
   },
   created() {
@@ -112,9 +112,9 @@ export default {
   },
   computed: {
     ...mapState({
-      usuarioId: state => state.user.usuarioId,
-      empresaId: state => state.empresa.empresaId
-    })
+      usuarioId: (state) => state.user.usuarioId,
+      empresaId: (state) => state.empresa.empresaId,
+    }),
   },
   methods: {
     ...mapActions(["getEventosAction"]),
@@ -135,10 +135,13 @@ export default {
         if (
           !this.empresaId ||
           !this.name ||
+          !this.fecha ||
+          !this.time ||
           this.name.length < 4 ||
           this.adminIdCondominio === -1
         ) {
           this.isLoadingRequest = false;
+          this.messageRequest = "falta completar datos";
           return;
         }
         //const dateJson = `${this.fecha}T${this.time}`;
@@ -151,12 +154,14 @@ export default {
           estadoEven: 1,
           nombre: this.name,
           descripcion: this.descripcion,
-          fecha: dateUtc
+          fecha: dateUtc,
         });
         if (responEvent.status == 201) {
           await this.getEventosAction();
         }
-        this.messageRequest = responEvent.data.Status;
+        if (responEvent.data.Status)
+          this.messageRequest = responEvent.data.Status;
+        else this.messageRequest = "No se pudo crear";
       } catch (e) {
         this.messageRequest = e;
       }
@@ -180,8 +185,8 @@ export default {
     },
     anteriorPage() {
       this.$router.push({ name: "EventPage" });
-    }
-  }
+    },
+  },
 };
 </script>
 

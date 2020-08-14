@@ -114,6 +114,7 @@ export default {
         this.producto.nombreP.length < 3
       ) {
         this.isLoadingRequest = false;
+        this.messageRequest = "falta completar datos";
         return;
       }
       if (this.videoData) this.uploadVideo();
